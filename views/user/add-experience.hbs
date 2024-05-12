@@ -1,0 +1,324 @@
+<style>
+ body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-color: aliceblue;
+        background-attachment: fixed;
+    }
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .input_box{
+        border-radius: 20px;
+        width: 100%;
+        padding: 10px;
+        padding-left: 15px;
+        font-weight: bold;
+        margin-top: 1px;
+        margin-bottom: 20px;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+    .input_box:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .input_box_custom1{
+        border-radius: 20px 0px 0px 20px;
+        width: 50%;
+        padding: 10px;
+        padding-left: 15px;
+        font-weight: bold;
+        margin-top: 1px;
+        margin-bottom: 20px;
+        border: none;
+        height: 50px;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+    .input_box_custom1:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    .input_box_custom2{
+        border-radius: 0px 20px 20px 0px;
+        width: 50%;
+        padding: 10px;
+        padding-left: 15px;
+        font-weight: bold;
+        margin-top: 1px;
+        margin-bottom: 20px;
+        border: none;
+        height: 50px;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+    .input_box_custom2:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .heading_add_experience{
+        font-weight: 600;
+    }
+
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .btn{
+        width: 250px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 10px;
+        transition: background-color 0.3s ease;
+        margin-left: 5px;
+    }
+    .btn:hover{
+        background-color:  rgb(123, 180, 230);
+        color: rgb(38, 82, 164);
+    }
+
+    .add_experience{
+        background-color: rgb(123, 180, 230);
+        margin-top: 5px;
+        color: white;
+        font-weight: bold;
+        letter-spacing: 1.0px;
+    }
+    .add_experience:hover{
+        background-color: rgb(38, 82, 164);
+        color: white;
+    }
+
+    .prof_lab{
+        margin-top: 15px;
+        font-size: 18px;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    .start_start{
+        display: flex;
+    }
+    .end_end{
+        display: flex;
+    }
+
+    @media (max-width: 412px) {
+        .input_box{
+            font-size: 15px;
+        }
+        .input_box_custom1{
+            font-size: 15px;
+        }
+        .input_box_custom2{
+            font-size: 15px;
+        }
+    }
+</style>
+
+
+<section>
+    <div class="row">
+    <div class="col-md-6 m-auto">
+        <div class="container mt-5 pl-5">
+            <h2 class="text-center heading_add_experience">ADD EXPERIENCE</h2>
+            <form action="/add-experience/{{user._id}}" method="POST" enctype="multipart/form-data">
+            <!-- Experience Boxes -->
+            <div id="experienceBoxes" class="form-top">
+                <div class="experience-box">
+                    <div class="form-group">
+                        <h3 class="prof_lab">New Experience</h3>
+                        <div class="start_start">
+                            <select class=" input_box_custom1" name="experienceStartMonth" required >
+                                <option value="" disabled selected>Start Month</option>
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="November">November</option>
+                                <option value="December">December</option>                                            
+                            </select>
+                            <input type="text" class=" input_box_custom2" name="experienceStartYear"  placeholder="Start Year" >
+                        </div>
+                        <div class="end_end">
+                            <select class=" input_box_custom1" name="experienceEndMonth" required >
+                                <option value="" disabled selected>End Month</option>
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="November">November</option>
+                                <option value="December">December</option>                                           
+                            </select>
+                            <input type="text" class=" input_box_custom2" required name="experienceEndYear"  placeholder="End Year" >
+                        </div>
+                        <button type="button" class=" btn-danger" style="color: white;background-color: rgb(177, 30, 30);
+                        font-weight: 600;padding: 4px;border-radius: 7px;width: 100%;margin-bottom:20px;" onclick="removeExperience()">Delete experience</button>
+                        <input type="text" class="form-control input_box" required name="experienceCompanyName"  placeholder="Company Name" >
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control input_box" id="experienceDescription" name="experienceDescription" rows="3" oninput="resizeTextarea()" placeholder="Brief Description about experience ( Optional )"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Add Experience Button -->
+            <button type="button" class="btn add_experience" style="width:100%" onclick="addExperience()">Add Experience</button><br><br>
+
+            <div class="button-container">
+                <button type="submit" class="btn  mt-4">Submit</button>
+                <button type="reset" class="btn  mt-4">Reset</button>
+                <a href="/profile" class="btn  mt-4">Cancel</a>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</section>
+
+<script>
+
+     let experienceCounter = 1;
+
+    function getNextExperienceName() {
+        experienceCounter++;
+        return 'experience_' + experienceCounter;
+    }
+
+
+    function addExperience() {
+        const experienceBoxes = document.getElementById('experienceBoxes');
+        const newExperienceBox = document.createElement('div');
+        const experienceName = getNextExperienceName();
+        newExperienceBox.className = `experience-box ${experienceName}`;
+
+        newExperienceBox.innerHTML = `
+            <div class="form-group" style="margin-top:150px;">
+                <h3 class="prof_lab">New Experience</h3>
+                    <div class="start_start">
+                        <select class="input_box_custom1" name="experienceStartMonth" required >
+                            <option value="" disabled selected>Start Month</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+                        <input type="text" class="input_box_custom2" name="experienceStartYear" required placeholder="Start Year" >
+                    </div>
+                    <div class="end_end">
+                        <select class="input_box_custom1" name="experienceEndMonth" required >
+                            <option value="" disabled selected>End Month</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+                        <input type="text" class="input_box_custom2" name="experienceEndYear" required placeholder="End Year" >
+                    </div>
+                    <button type="button" class="btn-danger" style="color: white;background-color: rgb(177, 30, 30);
+                    font-weight: 600;padding: 4px;border-radius: 7px;width: 100%;margin-bottom:20px;" onclick="removeExperience('${experienceName}')">Delete experience</button>
+                    <input type="text" class="form-control input_box" name="experienceCompanyName" required placeholder="Company Name" >
+                </div>
+            <div class="form-group">
+                <textarea class="form-control input_box" name="experienceDescription" rows="3" oninput="resizeTextarea()" placeholder="Brief Description about experience ( Optional )"></textarea>
+            </div>
+        `;
+
+        experienceBoxes.appendChild(newExperienceBox);
+    }
+
+    function removeExperience(deleteButton) {
+        const foundedCompanyField = deleteButton.closest('.experience-box');
+        if (foundedCompanyField) {
+            foundedCompanyField.remove();
+        }
+    }
+
+    function resizeTextarea() {
+            var textarea = document.getElementById("experienceDescription");
+            textarea.style.height = "auto";
+            textarea.style.height = (textarea.scrollHeight) + "px";
+        }
+
+     function attachDeleteEventListeners() {
+        
+        document.querySelectorAll('.experience-box .btn-danger').forEach(button => {
+            button.addEventListener('click', function () {
+                removeExperience(this);
+            });
+        });
+
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      
+        attachDeleteEventListeners();
+
+       if (document.querySelectorAll('.experience-box').length === 0) {
+            addExperience();
+        }
+
+        const initialStartMonthSelect = document.querySelector('.experience-box [name="experienceStartMonth"]');
+    const initialEndMonthSelect = document.querySelector('.experience-box [name="experienceEndMonth"]');
+
+    if (initialStartMonthSelect && initialStartMonthSelect.value === '') {
+        initialStartMonthSelect.value = '';
+    }
+
+    if (initialEndMonthSelect && initialEndMonthSelect.value === '') {
+        initialEndMonthSelect.value = '';
+    }
+
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('btn-danger')) {
+                const deleteButton = event.target;
+                const foundedCompanyField = deleteButton.closest('.experience-box');
+                if (foundedCompanyField) {
+                    foundedCompanyField.remove();
+                }
+            }
+        });
+
+        }
+    );
+
+</script>
