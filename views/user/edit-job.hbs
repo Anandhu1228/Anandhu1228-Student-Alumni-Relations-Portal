@@ -1,0 +1,201 @@
+<style>
+body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-color: rgb(243, 245, 247);
+        background-attachment: fixed;
+    }
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .input_box{
+        border-radius: 5px;
+        width: 100%;
+        padding: 15px;
+        font-weight: bold;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+    .input_box_custom{
+        border-radius: 5px 0px 0px 5px;
+        width: 100%;
+        padding: 15px;
+        font-weight: bold;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .input_box:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    .input_box_custom:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 40px;
+    }
+
+    #custom_delete_intern_interest,#custom_delete_intern_hobby,#custom_delete_intern_language{
+        padding: 14px;
+        border-radius: 0px 5px 5px 0px;
+        background-color: rgba(209, 13, 13, 0.925);
+        font-weight: 600;
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+    #custom_delete_intern_interest:hover{
+        background-color: rgba(255, 0, 0, 0.925);
+    }
+    #custom_delete_intern_hobby:hover{
+        background-color: rgba(255, 0, 0, 0.925);
+    }
+    #custom_delete_intern_language:hover{
+        background-color: rgba(255, 0, 0, 0.925);
+    }
+
+    .apply_job_heading{
+        font-weight: 600;
+        margin-bottom: 50px;
+    }
+
+    .label_in_add_job{
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    .custom_add_buttons_addition{
+        background-color: rgb(38, 82, 164);
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+        width: 140px;
+        transition:  color 0.3s ease;
+        transition: background-color  0.3s ease;
+    }
+    .custom_add_buttons_addition:hover{
+        background-color:rgb(123, 180, 230);
+        color: rgb(38, 82, 164);
+    }
+
+    .btn_custom_add_job{
+        width: 230px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        padding: 10px;
+        transition:  color 0.3s ease;
+        transition: background-color  0.3s ease;
+    }
+    .btn_custom_add_job:hover{
+        background-color:rgb(123, 180, 230);
+        color: rgb(38, 82, 164);
+    }
+
+    @media (max-width: 500px) {
+       .label_in_add_job{
+        font-weight: 700;
+        font-size: 15px;
+    }
+     .input_box,.input_box_custom{
+        padding: 12px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    #custom_delete_intern_interest,#custom_delete_intern_hobby,#custom_delete_intern_language{
+        padding: 10.5px;
+        font-size: 14px;
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+    .apply_job_heading{
+        font-weight: 600;
+        font-size: 20px;
+    }
+    .custom_add_buttons_addition{
+        font-weight: bold;
+        width: 140px;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .btn_custom_add_job{
+        width: 230px;
+        font-weight: bold;
+        padding: 8px;
+        font-size: 14px;
+    }
+    }
+
+</style>
+
+
+<div class="row">
+        <div class="col-md-6 m-auto">
+            <div class="container mt-5 pl-5">
+                <h2 class="text-center apply_job_heading">EDIT JOB</h2>
+                <form action="/edit-job/{{job._id}}" method="post" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <input type="text" class="form-control input_box" name="CompanyName" value="{{job.CompanyName}}" placeholder="Enter the company name" required>
+                    </div><br>
+
+                    <div class="form-group">
+                        <textarea class="form-control input_box" id="CompanyDescription" name="CompanyDescription" oninput="resizeTextarea(this)"  placeholder="Enter company description"  rows="4" >{{job.CompanyDescription}}</textarea>
+                    </div><br>
+
+                    <div class="form-group">
+                        <input type="text" name="Jobrole" class="form-control input_box" value="{{job.Jobrole}}" placeholder="Enter the job role" required>
+                    </div><br>
+
+                    <div class="form-group">
+                        <textarea class="form-control input_box" id="Eligibility" name="Eligibility" oninput="resizeTextarea(this)"  placeholder="Enter eligibility for the job" rows="4" required>{{job.Eligibility}}</textarea>
+                    </div><br>
+
+                    <div class="form-group">
+                        <textarea class="form-control input_box" id="jobDescription" name="jobDescription" oninput="resizeTextarea(this)"  placeholder="Enter  description about the job" rows="4" required>{{job.jobDescription}}</textarea>
+                    </div><br>
+
+                    <div class="form-group">
+                        <label class="label_in_add_job">Add image if any</label><br>
+                        <img src="/job-images/{{job._id}}.jpg" alt="" style="width:100px;" id="userView">
+                        <input type="file" style="margin-top: 10px;" name="JobImage" class="form-control input_box" onchange="viewpImage(event)">
+                    </div><br>
+
+                    <div class="form-group">
+                        <label class="label_in_add_job">Any direct link to apply</label><br>
+                        <input  name="JobLink" class="form-control input_box" value="{{job.JobLink}}" placeholder="Paste the link if any">
+                    </div><br>
+                    <div class="button-container">
+                        <button type="submit" class="btn btn_custom_add_job mt-4" >Submit</button>
+                        <button type="reset" class="btn btn_custom_add_job mt-4" style="margin-left: 5px;">Reset</button>
+                        <a href="/view-edit-delete-jobs" class="btn btn_custom_add_job mt-4" style="margin-left: 5px;">Cancel</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function viewpImage(event){
+        document.getElementById('userView').src = URL.createObjectURL(event.target.files[0])
+    }
+
+    function resizeTextarea(textarea) {
+        textarea.style.height = "auto";
+        textarea.style.height = (textarea.scrollHeight) + "px";
+    }
+</script>

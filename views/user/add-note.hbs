@@ -1,0 +1,82 @@
+<style>
+
+     body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 45%;
+        background-repeat: no-repeat;
+    }
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 50%;
+        }
+    }
+
+    .input_box{
+        border-radius: 20px;
+        width: 100%;
+        padding: 15px;
+        font-weight: bold;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+        opacity: 0.9;
+    }
+
+    .input_box:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .btn{
+        width: 250px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        border-radius: 20px;
+        padding: 10px;
+        transition: background-color 0.3s ease;
+    }
+    .btn:hover{
+        background-color:  rgb(123, 180, 230);
+        color: rgb(38, 82, 164);
+    }
+
+     @media (max-width: 1200px) {
+        .btn{
+        width: 100px;
+    }
+    }
+    @media (max-width: 426px) {
+        .heading{
+        font-size: 22px;
+    }
+    }
+
+</style>
+
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <div class="container mt-5 pl-5">
+            <h2 class="text-center heading">ADD YOUR NOTE</h2>
+            <form action="/add-note/{{user._id}}" method="POST" enctype="multipart/form-data">
+            <div id="experienceBoxes" class="form-top" style="width:100%"> 
+                <div class="form-group">
+                    <textarea class="form-control input_box" name="Note" rows="20" placeholder=" Hello, add your experiences or memories with CEC!)">{{user.Note}}</textarea>
+                </div>
+            </div>
+            <div class="button-container">
+                <button type="submit" class="btn mt-4">Submit</button>
+                <button type="reset" class="btn mt-4">Reset</button>
+                <a href="/profile" class="btn mt-4">Cancel</a>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<style>
+
+   body {
+        background-color: #ffffff;
+            margin: 0;
+            align-items: center;
+            justify-content: center;
+             background-image: url('/images/logo_transparent1.png');
+            background-size: 80% auto;
+            background-position: center bottom 60%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .advanceButton{
+        margin-top: 15px;
+        display: block;
+        border-radius: 10px;
+        font-size: 17px;
+        padding: 14px;
+        font-weight: bold;
+        background-color: rgb(93, 138, 222);
+        transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        color: white;
+    }
+    .advanceButton:hover{
+        background-color: rgb(123, 180, 230);
+        color: white;
+    }
+    @media (max-width: 759px) {
+        .advanceButton{
+            font-size: 15px;
+    }
+    }
+    @media (max-width: 500px) {
+        .advanceButton{
+            font-size: 15px;
+            padding: 10px;
+    }
+    }
+
+  </style> 
+  <section style="padding-top:180px">
+ <section class="container">
+    <a href="/ask_admin" class="advanceButton btn btn-primary" style="margin-top: 60px;">
+        Ask admin
+    </a>
+    <a href="/chatwith_admin" class="advanceButton btn btn-primary">
+        Enter in chat with admin
+    </a>
+    <a onclick="confirmEnterAdminAccessButtons()" style="color: #ffffff;" class="advanceButton btn btn-primary">
+       Give admin access buttons
+    </a>
+ </section>
+ </section>
+
+<script>
+    function confirmEnterAdminAccessButtons() {
+        var confirmResult = confirm("Are you sure you want to enter this page?");
+        if (confirmResult) {
+            // If the user clicks OK, redirect
+            window.location.href = "/grant_admin_access_buttons";
+        } else {
+            // If the user clicks Cancel, do nothing
+            return false;
+        }
+    }
+</script>

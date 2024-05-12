@@ -1,0 +1,348 @@
+<style>
+    body {
+        background-color: #ffffff;
+            margin: 0;
+            align-items: center;
+            justify-content: center;
+             background-image: url('/images/logo_transparent1.png');
+            background-size: 80% auto;
+            background-position: center bottom 60%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+        .newMessenger{
+        font-weight: 600;
+        font-size: 14px;
+    }
+    }
+
+    #chat-container-chat {
+        padding-top: 185px;
+    }
+
+    .message-chat {
+        padding: 15px;
+        width: 85%;
+        margin: auto;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        border-bottom: 1px solid #ddd;
+        align-items: center;
+        background-color: rgba(123, 180, 230,0.4);
+        height: auto;
+        margin-top: 15px;
+       transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+    .message-chat:hover{
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.8);
+        background-color: rgba(233, 236, 238,0.5);
+    }
+
+    .profile-pic-chat {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+        object-fit: cover;
+    }
+
+    .message-details-chat {
+        flex-direction: column;
+        margin-left: 20px;
+    }
+
+    .message_carrier{
+        margin-right: 70px;
+    }
+
+    .badge_carrier,.tick_carrier{
+        position: absolute;
+        right: 10px;
+        top: -10px;
+    }
+
+    .sender-chat {
+        font-weight: bold;
+        margin-bottom: 5px;
+        margin-left: 30px;
+    }
+    
+
+    .last-message-chat {
+        color: #666;
+        justify-content: center;
+    }
+
+    .newNoti{
+        font-weight: bold; 
+        font-size:15px; 
+        display:inline-block;
+        margin-left:10px;
+    }
+
+    .last-message-chat{
+        color:rgb(64, 66, 67);
+        font-weight: 550;
+        margin-top: 20px;
+        font-size: 16px;
+        width: auto;
+        
+    } 
+    .messageContent{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .last_seen_seen{
+        font-size: 12px;
+        font-weight: 600;
+        color: rgb(82, 70, 70);
+        margin-left: 20px;
+    }
+    .last_seen_head{
+        color: rgb(105, 100, 100);
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .newMessageObtained{
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        font-size: 16px;
+        border-radius: 50%;
+        padding: 5px;
+    }
+
+    .newMessenger{
+        margin: 0px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+
+    .newMessageObtained_bagde{
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+
+    .newMessenger_badge{
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 600;
+        border-radius:50%;
+        position:absolute;
+        right:0px;
+    }
+
+    .last_seen_div{
+        margin-left: 25px;
+    }
+
+    .message_user_detail{
+        display: flex;
+        align-items: center;
+    }
+    
+    @media (max-width: 991px) {
+        .message-chat{
+            width: 100%;
+        }
+    }
+    @media (max-width: 767px) {
+        .message-chat{
+            width: 100%;
+        }
+    }
+    @media (max-width: 516px) {
+        .last_seen_seen{
+        font-size: 10px;
+        font-weight: 600;
+        color: rgb(82, 70, 70);
+        margin-left: 20px;
+    }
+    .last_seen_head{
+        color: rgb(105, 100, 100);
+        font-size: 13px;
+        font-weight: 600;
+    }
+    .message-chat{
+            width: 100%;
+        }
+    }
+    @media (max-width: 443px) {
+        .last_seen_seen{
+        margin-left: 10px;
+        }
+        .message-chat{
+            width: 100%;
+        }
+    }
+     @media (max-width: 550px) {
+        .chat-container-chat{
+            margin-top: 0px;
+        }
+        .message-chat:first-child{
+            margin-top: -20px;
+        }
+    }
+    @media (max-width: 767px) {
+        .newMessenger{
+            font-size: 10px;
+        }
+        .badge_carrier{
+            top:-6px;
+        }
+    }
+
+</style>
+
+<div class="container" id="chat-container-chat" style="object-fit: contain;">
+    {{#each combinedMessages}}
+        <div class="message-chat">
+            <div class="message_user_detail">
+                <a style="text-decoration: none;" href="/view-profile/{{this.ID}}">
+                    <img class="profile-pic-chat profileImageAlternate" src="/user-images/{{this.ID}}.jpg" alt="User Image">
+                </a>
+                {{#if this.Send}}
+                    <a style="text-decoration: none; color:black" href="/one-on-one-chat/{{this.ID}}">
+                        <div class="sender-chat">{{this.Reciever_name}}</div>
+                    </a>
+                {{/if}}
+                {{#if this.Recieve}}
+                    {{#if this.lastSeen_applicable}}
+                        <a style="text-decoration: none;color:black" href="/one-on-one-chat/{{this.ID}}">
+                            <div class="sender-chat">{{this.Sender_name}}</div>
+                        </a>
+                    {{/if}}
+                    {{#if this.one_Broadchat_applicable}}
+                        <a style="text-decoration: none;color:black" href="/one_on_admin_broadcast">
+                            <div class="sender-chat">{{this.Sender_name}}</div>
+                        </a>
+                    {{/if}}
+                {{/if}}
+            </div>
+            <div class="message-details-chat" style="position: relative;">
+                <div class="message_carrier">
+                    {{#if this.Send}}
+                        {{#if this.media}}
+                            <div class="last-message-chat">
+                                <span class="multi_multi_media">Multimedia Content</span>
+                            </div>
+                        {{/if}}
+                        {{#if this.text}}
+                            <div class="last-message-chat">
+                                <p class="messageContent">{{this.messageContent}}</p>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                    {{#if this.Recieve}}
+                        {{#if this.media}}
+                            <div class="last-message-chat">
+                                <span class="multi_multi_media" >Multimedia Content</span>
+                            </div>
+                        {{/if}}
+                        {{#if this.text}}
+                            <div class="last-message-chat">
+                                <p class="messageContent">{{this.messageContent}}</p>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                </div>
+                <div class="tick_carrier">
+                    {{#if this.Send}}
+                        {{#if this.media}}
+                            <div class="last-message-chat">
+                                <p class="newNoti" style="{{#if this.seen}}color:blue;{{/if}}"> &#10004;{{#if this.delivered}}&#10004;{{/if}}</p>
+                            </div>
+                        {{/if}}
+                        {{#if this.text}}
+                            <div class="last-message-chat">
+                                <p class="newNoti" style="{{#if this.seen}}color:blue;{{/if}}"> &#10004;{{#if this.delivered}}&#10004;{{/if}}</p>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                </div>
+                <div class="badge_carrier">
+                    {{#if this.Recieve}}
+                        {{#if this.newbroadcastObtained}}
+                            <button type="button" class="btn newMessageObtained">
+                            <span class="badge newMessageObtained_bagde">{{this.newbroadcast}}</span>
+                            </button>
+                        {{/if}}
+                        {{#if this.newMessenger}}
+                            <button type="button" class="btn newMessenger">
+                                New connection <span class="badge newMessenger_badge"></span>
+                            </button>
+                        {{/if}}
+                        {{#if this.badgeApplicable}}
+                            <button type="button" class="btn newMessenger">
+                                Admin Message <span class="badge newMessenger_badge"></span>
+                            </button>
+                        {{/if}}
+                        {{#if this.newMessageObtained}}
+                            <button type="button" class="btn newMessageObtained">
+                            <span class="badge newMessageObtained_bagde">{{this.newNotification}}</span>
+                            </button>
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </div>
+            {{#if lastSeen_applicable}}
+                <div class="last_seen_div">
+                    <p><span class="last_seen_head" >Last seen : </span><span class="last_seen_seen"> {{this.lastSeen}}</span></p>
+                </div>
+            {{/if}}
+        </div>
+    {{/each}}
+</div>
+
+    <script>
+        function sendTimestampOnUnload() {
+            const timestamp = new Date().toISOString();
+            fetch('/send-timestamp-leave-menu/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ timestamp }),
+            });
+        }
+        window.addEventListener('beforeunload', sendTimestampOnUnload);
+    </script>
+    <script>
+        if (performance.navigation.type === 2) {
+            location.reload(true);
+        }
+    </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const profileImages = document.querySelectorAll('.profileImageAlternate');
+        profileImages.forEach(img => {
+            const imageUrl = img.src;
+            fetch(imageUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        img.src = "/user-images/user.png";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching image:", error);
+                    img.src = "/user-images/user.png";
+                });
+            });
+        });
+    </script>
