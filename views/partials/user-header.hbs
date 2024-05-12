@@ -1,0 +1,434 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+
+    .head1{
+        background-color: #ffffff;
+    }
+
+    /*.icon-container-chat {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 50px;
+    }
+
+    .icon-chat {
+      width: 40px;
+      height: 40px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 30px;
+    }
+
+      .badge-chat {
+      position: absolute;
+      height: 25px;
+      width: 25px;
+      top: 0;
+      right: 0;
+      background-color: #e74c3c;
+      color: white;
+      border-radius: 50%;
+      padding: 3px;
+      font-size: 16px;
+    } */
+
+    .all_HEADER{
+        position: fixed;
+        width: 100%;
+        z-index: 100;
+        margin-bottom: 500px;
+        background-color: #ffffff;
+    }
+
+    .header_title{
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 600;
+        font-size: 22px;
+        margin-bottom: 0px;
+    }
+
+    .header_main{
+        display: flex; align-items: center;
+        margin-left: 30px;
+    }
+
+    .header_image{
+        display: inline-block;
+    }
+
+    .header_title_div{
+        margin-top: 10px;
+        style="display: inline-block;
+        margin-left: 0px;
+    }
+
+    .header_para{
+        font-size: 16px;
+    }
+
+    .logo{
+        width: 80px;
+    }
+
+    .innav{
+        font-size: 18px;
+        margin-left: 10px;
+        margin-right: 10px;
+        font-weight: 700;
+    }
+
+
+    @media (max-width: 1250px) {
+        .navbar-expand-lg .navbar-collapse {
+            display: none !important;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: block !important;
+        }
+
+        .navbar-expand-lg .collapsing {
+            display: block !important;
+        }
+
+        .navbar-expand-lg .show {
+            display: block !important;
+        }
+
+        .navbar-expand-lg .navbar-toggler-icon {
+            display: block !important;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: inline-block !important;
+        }
+    }
+
+
+    @media (max-width: 1350px) {
+        .header_title{
+            font-size: 20px;
+        }
+        .header_para{
+            font-size: 14.5px;
+        }
+        .logo{
+            width: 65px;
+        }
+    }
+
+    @media (max-width: 850px) {
+        .header_main{
+            margin-left: 0px;
+        }
+    }
+
+    @media (max-width: 550px) {
+        .header_title{
+            font-size: 14px;
+        }
+        .header_para{
+            font-size: 10.5px;
+        }
+    }
+
+    .navbar1,.navbar3{
+        background-color: rgb(255, 255, 255);
+        display: ;
+        }
+
+        .navbar2{
+            background-color: rgb(137, 176, 248);
+            color: rgb(38, 82, 164);
+        }
+
+        
+        .head1 {
+        margin-bottom: 2px;
+        background-color: white;
+        }
+        .head2{
+        margin-bottom: 1px;
+        }
+
+        .second_nav_style{
+            font-weight: 600; color:white;font-size:18px;
+        }
+
+        .a_inside_header{
+            color: rgb(38, 82, 164);
+        }
+
+        .drop_dop{
+            transition: transform 0.3s ease-in-out;
+        }
+        .drop_dop:hover {
+            transform: scale(1.2);
+        }
+        .drop_dop_nav1{
+            transition: transform 0.3s ease-in-out;
+        }
+        .drop_dop_nav1:hover {
+            transform: scale(1.2);
+        }
+        .drop_dop_nav3{
+            font-size: 17px;
+            font-weight:bolder;
+            color:rgb(38, 82, 164);
+            text-decoration:none;
+            transition: transform 0.3s ease-in-out;
+        }
+        .drop_dop_nav3:hover {
+            transform: scale(1.2);
+        }
+
+        .badge_chat{
+            top:1px;
+            right:-9px;
+        }
+
+        @media (max-width: 450px) {
+        .second_nav_style{
+            font-weight: 600; color:white;font-size:17px;
+        }
+        .drop_dop_nav1:hover {
+            transform: scale(1.1);
+        }
+        }
+
+         @media (max-width: 1445px) {
+        .drop_dop_nav1 {
+            font-size:17px;
+        }
+        }
+
+  </style>
+</head>
+
+
+<section class="all_HEADER">
+{{#if showHeader1}}
+
+<header class="head1">
+       <nav class="navbar navbar1 navbar-expand-lg navbar-light">
+            <div class="header_main">
+                <div class="header_image">
+                    <img class="logo" src="/images/logo.png"  alt="Logo">
+                </div>
+                <div class="header_title_div" style="display: inline-block; margin-left: 20px;">
+                    <p class="header_title">ALUMNI RELATIONS CELL</p>
+                    <p class="header_para">College Of Engineering Chengannur</p>
+                </div>
+            </div>
+
+            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item  innav">
+                        <a class="nav-link a_inside_header drop_dop_nav1" style="color: rgb(38, 82, 164);" href="/">Home</a>
+                    </li>
+                    <li class="nav-item  innav">
+                        <a class="nav-link a_inside_header drop_dop_nav1" style="color: rgb(38, 82, 164);" href="#about">About</a>
+                    </li>
+                    <li class="nav-item  innav">
+                        <a class="nav-link a_inside_header drop_dop_nav1" style="color: rgb(38, 82, 164);" href="/gallery">Gallery</a>
+                    </li>
+                    <li class="nav-item  innav" style="margin-right: 30px;">
+                        <a class="nav-link a_inside_header drop_dop_nav1" style="color: rgb(38, 82, 164);" href="#contact">Contact</a>
+                    </li>
+                    {{#if uber}}
+                    <li class="nav-item  innav" style="margin-right: 30px;">
+                        <a class="nav-link a_inside_header drop_dop_nav1" style="color: rgb(38, 82, 164);" href="/profile">Profile</a>
+                    </li>
+                    {{/if}}
+                </ul>
+
+                <div class="dropdown">
+                    <button class="btn  dropdown-toggle innav" style="color: white;background-color:rgb(93, 138, 222);" type="button" id="Account" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        {{#if uber}}
+                        {{uber.Name}}
+                        {{else}}
+                        Account
+                        {{/if}}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="Account">
+
+                        {{#if uber}}
+                        <a class="dropdown-item innav" href="/logout">logout</a>
+                        {{else}}
+                        <a class="dropdown-item innav" href="/login">login</a>
+                        {{/if}}
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    {{/if}}
+
+    {{#if uber}}
+    {{#if showHeader2}}
+    <header class="head2">
+    <nav class="navbar navbar2 navbar-expand-lg navbar-light">
+        <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav ml-auto mr-auto mt-2 mt-lg-0" style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+                <li class="nav-item ">
+                    <a class="nav-link drop_dop" href="/jobportal"><span class="second_nav_style" >Job-Portal</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link drop_dop" href="/mentorshipportal"><span class="second_nav_style">Mentorship-Portal</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link drop_dop" href="/internshipportal"><span class="second_nav_style">Intership-Portal</span></a>
+                </li>
+                <li class="nav-item position-relative">
+                    <a class="nav-link drop_dop" href="/groupchat">
+                    <i class="fas fa-users" style="font-size: 27px; color:white"></i>
+                        <span class="badge bg-light rounded-circle position-absolute top-0 start-100 translate-middle" style="font-weight:1000;">
+                            {{groupchatcount}}
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item position-relative">
+                    <a class="nav-link drop_dop" href="/chatwith">
+                        <i class="fas fa-comment-dots" style="font-size: 27px; color:white"></i>
+                        <span class="badge badge_chat bg-light rounded-circle position-absolute top-0 start-100 translate-middle" style="font-weight:1000;">
+                            {{total_message}}
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item position-relative">
+                    <a class="nav-link drop_dop" href="/viewNotifications">
+                        <i class="fas fa-bell" style="font-size: 27px; color:white"></i>
+                        <span class="badge bg-light rounded-circle position-absolute top-0 start-100 translate-middle" style="font-weight:1000;">
+                            {{total_notify_number}}
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link drop_dop" href="/searchfriends"><i class="fas fa-search " style="font-size: 27px;color:white;"></i></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link drop_dop" href="/settings"><i class="fas fa-cogs" style="font-size: 27px; color:white"></i></a>
+                </li>
+            </ul> 
+        </div>
+    </nav>
+</header>
+{{/if}}
+{{/if}}
+
+{{#if showHeader3}}
+<nav style="display: flex; justify-content: space-between;margin-top:0px;" class="navbar navbar2 ">
+    <div style="margin-left: 20px;"><a class="drop_dop_nav3" style="text-decoration:none;" href="/view-other-post">others's posts</a></div>
+    <div>
+        <div style="margin-right: 20px;display:inline-block;"><a class="drop_dop_nav3" style="text-decoration:none;" href="/view-own-post">your posts</a></div>
+        <a href="/add-post" style="display:inline-block;"><button style="border-radius:10px;" class="button_plus ">+</button></a>
+    </div> 
+</nav>
+{{/if}}
+
+{{#if showAdminHeader1}}
+<header class="head1">
+    <nav class="navbar navbar1 navbar-expand-lg navbar-light">
+        <div class="header_main">
+            <div class="header_image">
+                <img class="logo" src="/images/logo.png"  alt="Logo">
+            </div>
+            <div class="header_title_div" style="display: inline-block; margin-left: 20px;">
+                <p class="header_title">ALUMNI RELATIONS CELL</p>
+                <p class="header_para">College Of Engineering Chengannur</p>
+            </div>
+        </div>
+
+        <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item  innav">
+                    <a class="nav-link a_inside_header_admin drop_dop_nav1" style="color: rgb(38, 82, 164);" href="/admin/admin-view-page">Home</a>
+                </li>
+            </ul>
+
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle innav" style="color: white;background-color:rgb(93, 138, 222);" type="button" id="Account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{#if aber}}
+                    {{aber.Name}}
+                    {{else}}
+                        Account
+                    {{/if}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="Account">
+                    <a class="dropdown-item" href="/admin/adminlogout">logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+{{/if}}
+
+{{#if showSuperAdminHeader1}}
+<header class="head1">
+    <nav class="navbar navbar1 navbar-expand-lg navbar-light">
+        <div class="header_main">
+            <div class="header_image">
+                <img class="logo" src="/images/logo.png"  alt="Logo">
+            </div>
+            <div class="header_title_div" style="display: inline-block; margin-left: 20px;">
+                <p class="header_title">ALUMNI RELATIONS CELL</p>
+                <p class="header_para">College Of Engineering Chengannur</p>
+            </div>
+        </div>
+
+        <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item  innav">
+                    <a class="nav-link a_inside_header_admin drop_dop_nav1" style="color: rgb(38, 82, 164);" href="/superadmin/superadmin-view-page">Home</a>
+                </li>
+            </ul>
+
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle innav" style="color: white;background-color:rgb(93, 138, 222);" type="button" id="Account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{#if saber}}
+                    {{saber.Name}}
+                    {{else}}
+                        Account
+                    {{/if}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="Account">
+                    <a class="dropdown-item" href="/superadmin/superadminlogout">logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+{{/if}}
+
+</section>
+    
