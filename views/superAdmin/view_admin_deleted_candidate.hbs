@@ -1,0 +1,109 @@
+<style>
+
+    body {
+        background-color: #ffffff;
+            margin: 0;
+            align-items: center;
+            justify-content: center;
+             background-image: url('/images/logo_transparent1.png');
+            background-size: 80% auto;
+            background-position: center bottom 60%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .showuser2{
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        width: 92%;
+        border-radius: 5px;
+        background-color: aliceblue;
+    }
+
+    .user2_para_head{
+        font-weight: bold;
+        margin-bottom: 0px;
+    }
+    .user2_para_content{
+
+    }
+
+    .moreAdvanceDD_custom{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 10px;
+        width: 100%;
+        padding: 9px;
+        transition: background-color 0.3s ease;
+    }
+    .moreAdvanceDD_custom:hover{
+        background-color: rgb(123, 180, 230);
+        color: white;
+    }
+
+
+    @media (max-width:539px){
+    .moreAdvanceDD_custom{
+        width: 100%;
+    }
+    }
+
+  </style>
+{{#if dataPassed}}
+<section style="padding-top: 130px;">
+    <section class="container showuser2">
+        {{#each dataPassed}}
+        <div>
+            <img class="rounded-circle profileImageAlternate" src="/user-images/{{this.profile_id}}.jpg" alt="Profile Image" style="width: 50px;height: 50px;border-radius: 50%;object-fit: contain;">
+        </div>
+            <div>
+                <p class="user2_para_head" style="margin-top: 10px;">Name : </p>
+                <p class="user2_para_content">{{this.profile_name}}</p>
+            </div>
+            <div>
+                <p class="user2_para_head">Status : </p>
+                <p class="user2_para_content">{{this.profile_status}}</p>
+            </div>
+            <div>
+                <p class="user2_para_head">ID : </p>
+                <p class="user2_para_content">{{this.profile_id}}</p>
+            </div>
+            <div>
+                <p class="user2_para_head">Deleted at : </p>
+                <p class="user2_para_content">{{this.deletedAt}}</p>
+            </div>
+            <div style="margin-bottom: 80px;width:100%;">
+            </div>
+        {{/each}}
+    </section>
+</section>
+{{/if}}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const profileImages = document.querySelectorAll('.profileImageAlternate');
+        profileImages.forEach(img => {
+            const imageUrl = img.src;
+            fetch(imageUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        img.src = "/user-images/user.png";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching image:", error);
+                    img.src = "/user-images/user.png";
+                });
+        });
+    });
+</script>
