@@ -1,0 +1,202 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 5%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #uploadForm {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+            padding: 20px;
+
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        textarea,
+        input {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            background-color: #686a6a;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #6199be;
+        }
+
+        .custom-file-upload {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+            border-radius: 15px;;
+        }
+
+        .custom-file-upload i {
+            margin-right: 5px;
+        }
+
+        #imageCarousel {
+            text-align: center;
+            margin: auto;
+        }
+
+    </style>
+</head>
+
+<section>
+        <div class="container">
+            <div style="width:100%" class="rows">
+                <div id="uploadForm" style="width:100%;">
+                    <form id="postForm" action="/add-post-togroup/{{User._id}}" method="post" enctype="multipart/form-data">
+
+                        <div id="imageCarousel" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner" id="previewContainer"></div>
+
+                            <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+
+                        <div class="custom-file-upload" style="margin-top: 40px;">
+                            <div style="display: block;">
+                                <label for="postImage">
+                                    <i class="fas fa-cloud-upload-alt"></i> Select Image/Video
+                                </label>
+                            </div>
+                            <div>
+                                <img src="" alt="" style="width:100px;" id="userView">
+                                <input type="file" id="postImage" name="postImage" accept="image/*,video/*" multiple onchange="viewpImage(event)">
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="MessageId" name="MessageId" value="">
+
+                        <textarea id="messageContent" style="margin-bottom: 50px; margin-top:50px;" name="messageContent" rows="3" placeholder="type you message....."></textarea>
+
+                        <div class="form-group" style="display: none;">
+                            <label><strong>userId</strong></label><br>
+                            <input class="form-control" name="UserId" value="{{User._id}}">
+                        </div>
+
+                        <div class="form-group" style="display: none;">
+                            <label><strong>Name</strong></label><br>
+                            <input class="form-control" name="Name" value="{{User.Name}}">
+                        </div>
+
+                        <button type="submit">Upload Post</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+
+        const MessageId = document.getElementById('MessageId');
+        MessageId.value = generateUniqueId();
+
+        function viewpImage(event) {
+            var input = event.target;
+            videoCount = 0;
+
+            // Clear previous previews
+            document.getElementById('previewContainer').innerHTML = "";
+            document.getElementById('userView').src = "";
+
+            if (input.files.length > 30) {
+                alert("You can only select up to 30 files at once.");
+                input.value = "";
+                return;
+            }
+
+            var carouselInner = document.createElement("div");
+            carouselInner.className = "carousel-inner";
+
+            for (var i = 0; i < input.files.length; i++) {
+                var carouselItem = document.createElement("div");
+                carouselItem.className = i === 0 ? "carousel-item active" : "carousel-item";
+
+                // Set a fixed height for carousel items
+                carouselItem.style.height = "300px"; // Adjust the height as needed
+
+                if (input.files[i].type.includes("video")) {
+                    videoCount++;
+                    var videoPreview = document.createElement("video");
+                    videoPreview.controls = true;
+                    videoPreview.style.width = "100%"; // Adjust the width as needed
+                    videoPreview.style.height = "100%"; // Adjust the height as needed
+
+                    var source = document.createElement("source");
+                    source.src = URL.createObjectURL(input.files[i]);
+                    source.type = input.files[i].type;
+
+                    videoPreview.appendChild(source);
+                    carouselItem.appendChild(videoPreview);
+                } else {
+                    var imgPreview = document.createElement("img");
+                    imgPreview.style.width = "100%"; // Adjust the width as needed
+                    imgPreview.style.height = "100%"; // Adjust the height as needed
+                    imgPreview.src = URL.createObjectURL(input.files[i]);
+                    carouselItem.appendChild(imgPreview);
+                }
+
+                carouselInner.appendChild(carouselItem);
+            }
+
+            document.getElementById('previewContainer').appendChild(carouselInner);
+        }
+
+        function generateUniqueId() {
+        const timestamp = Math.floor(new Date().getTime() / 1000).toString(16); // Using seconds and converting to hex
+        const randomPart = Math.floor(Math.random() * 1679616).toString(16); // Adjusted to generate a 3-character hex
+        const uniqueId = timestamp + '0'.repeat(9 - randomPart.length) + randomPart;
+
+        if (uniqueId.length < 24) {
+            const remainingChars = 24 - uniqueId.length;
+            const additionalRandom = Math.floor(Math.random() * Math.pow(16, remainingChars)).toString(16);
+            return uniqueId + '0'.repeat(remainingChars - additionalRandom.length) + additionalRandom;
+        }
+
+        return uniqueId;
+    }   
+
+    </script>

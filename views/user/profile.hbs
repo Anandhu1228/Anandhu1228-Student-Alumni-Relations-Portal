@@ -1,0 +1,392 @@
+<style>
+    .cartoon-dialogue {
+    display: inline-block;
+    background-color: rgb(234, 240, 246);
+    padding: 15px;
+    border-radius: 40px 0px 40px 40px;
+    border: 4px solid rgb(38, 82, 164);
+    width: 100%;
+    height: auto;
+    overflow-y: auto;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 15px;
+    color: rgb(38, 82, 164);
+    margin: auto;
+    text-align: center;
+    word-wrap: break-word; /* Allow long words to wrap onto the next line */
+}
+
+
+
+    .btn{
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        padding: 10px;
+        margin: 5px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+    .btn:hover{
+        background-color:rgb(123, 180, 230);
+    }
+
+    .experience_box_div{
+        margin-top:60px;
+    }
+
+    .a_button{
+        text-decoration: none;
+    }
+
+    .profile_view_image{
+        display: inline-block;
+        width: 500px;
+        border-radius: 50%; 
+        height: 500px;
+        object-fit: cover;
+        margin: 20px;
+    }
+
+
+    .experience{
+        border-radius: 10px;
+        width: 100%; 
+        border: none;
+        box-shadow: 0 0px 4px rgba(87, 85, 85, 0.9); 
+        background-color:rgb(234, 240, 246);
+        position:relative;
+    }
+
+    .btn_domain{
+        background-color: rgb(84, 121, 189);
+        transition: background-color 0.3s ease;
+    }
+    .btn_domain:hover{
+        background-color: rgb(38, 82, 164);
+    }
+
+    .plus-button_domain_edit{
+        padding: 6px;
+        font-weight: 600;
+        font-size: 13px;
+        transition: background-color 0.3s ease;
+    }
+    .plus-button_domain_edit:hover{
+        background-color: rgb(194, 225, 22);
+    }
+
+    .plus-button_domain_add{
+        padding: 6px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+        font-size: 13px;
+    }
+    .plus-button_domain_add:hover{
+        background-color: rgb(26, 214, 92);
+    }
+
+    .btn_edit_experience{
+        padding: 7px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+    .btn_edit_experience:hover{
+        background-color: rgb(194, 225, 22);
+    }
+
+    .btn_delete_experience{
+        padding: 7px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+    .btn_delete_experience:hover{
+        background-color: rgb(202, 26, 10);
+        color: #ffffff;
+    }
+
+    .btn_add_experience{
+        padding: 7px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+    .btn_add_experience:hover{
+        background-color: rgb(26, 214, 92);
+        color: #ffffff;
+    }
+
+    .detail_div{
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+    .detail_div_head{
+        font-weight: 600px;
+    }
+    .detail_div_text{
+        overflow: auto; 
+        word-wrap: break-word;
+        font-weight: 550;
+        color: black;
+    }
+    .detail_div_text_head{
+        color: rgb(30, 61, 120);
+    }
+    .experience_text_head{
+        color: rgb(30, 61, 120);
+    }
+    .experience_text{
+        overflow: auto; 
+        word-wrap: break-word;
+        font-weight: 550;
+        color: black;
+    }
+
+    .container-fluid {
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    .noted_note{
+        margin-top: 50px;
+    }
+
+    .other_view{
+        width: 100%;
+        overflow: hidden;
+    }
+    .btn_other_view{
+        background-color: rgb(137, 176, 248);
+        font-size: 15px;
+        padding: 9px;
+        color: #ffffff;
+        width: 100%;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+    .btn_other_view:hover{
+        background-color: rgb(88, 95, 106);
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+        .profile_view_image {
+            max-width: 400px;
+            max-height: 400px;
+            margin: 10px;
+        }
+        .btn_other_view{
+           font-size: 14px;
+        }
+        
+    }
+     @media (max-width: 480px) {
+        .profile_view_image {
+            max-width: 315px;
+            max-height: 315px;
+            margin: auto;
+            margin-left: 15px;
+        } 
+        .btn{
+            font-weight: 500;
+            padding: 8px;
+        }  
+        .btn_other_view{
+            font-size: 13px;
+            font-weight: bold;
+        }
+    }
+
+    .contain {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 30px;
+    }
+
+    .detail_div{
+        display: inline-block;
+        margin-left: 170px;
+    }
+
+    @media (max-width: 1340px) {
+        .contain {
+            flex-direction: column;
+        } 
+        .detail_div{
+            margin-left: 35px;
+        } 
+        .experience_box_div{
+            margin-top:60px;
+        }
+        .cartoon-dialogue{
+            margin-top: 20px;
+        }
+        .btn_other_view{
+            
+        }
+    }
+
+    @media (max-width: 399px) {
+        .container-fluid {
+            padding-left: 0px;
+        }
+        .contain{
+            margin-bottom: 0px;
+        }
+        .cartoon-dialogue{
+            margin-top: 10px;
+        }
+    }
+
+</style>
+
+
+<section style="background: linear-gradient(to right, rgb(223, 238, 250), #ffffff); padding-top: 240px;">
+    <div class="container-fluid" >
+        <div class="col-md-12">
+            
+            <div class="contain">
+                <div  style="display: inline-block;" >
+                    <div style="display: block;">
+                        <img class="profile_view_image"  id="profileImageAlternate" >
+                    </div>
+                </div>
+
+                <div class="detail_div" >
+                    <h3 class="card-title mt-3 detail_div_head">{{profile.Name}}</h3>
+                    <p class="card-text detail_div_text">{{profile.Email}}</p>
+                    <p class="card-text detail_div_text">{{profile.Contact}}</p>
+                    <a href="/edit-profile" class="a_button" >
+                        <button type="button" class="btn ">Edit Profile</button>
+                    </a>
+                    
+                    <a href="/update-profile" class="a_button">
+                        <button type="button" class="btn ">Update Profile</button>
+                    </a>
+
+                    {{#if isAlumni}}
+                    <a href="/addjob">
+                        <button type="button" class="btn ">Add Job</button>
+                    </a>
+                    {{/if}}
+
+                    {{#if isAlumni}}
+                        {{#if editjobbutton}}
+                        <a href="/view-edit-delete-jobs" class="a_button">
+                            <button type="button" class="btn ">View posted jobs</button>
+                        </a>
+                        {{/if}}
+                    {{/if}}
+
+                    <a href="/addintern" class="a_button">
+                        <button type="button" class="btn ">Apply for internship</button>
+                    </a>
+
+                    {{#if editinternbutton}}
+                        <a href="/review-apply-internship" class="a_button">
+                            <button type="button" class="btn ">Edit applied internship</button>
+                        </a>
+                    {{/if}}
+
+                    <a href="/profile_viewers" class="a_button">
+                        <button type="button" class="btn ">Your profile visitors</button>
+                    </a>
+
+                    <p class="card-text detail_div_text_head" style="margin-top: 30px;"><strong>Passout Year : </strong><br><span class="detail_div_text">{{profile.passoutYear}}</span></p>
+                    <p class="card-text detail_div_text_head"><strong>Current Location : </strong><br><span class="detail_div_text">{{profile.currentLocation}}</span></p>
+                    {{#if working}}
+                        <p class="card-text detail_div_text_head"><strong>Working at : </strong><br><span class="detail_div_text">{{profile.working.workingCompanyName}}</span></p>
+                    {{/if}}
+                    {{#if owns}}
+                        <p class="card-text detail_div_text_head"><strong>Owns : </strong><br><span class="detail_div_text">{{profile.ownCompany.FoundedCompanyName}}</span></p>
+                    {{/if}}<br><br>
+
+                    <p class="card-title detail_div_text_head mt-3" style="font-size: 20px;"><strong>Skills/Domains</strong></p>
+                        {{#each profile.workDomains}}
+                            <button type="button" class="btn btn_domain">{{this}}</button>
+                        {{/each}}<br>
+
+                    <a href="/add-skills"><button style="margin-top: 5px;" class=" btn btn-info plus-button_domain_add">+ Add</button></a>
+                    <a href="/edit-skills"><button style="margin-top: 5px;" class=" btn btn-info plus-button_domain_edit">Edit</button></a><br><br><br>
+                </div>
+            </div>
+
+
+            <div class="noted_note">
+                <a href="/add-note" class="a_button">
+                    <div class="cartoon-dialogue">
+                        {{#if NoNote}}
+                        Hello, add your experiences or memories with CEC!<br>
+                        click me to edit or add
+                        {{/if}}
+                        {{#if checkNote}}
+                            {{profile.Note}}
+                        {{/if}}
+                    </div>
+                </a>
+            </div>
+
+
+            <div class="experience_box_div">
+                <p class="card-title" style="font-size: 20px;"><strong>Experiences</strong></p>
+                {{#each profile.experience}}
+                    <div class="card " style="width: 100%; border:none;">
+                        <div class="card-body experience" >
+                            <p class="card-text experience_text_head"><strong>Title : </strong><br><span class="experience_text">{{this.companyName}}</span></p><hr>
+                            <p class="card-text experience_text_head"><strong>Start date : </strong><br><span class="experience_text">{{this.startMonth}} {{this.startYear}}</span></p><hr>
+                            <p class="card-text experience_text_head"><strong>End date : </strong><br><span class="experience_text">{{this.endMonth}} {{this.endYear}}</span></p><hr>
+                            <p class="card-text experience_text_head"><strong>Description : </strong><br><span class="experience_text">{{this.description}}</span></p><hr>
+                            <a href="/edit-experience/{{this._id}}">
+                                <button type="button" class="btn btn_edit_experience">Edit</button>
+                            </a>
+                            <a href="" style="position: absolute; bottom: 21px; right: 20px;" class="btn btn_delete_experience" onclick="deleteJob('{{this._id}}')">Delete</a>
+                        </div>
+                    </div><br>
+                {{/each}} 
+                <a href="/add-experience"><button class=" btn btn_add_experience">+ Add</button></a><br><br>
+            </div>
+        </div>
+    </div>
+     <div class="other_view" >
+        <a href="/view-profile/{{profile._id}}" class=" btn btn_other_view" >See how others see your profile</a>
+    </div>
+</section>
+
+<script>
+    function deleteJob(experienceId) {
+        if (confirm("Do you want to delete this experience from your profile?")) {
+            $.ajax({
+            url: '/delete-experience-form-profile',
+            method: 'post',
+            data: {
+                ExperiencE: experienceId,
+            },
+            success: function (response) {
+                if (response.deleteJob) {
+                location.reload();
+                }
+            },
+            });
+        }
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const profileImage = document.getElementById("profileImageAlternate");
+        const imageUrl = "/user-images/{{profile._id}}.jpg";
+        fetch(imageUrl)
+            .then(response => {
+                if (response.ok) {
+                    profileImage.src = imageUrl; // Use profile image
+                } else {
+                    profileImage.src = "/user-images/user.png"; // Use default image
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching image:", error);
+                profileImage.src = "/user-images/user.png"; // Use default image on fetch error
+            });
+    });
+</script>
