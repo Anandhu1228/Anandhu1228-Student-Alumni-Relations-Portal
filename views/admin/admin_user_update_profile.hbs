@@ -1,0 +1,566 @@
+<style>
+     body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-color: aliceblue;
+        background-attachment: fixed;
+    }
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .input_box{
+        border-radius: 20px;
+        width: 100%;
+        padding: 10px;
+        padding-left: 15px;
+        font-weight: bold;
+        margin-top: 1px;
+        margin-bottom: 20px;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .input_box:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    #delete_button_update,#delete_ownextra_company,#delete_button_subbranch{
+        border-radius: 0px 20px 20px 0px;
+        background-color: rgb(223, 39, 39);
+        font-weight: bold;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+    #delete_button_update:hover{
+        background-color: rgb(255, 0, 0);
+    }
+    #delete_ownextra_company:hover{
+        background-color: rgb(255, 0, 0);
+    }
+    #delete_button_subbranch:hover{
+        background-color: rgb(255, 0, 0);
+    }
+
+    #add_founded_company,#add_subbranch_update,#add_subbranch_own{
+        width: 100%;
+        border-radius: 20px;
+        padding: 10px;
+        font-weight: bold;
+        color: white;
+        background-color:  rgb(38, 82, 164);
+        transition: background-color 0.3s ease;
+    }
+    #add_founded_company:hover{
+        background-color:  rgb(123, 180, 230);
+    }
+    #add_subbranch_update:hover{
+         background-color:  rgb(123, 180, 230);
+    }
+    #add_subbranch_own:hover{
+         background-color:  rgb(123, 180, 230);
+    }
+    
+
+    .heading_update_profile{
+        font-weight: 600;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+     .prof_lab_updater{
+        margin-top: 15px;
+        font-size: 18px;
+        margin-bottom: 0px;
+        font-weight: bold;
+    }
+
+    .btn_add_on{
+        width: 250px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 10px;
+        transition: background-color 0.3s ease;
+        margin-left: 8px;
+    }
+    .btn_add_on:hover{
+        background-color:  rgb(123, 180, 230);
+        color: rgb(38, 82, 164);
+    }
+
+    @media (max-width:600px) {
+        .input_box{
+            padding: 10px;
+            font-weight: bold;
+            margin-top: 1px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .prof_lab_updater{
+            margin-top: 15px;
+            font-size: 15px;
+            margin-bottom: 0px;
+            font-weight: bold;
+        }
+        .custom_input_baby{
+            font-size: 13px;
+        }
+        #delete_button_update,#delete_ownextra_company,#delete_button_subbranch{
+            font-size: 14px;
+            padding: 5px;
+        }
+        .custom_input_baby_year{
+            padding-right: 4px;
+        }
+        .custom_input_baby_name{
+            padding-left: 6px;
+        }
+        #add_founded_company,#add_subbranch_update,#add_subbranch_own{
+            border-radius: 20px;
+            padding: 8px;
+            font-size: 15px;
+        }
+    }
+
+</style>
+
+<section>
+    <div class="row">
+    <div class="col-md-6 m-auto">
+        <div class="container mt-5 pl-5">
+            <h2 class="text-center heading_update_profile">UPDATE PROFILE</h2>
+            <form action="/admin/admin_user_update_profile/{{user._id}}" method="POST" enctype="multipart/form-data">
+
+                <!-- Passout Year -->
+                <div class="form-group form-top form-bottom">
+                    <label class="prof_lab_updater" for="passoutYear">Passout Year</label>
+                    <input type="number" class="form-control input_box" id="passoutYear" name="passoutYear" min="1997" max="2100" value="{{user.passoutYear}}">
+                </div>
+
+                <input type="hidden"  name="Name" value="{{user.Name}}">
+
+                <!-- Employment Status -->
+                <div class="form-group form-bottom">
+                    <label class="prof_lab_updater prof_lab_updater" for="employmentStatus">Employment Status</label>
+                    <select  class="form-control input_box" style="height: 45px;" id="employmentStatus" name="employmentStatus" onchange="toggleCompanyFields()">
+                        <option value="" selected disabled>Select current status</option>
+                        <option value="working" {{#if (eq empstatus "working")}}selected{{/if}}>Working for a Company</option>
+                        <option value="ownCompany" {{#if (eq empstatus "ownCompany")}}selected{{/if}}>Owns a Company</option>
+                        <option value="higherStudies" {{#if (eq empstatus "higherStudies")}}selected{{/if}}>Opted for higher studies</option>
+                        <option value="studentCEC" {{#if (eq empstatus "studentCEC")}}selected{{/if}}>Student at CEC</option>
+                    </select>
+                </div>
+
+
+                <!-- Company Fields (Initially Hidden) -->
+                <div id="companyFields" style="display: none;">
+                    <div class="form-group">
+                        <label class="prof_lab_updater" for="FoundedCompanyName">Company Name</label>
+                        <input type="text" class="form-control input_box " value="{{user.ownCompany.FoundedCompanyName}}" id="FoundedCompanyName" name="FoundedCompanyName">
+                    </div>
+
+                    <!-- Founded Year (Displayed for Owns a Company) -->
+                    <div class="form-group">
+                        <label class="prof_lab_updater" for="foundedYear">Founded Year</label>
+                        <input type="number" class="form-control input_box" value="{{user.ownCompany.foundedYear}}" id="foundedYear" name="foundedYear">
+                    </div>
+
+                    <!-- Main Location -->
+                    <div class="form-group">
+                        <label class="prof_lab_updater" for="mainLocation">Main Location of Company</label>
+                        <input type="text" class="form-control input_box" value="{{user.ownCompany.mainLocation}}" id="mainLocation" name="mainLocation">
+                    </div>
+
+                    <!-- Subbranches (Optional) -->
+                    <div class="form-group">
+                        <label class="prof_lab_updater" for="subbranches">Subbranches (Optional)</label>
+                        <div id="subbranchesContainer">
+                            {{#each user.ownCompany.subbranches}}
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control input_box" name="subbranches" placeholder="Subbranch" value="{{this}}">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-danger" id="delete_button_subbranch" onclick="removeSubbranch(this)">Delete</button>
+                                    </div>
+                                </div>
+                            {{/each}}
+                            <button id="add_subbranch_update" type="button" class="btn mt-2" onclick="addSubbranch()">Add Subbranch</button>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <!-- Company Name (Displayed for Working for a Company) -->
+                <div id="workingForCompanyFields" style="display: none;">
+                    <div class="form-group">
+                        <label class="prof_lab_updater" for="workingCompanyName">Company Name</label>
+                        <input type="text" class="form-control input_box" id="workingCompanyName" value="{{user.working.workingCompanyName}}" name="workingCompanyName">
+                        <label class="prof_lab_updater" style="margin-top: 10px;" for="workingCompanyJoinedYear">Joined year</label>
+                        <input type="text" class="form-control input_box" id="workingCompanyJoinedYear" value="{{user.working.workingCompanyJoinedYear}}" name="workingCompanyJoinedYear">
+                    </div>
+
+                     <div class="form-group">
+                        <label class="prof_lab_updater" for="WorkingownedPreviousCompany">Have you previously owned any company?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="WorkingownedPreviousCompany" id="WorkingownedPreviousCompanyYes" value="yes" {{#if (eq user.working.WorkingownedPreviousCompany "yes")}}checked{{/if}}  onclick="toggleWorkingPreviousFoundedCompanyFields()">
+                            <label class="form-check-label" for="WorkingownedPreviousCompanyYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="WorkingownedPreviousCompany" id="WorkingownedPreviousCompanyNo" value="no" {{#if (eq user.working.WorkingownedPreviousCompany "no")}}checked{{/if}}  onclick="toggleWorkingPreviousFoundedCompanyFields()">
+                            <label class="form-check-label" for="WorkingownedPreviousCompanyNo">No</label>
+                        </div>
+                    </div>
+
+                    <!-- Other Working Founded Company Fields (Initially Hidden) -->
+                    <div id="otherWorkingFoundedCompanyFields" style="display: none;">
+                        <div id="additionalWorkingFoundedCompaniesContainer">
+                            <div class="input-group mb-2 founded-working-company">
+                                <input type="number" class="form-control input_box custom_input_baby custom_input_baby_year" name="WorkingadditionalFoundedCompanyYear" value="{{this.year}}" placeholder="Founded Year">
+                                <input type="text" class="form-control input_box custom_input_baby custom_input_baby_name" name="WorkingadditionalFoundedCompanyName" value="{{this.name}}" placeholder="Company Name">
+                                <div class="input-group-append">
+                                    <button id="delete_button_update" type="button" class="btn btn-danger" onclick="removeWorkingAdditionalFoundedCompany()">Delete</button>
+                                </div>
+                            </div>
+                            {{#each user.working.WorkingownedPreviousStorage}}
+                            <div class="input-group mb-2 founded-working-company">
+                                <input type="number" class="form-control input_box custom_input_baby_year" name="WorkingadditionalFoundedCompanyYear custom_input_baby_year" value="{{this.year}}" placeholder="Founded Year">
+                                <input type="text" class="form-control input_box custom_input_baby_name" name="WorkingadditionalFoundedCompanyName" value="{{this.name}}" placeholder="Company Name">
+                                <div class="input-group-append">
+                                    <button id="delete_button_update" type="button" class="btn btn-danger" onclick="removeWorkingAdditionalFoundedCompany()">Delete</button>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                        <button id="add_founded_company" type="button" class="btn mt-2" onclick="addWorkingAdditionalFoundedCompany()">Add Founded Company</button>
+                    </div>
+
+                </div>
+
+                <div id="higherStudiesField" style="display: none;">
+                    <div class="form-group">
+                        <label class="prof_lab_updater" for="higherstudiesJoinedInstitutionName">Institution Name</label>
+                        <input type="text" class="form-control input_box" id="higherstudiesJoinedInstitutionName" value="{{user.higherStudies.higherstudiesJoinedInstitutionName}}" name="higherstudiesJoinedInstitutionName">
+                        <label class="prof_lab_updater" style="margin-top: 30px;" for="higherstudiesJoinedCoarse">Course Name</label>
+                        <input type="text" class="form-control input_box" id="higherstudiesJoinedCoarse" value="{{user.higherStudies.higherstudiesJoinedCoarse}}" name="higherstudiesJoinedCoarse">
+                        <label class="prof_lab_updater" style="margin-top: 30px;" for="higherstudiesJoinedCourseBrief">Brief detail about course</label>
+                        <textarea style="height: auto;" class="form-control input_box" rows="3" id="higherstudiesJoinedCourseBrief" name="higherstudiesJoinedCourseBrief" oninput="resizeTextarea()">{{user.higherStudies.higherstudiesJoinedCourseBrief}}</textarea>
+                        <label class="prof_lab_updater" style="margin-top: 30px;" for="higherstudiesJoinedYear">Joined year</label>
+                        <input type="text" class="form-control input_box" id="higherstudiesJoinedYear" value="{{user.higherStudies.higherstudiesJoinedYear}}" name="higherstudiesJoinedYear">
+                        <label class="prof_lab_updater" style="margin-top: 30px;" for="higherstudiesJoinedLocation">Institution location</label>
+                        <input type="text" class="form-control input_box" id="higherstudiesJoinedLocation" value="{{user.higherStudies.higherstudiesJoinedLocation}}" name="higherstudiesJoinedLocation">
+                    </div>
+                    <div class="form-group">
+                        <label class="prof_lab_updater" style="margin-top: 30px;" for="higherstudiesJoinedEntrance">Have you written any kind of entrance exam to join this institution?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="higherstudiesJoinedEntrance" id="higherstudiesJoinedEntranceYes" value="yes" {{#if (eq user.higherStudies.higherstudiesJoinedEntrance "yes")}}checked{{/if}}  onclick="togglehigherstudiesJoinedEntranceFields()">
+                            <label class="prof_lab_updater" class="form-check-label" for="higherstudiesJoinedEntranceYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="higherstudiesJoinedEntrance" id="higherstudiesJoinedEntranceNo" value="no" {{#if (eq user.higherStudies.higherstudiesJoinedEntrance "no")}}checked{{/if}}  onclick="togglehigherstudiesJoinedEntranceFields()">
+                            <label class="prof_lab_updater" class="form-check-label" for="higherstudiesJoinedEntranceNo">No</label>
+                        </div>
+                    </div>
+                    <div id="higherStudiesEntranceDetails" style="display: none;">
+                        <div class="input-group mb-2 founded-working-company">
+                            <input type="text" class="form-control input_box" name="entranceExamName" value="{{user.higherStudies.entranceExamName}}" placeholder="exam name">
+                            <input type="text" class="form-control input_box" name="entranceExamScore" value="{{user.higherStudies.entranceExamScore}}" placeholder="exam score">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Company Ownership Fields -->
+                <div id="additionalCompanyOwnershipFields" style="display: none;">
+                    <div class="form-group">
+                        <label class="prof_lab_updater" for="ownedOwnPreviousCompany">Have you previously owned/owning other company?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="ownedOwnPreviousCompany" id="ownedOwnPreviousCompanyYes" value="yes" {{#if (eq user.ownCompany.ownedPreviousCompany "yes")}}checked{{/if}}  onclick="toggleOwnPreviousFoundedCompanyFields()">
+                            <label class="form-check-label" for="ownedOwnPreviousCompanyYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="ownedOwnPreviousCompany" id="ownedPreviousCompanyNo" value="no" {{#if (eq 
+                            user.ownCompany.ownedPreviousCompany "no")}}checked{{/if}}  onclick="toggleOwnPreviousFoundedCompanyFields()">
+                            <label class="form-check-label" for="ownedPreviousCompanyNo">No</label>
+                        </div>
+                    </div>
+
+                    <!-- Other Founded Company Fields (Initially Hidden) -->
+                    <div id="otherOwnFoundedCompanyFields" style="display: none;">
+                        <div id="additionalOwnFoundedCompaniesContainer">
+                            <div class="input-group mb-2 founded-own-company">
+                                <input type="text" class="form-control input_box custom_input_baby custom_input_baby_year" name="OwnadditionalFoundedCompanyYear" value="" placeholder="Founded Year">
+                                <input type="text" class="form-control input_box custom_input_baby custom_input_baby_name" name="OwnadditionalFoundedCompanyName" value="" placeholder="Company Name">
+                                <div class="input-group-append">
+                                    <button id="delete_ownextra_company" type="button" class="btn btn-danger" onclick="removeAdditionalFoundedCompany()">Delete</button>
+                                </div>
+                            </div>
+                            {{#each user.ownCompany.OwnadditionalFoundedCompanyStorage}}
+                            <!-- Initial Founded Company Fields -->
+                            <div class="input-group mb-2 founded-own-company">
+                                <input type="text" class="form-control input_box custom_input_baby custom_input_baby_year" name="OwnadditionalFoundedCompanyYear" value="{{this.year}}" placeholder="Founded Year">
+                                <input type="text" class="form-control input_box custom_input_baby custom_input_baby_name" name="OwnadditionalFoundedCompanyName" value="{{this.name}}" placeholder="Company Name">
+                                <div class="input-group-append">
+                                    <button id="delete_ownextra_company" type="button" class="btn btn-danger" onclick="removeAdditionalFoundedCompany()">Delete</button>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                        <button id="add_subbranch_own" type="button" class="btn btn-secondary mt-2" onclick="addOwnAdditionalFoundedCompany()">Add Founded Company</button>
+                    </div>
+                </div>
+
+                
+
+                <!-- Current Location -->
+                <div class="form-group form-top">
+                    <label class="prof_lab_updater" for="currentLocation">Current Location</label>
+                    <input type="text" class="form-control input_box" id="currentLocation" name="currentLocation" value="{{user.currentLocation}}">
+                </div>
+
+            <div class="button-container">
+                <button type="submit" class="btn btn_add_on mt-4">Submit</button>
+                <button type="reset" class="btn btn_add_on  mt-4">Reset</button>
+                <a href="/profile" class="btn btn_add_on mt-4">Cancel</a>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</section>
+
+<script>
+    let additionalOwnFoundedCompanyCounter = 1;
+    let additionalWorkingFoundedCompanyCounter = 1;
+
+
+
+    function getNextOwnFoundedCompanyName() {
+        additionalOwnFoundedCompanyCounter++;
+        return 'foundedOwnCompanyName_' + additionalOwnFoundedCompanyCounter;
+    }
+    function getNextWorkingFoundedCompanyName() {
+        additionalWorkingFoundedCompanyCounter++;
+        return 'foundedWorkingCompanyName_' + additionalWorkingFoundedCompanyCounter;
+    }
+
+     function toggleCompanyFields() {
+            const employmentStatus = document.getElementById('employmentStatus').value;
+            const companyFields = document.getElementById('companyFields');
+            const workingForCompanyFields = document.getElementById('workingForCompanyFields');
+            const additionalCompanyOwnershipFields = document.getElementById('additionalCompanyOwnershipFields');
+            const higherStudiesField = document.getElementById('higherStudiesField');
+
+            if (employmentStatus === 'ownCompany') {
+                companyFields.style.display = 'block';
+                workingForCompanyFields.style.display = 'none';
+                additionalCompanyOwnershipFields.style.display = 'block';
+                higherStudiesField.style.display = 'none';
+                // Reset the "Working for a Company" fields
+            } else if (employmentStatus === 'working') {
+                companyFields.style.display = 'none';
+                workingForCompanyFields.style.display = 'block';
+                additionalCompanyOwnershipFields.style.display = 'none';
+                higherStudiesField.style.display = 'none';
+            } else if (employmentStatus === 'higherStudies') {
+                companyFields.style.display = 'none';
+                workingForCompanyFields.style.display = 'none';
+                higherStudiesField.style.display = 'block';
+                additionalCompanyOwnershipFields.style.display = 'none';
+            } else {
+                companyFields.style.display = 'none';
+                workingForCompanyFields.style.display = 'none';
+                additionalCompanyOwnershipFields.style.display = 'none';
+                higherStudiesField.style.display = 'none';
+                // Reset both sets of fields
+            }
+        }
+
+
+    function addOwnedPreviousCompanyField() {
+        const workingForCompanyFields = document.getElementById('workingForCompanyFields');
+        const newOwnedPreviousCompanyField = document.createElement('div');
+        newOwnedPreviousCompanyField.className = 'form-group';
+
+       }
+
+    function toggleOwnPreviousFoundedCompanyFields() {
+        const ownedOwnPreviousCompanyYes = document.getElementById('ownedOwnPreviousCompanyYes');
+        const otherOwnFoundedCompanyFields = document.getElementById('otherOwnFoundedCompanyFields');
+
+        if (ownedOwnPreviousCompanyYes.checked) {
+            otherOwnFoundedCompanyFields.style.display = 'block';
+        } else {
+            otherOwnFoundedCompanyFields.style.display = 'none';
+        }
+    }
+
+    function toggleWorkingPreviousFoundedCompanyFields() {
+        const worknigownedPreviousCompanyYes = document.getElementById('WorkingownedPreviousCompanyYes');
+        const otherWorkingFoundedCompanyFields = document.getElementById('otherWorkingFoundedCompanyFields');
+
+        if (worknigownedPreviousCompanyYes.checked) {
+            otherWorkingFoundedCompanyFields.style.display = 'block';
+        } else {
+            otherWorkingFoundedCompanyFields.style.display = 'none';
+        }
+    }
+
+    function togglehigherstudiesJoinedEntranceFields() {
+        const higherstudiesJoinedEntranceYes = document.getElementById('higherstudiesJoinedEntranceYes');
+        const higherStudiesEntranceDetails = document.getElementById('higherStudiesEntranceDetails');
+
+        if (higherstudiesJoinedEntranceYes.checked) {
+            higherStudiesEntranceDetails.style.display = 'block';
+        } else {
+            higherStudiesEntranceDetails.style.display = 'none';
+        }
+    }
+
+    function addOwnAdditionalFoundedCompany() {
+        const additionalOwnFoundedCompaniesContainer = document.getElementById('additionalOwnFoundedCompaniesContainer');
+        const newOwnFoundedCompanyField = document.createElement('div');
+        const foundedOwnCompanyName = getNextOwnFoundedCompanyName();
+        newOwnFoundedCompanyField.className = `input-group mb-2 founded-own-company ${foundedOwnCompanyName}`;
+
+        newOwnFoundedCompanyField.innerHTML = `
+            <input type="number" class="form-control input_box custom_input_baby custom_input_baby_year" name="OwnadditionalFoundedCompanyYear" placeholder="Founded Year">
+            <input type="text" class="form-control input_box custom_input_baby custom_input_baby_name" name="OwnadditionalFoundedCompanyName" placeholder="Company Name">
+            <div class="input-group-append">
+                <button id="delete_ownextra_company" type="button" class="btn btn-danger" onclick="removeAdditionalFoundedCompany('${foundedOwnCompanyName}')">Delete</button>
+            </div>
+        `;
+
+        additionalOwnFoundedCompaniesContainer.appendChild(newOwnFoundedCompanyField);
+    }
+
+    function removeAdditionalFoundedCompany(deleteButton) {
+        const foundedCompanyField = deleteButton.closest('.founded-own-company');
+        if (foundedCompanyField) {
+            foundedCompanyField.remove();
+        }
+    }
+
+    function addWorkingAdditionalFoundedCompany() {
+        const additionalWorkingFoundedCompaniesContainer = document.getElementById('additionalWorkingFoundedCompaniesContainer');
+        const newWorkingFoundedCompanyField = document.createElement('div');
+        const foundedWorkingCompanyName = getNextWorkingFoundedCompanyName();
+        newWorkingFoundedCompanyField.className = `input-group mb-2 founded-working-company ${foundedWorkingCompanyName}`;
+
+        newWorkingFoundedCompanyField.innerHTML = `
+            <input type="number" class="form-control input_box custom_input_baby custom_input_baby_year" name="WorkingadditionalFoundedCompanyYear" placeholder="Founded Year">
+            <input type="text" class="form-control input_box custom_input_baby custom_input_baby_name" name="WorkingadditionalFoundedCompanyName" placeholder="Company Name">
+            <div class="input-group-append">
+                <button id="delete_button_update" type="button" class="btn btn-danger" onclick="removeWorkingAdditionalFoundedCompany('${foundedWorkingCompanyName}')">Delete</button>
+            </div>
+        `;
+
+        additionalWorkingFoundedCompaniesContainer.appendChild(newWorkingFoundedCompanyField);
+    }
+
+    function removeWorkingAdditionalFoundedCompany(deleteButton) {
+        const foundedCompanyField = deleteButton.closest('.founded-working-company');
+        if (foundedCompanyField) {
+            foundedCompanyField.remove();
+        }
+    }
+
+    function addSubbranch() {
+        const subbranchesContainer = document.getElementById('subbranchesContainer');
+        const newSubbranchField = document.createElement('div');
+        newSubbranchField.className = 'input-group mb-2';
+
+        newSubbranchField.innerHTML = `
+            <input style="margin-top:10px;" type="text" class="form-control input_box" name="subbranches" placeholder="Subbranch">
+            <div style="margin-top:10px;" class="input-group-append">
+                <button id="delete_button_update" type="button" class="btn btn-danger" id="delete_button_subbranch" onclick="removeSubbranch(this)">Delete</button>
+            </div>
+        `;
+
+        subbranchesContainer.appendChild(newSubbranchField);
+    }
+
+    function removeSubbranch(button) {
+        const subbranchField = button.closest('.input-group');
+        const subbranchesContainer = document.getElementById('subbranchesContainer');
+
+        // Check if there is more than one subbranch before allowing deletion
+        if (subbranchesContainer.children.length > 1) {
+            subbranchField.remove();
+        } else {
+        }
+    }
+
+    function resizeTextarea() {
+        var textarea = document.getElementById("higherstudiesJoinedCourseBrief");
+        textarea.style.height = "auto";
+        textarea.style.height = (textarea.scrollHeight) + "px";
+    }
+
+    function attachDeleteEventListeners() {
+        document.querySelectorAll('.founded-own-company .btn-danger').forEach(button => {
+            button.addEventListener('click', function () {
+                removeAdditionalFoundedCompany(this);
+            });
+        });
+
+        document.querySelectorAll('.founded-working-company .btn-danger').forEach(button => {
+            button.addEventListener('click', function () {
+                removeWorkingAdditionalFoundedCompany(this);
+            });
+        });
+
+    }
+    
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const initialEmploymentStatus = "{{user.employmentStatus}}";
+        if (initialEmploymentStatus === 'working' || initialEmploymentStatus === 'ownCompany' || initialEmploymentStatus === 'higherStudies') {
+            toggleCompanyFields();
+            
+        }
+         const initialownedOwnPreviousCompany = "{{user.ownCompany.ownedPreviousCompany}}";
+        if (initialownedOwnPreviousCompany === "yes" || initialownedOwnPreviousCompany === "no"){
+            console.log("own success")
+            toggleOwnPreviousFoundedCompanyFields();
+        }
+        const initialWorkingownedPreviousCompany = "{{user.working.WorkingownedPreviousCompany}}";
+        if (initialWorkingownedPreviousCompany === "yes" || initialWorkingownedPreviousCompany === "no"){
+            console.log("working success")
+            toggleWorkingPreviousFoundedCompanyFields();
+        } 
+        const initialhigherstudiesJoinedEntrance = "{{user.higherStudies.higherstudiesJoinedEntrance}}";
+        if (initialhigherstudiesJoinedEntrance === "yes" || initialhigherstudiesJoinedEntrance === "no"){
+            console.log("higherStudies success")
+            togglehigherstudiesJoinedEntranceFields();
+        } 
+
+        attachDeleteEventListeners();
+
+
+            // Attach event listener for dynamically added delete buttons
+            document.addEventListener('click', function (event) {
+                if (event.target.classList.contains('btn-danger')) {
+                    const deleteButton = event.target;
+                    const foundedCompanyField = deleteButton.closest('.founded-own-company, .founded-working-company');
+                    if (foundedCompanyField) {
+                        foundedCompanyField.remove();
+                    }
+                }
+            });
+        }
+    );
+
+
+</script>

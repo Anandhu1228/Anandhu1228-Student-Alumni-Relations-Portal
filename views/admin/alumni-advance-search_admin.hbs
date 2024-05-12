@@ -1,0 +1,74 @@
+<style>
+
+    body {
+        background-color: #ffffff;
+            margin: 0;
+            align-items: center;
+            justify-content: center;
+             background-image: url('/images/logo_transparent1.png');
+            background-size: 80% auto;
+            background-position: center bottom 60%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .container{
+    }
+
+    .advanceButton{
+        margin-top: 15px;
+        display: block;
+        border-radius: 10px;
+        font-size: 17px;
+        padding: 14px;
+        font-weight: bold;
+        background-color: rgb(93, 138, 222);
+        transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        color: white;
+    }
+    .advanceButton:hover{
+        background-color: rgb(123, 180, 230);
+        color: white;
+    }
+    @media (max-width: 759px) {
+        .advanceButton{
+            font-size: 15px;
+    }
+    }
+    @media (max-width: 500px) {
+        .advanceButton{
+            font-size: 15px;
+            padding: 10px;
+    }
+    }
+    @media (max-width:600px){
+        .input_box{
+            padding: 15px;
+        }
+    }
+
+  </style> 
+
+  <section style="padding-top:140px">
+ <section class="container">
+    <a href="/admin/search-alumni-by-passoutyear_admin" class="advanceButton btn " style="margin-top: 60px;">
+        Search by passout year
+    </a>
+    <a href="/admin/search-alumni-by-location_admin" class="advanceButton btn ">
+        Search by location
+    </a>
+    <a href="/admin/search-alumni-by-domain_admin" class="advanceButton btn ">
+        Search by work domain
+    </a>
+    <a href="/admin/search-alumni-by-filter_admin" class="advanceButton btn ">
+        Use filered search
+    </a>
+ </section>
+ </section>

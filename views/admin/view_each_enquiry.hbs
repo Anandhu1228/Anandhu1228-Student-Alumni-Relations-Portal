@@ -1,0 +1,340 @@
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<style>
+    #chat-container {
+        width: 100%;
+        margin: auto;
+        padding: 20px;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        height: 80vh;
+        overflow-y: auto;
+    }
+
+     body{
+        background-image: url('/images/logo2.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    #chat-messages {
+        flex-grow: 1;
+        overflow-y: auto;
+        height: auto;
+    }
+
+    .message {
+        display: flex;
+        align-items: center;
+        margin-bottom: 40px;
+        padding: 10px;
+        position: relative;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+        background-color: #e8e6e6;
+        max-width: 900px;
+        margin-right: 10px;
+        border-radius: 10px;
+    }
+    .message:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .user-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+        position: absolute;
+        top: 10px;
+    }
+
+    .user-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .user-name {
+        position: absolute;
+        top: 10px;
+        left: 70px;
+        font-weight: 600;
+        color: rgb(78, 74, 74);
+    }
+
+    .actual-message {
+        margin-top: 40px;
+        margin-bottom: 15px;
+        margin-left: 70px;
+        max-width: 80%;
+        word-wrap: break-word;
+        font-weight: 600;
+    }
+
+
+    #message-input {
+        width: 80%;
+        min-height: 60px;
+        height: auto;
+        resize: vertical;
+        border: 2px solid #ffffff;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #ddd;
+        box-shadow: 2px 2px 4px #dcdcdc;
+        font-size: 16px;
+    }
+
+
+    .grid-container {
+        margin-top: 30px;
+        margin-left: 30px;
+        margin-right: 1px;
+        margin-bottom: 1px;
+      display: grid;
+      background-color: none;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      max-width: 400px;
+      max-height: 400px;
+      overflow: hidden;
+      padding: 8px;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .grid-item {
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .preview {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .see-more-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      opacity: 0.7; /* Updated opacity value */
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .see-more-button {
+      background: none;
+      border: none;
+      color: blue;
+      cursor: pointer;
+      color: black;
+      font-weight: 600;
+    }
+
+    .grid-item:hover .see-more-overlay {
+      opacity: 1;
+    }
+
+
+    .hidden {
+      display: none;
+    }
+
+    .extra-items .grid-item:nth-child(n+4) {
+      display: none;
+    }
+
+    .extra-items .grid-item.see-more-item {
+      display: block;
+    }
+
+    .p_here{
+        font-weight: 500;
+        color:#0868b7;
+        margin-left:70px;
+        font-size:14px;
+        margin-bottom: 0px;
+        margin-top: 20px;
+    }
+
+    .post_time{
+        color:grey;
+        font-size: 10px; 
+        position:absolute;
+        right: 15px;
+        bottom:0px;
+        font-weight: bold;
+    }
+    
+    @media (max-width: 750px) {
+        .actual-message {
+        margin-right: 50px;
+    }
+    }
+    @media (max-width: 650px) {
+        .actual-message {
+        margin-right: 40px;
+        font-size: 15px;
+    }
+    }
+    @media (max-width: 550px) {
+        .actual-message {
+        margin-right: 30px;
+    }
+    }
+    @media (max-width: 460px) {
+        .actual-message {
+        margin-right: 20px;
+        font-size: 14px;
+        margin-left: 45px;
+    }
+    .p_here{
+        margin-left: 45px;
+        }
+    }
+    @media (max-width: 400px) {
+        .actual-message {
+        margin-right: 15px;
+    }
+    }
+    
+    @media (max-width: 480px) {
+    .see-more-button {
+        font-size: 14px;
+    }
+    }
+    @media (max-width: 391px) {
+        .see-more-button {
+        font-size: 12px;
+    }
+    }
+
+    @media (max-height: 942px) and (max-width: 942px) {
+       .carousel-inner{
+        max-height: 200px;
+        width: 100%;
+    }
+    }
+
+    @media (max-height: 744px) and (max-width: 744px) {
+       .carousel-inner{
+        max-height: 170px;
+        width: 100%;
+    }
+    }
+    @media (max-height: 480px) and (max-width: 480px) {
+       .carousel-inner{
+        max-height: 140px;
+        width: 100%;
+    }
+    }
+    @media (max-height: 458px) and  (max-width: 458px) {
+       .carousel-inner{
+        max-height: 130px;
+        width: 100%;
+    }
+    }
+
+    @media (max-height: 500px) {
+        .message{
+            margin-right: 2px;
+        }
+    }
+    @media (max-width: 372px) {
+        .p_here{
+           font-size: 13px;
+        }
+    }
+
+</style>
+</head>
+
+<div id="chat-container" style="padding-top: 130px;" >
+    <div id="chat-messages">
+            <div class="message" {{#if this.Send}} style="background-color:rgb(123, 180, 230);margin-left:auto;border-radius: 20px 20px 0px 20px;" {{/if}} id="{{this.MessageId}}">
+                <div class="user-circle">
+                    <img class="user-image profileImageAlternate" src="/user-images/{{enquiries.user_id}}.jpg" alt="User Image">
+                </div>
+                <div style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="user-name">{{enquiries.Name_IN}}</div>
+
+                    {{#if multimedia}}
+                        <div class="grid-container extra-items">
+                            {{#if ImagePresent}}
+                                {{#each enquiries.ImageNames}}
+                                    <div class="grid-item">
+                                        <img class="preview" src="/ask-admin/{{../enquiries.user_id}}/{{../enquiries._id}}/{{this}}" alt="Image {{@index}}">
+                                    </div>
+                                {{/each}}
+                            {{/if}}
+
+                            {{#if VideoPresent}}
+                                {{#each enquiries.VideoNames}}
+                                    <div class="grid-item">
+                                        <video class="preview" controls>
+                                            <source src="/ask-admin/{{../enquiries.user_id}}/{{../enquiries._id}}/{{this}}" type="video/mp4">
+                                        </video>
+                                    </div>
+                                {{/each}}
+                            {{/if}}
+
+                            <!-- Display "See more" only if there are more than three items -->
+                            {{#if (gt (add (length this.ImageNames) (length this.VideoNames)) 3)}}
+                                <div class="grid-item see-more-item hidden">
+                                    <div class="see-more-overlay">
+                                        <button class="see-more-button" onclick="location.href='your_redirected_page.html'">See more</button>
+                                    </div>
+                                </div>
+                            {{/if}}
+                        </div>
+                    {{/if}}
+
+                    <div class="actual-message">{{{enquiries.content}}}</div>
+                    <p class="p_here" >posted time : {{enquiries.timestamp}}</p>
+                </div>
+            </div>
+    </div>
+</div>
+    
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const profileImages = document.querySelectorAll('.profileImageAlternate');
+        profileImages.forEach(img => {
+            const imageUrl = img.src;
+            fetch(imageUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        img.src = "/user-images/user.png";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching image:", error);
+                    img.src = "/user-images/user.png";
+                });
+        });
+    });
+</script>

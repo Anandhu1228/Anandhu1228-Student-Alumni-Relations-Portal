@@ -1,0 +1,68 @@
+<style>
+
+    body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-color: rgb(255, 255, 255);
+        background-attachment: fixed;
+    }
+
+    .account_heading_passlog{
+        font-weight: 600;
+        margin-bottom: 40px;
+    }
+
+    .li_item{
+        font-weight: 600px;
+        font-size: 18px;
+    }
+
+     @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo_transparent1.png');
+            background-size: 100% ;
+        }
+        .account_heading_passlog{
+            font-size: 20px;
+        }
+    }
+    @media (max-width: 421px) {
+        .account_heading_passlog{
+            font-size: 17px;
+        }
+    }
+    @media (max-width: 485px) {
+        .li_item{
+        font-size: 16px;
+    }
+    }
+    @media (max-width: 419px) {
+        .li_item{
+        font-size: 15px;
+    }
+    }
+    @media (max-width: 392px) {
+        .li_item{
+        font-size: 14px;
+    }
+    }
+</style>
+
+
+<section style="padding-top: 100px;">
+    <div class="row">
+        <div class="col-md-6 m-auto">
+            <div class="container mt-5 pl-5">
+                <h2 class="account_heading_passlog">USER LOGGED LOGS</h2>
+                <ul>
+                {{#each formattedLogs}}
+                    <li class="li_item">{{this}}</li>
+                {{/each}}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+

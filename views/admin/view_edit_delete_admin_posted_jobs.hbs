@@ -1,0 +1,181 @@
+<style>
+    body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .btn_view_edit_job{
+        width: 90px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 10px;
+        transition: background-color 0.3s ease;
+    }
+    .btn_view_edit_job_delete{
+        margin-left: 10px;
+    }
+    .btn_view_edit_job_request{
+        margin-left: 10px;
+        width: 150px;
+    }
+    .btn_view_edit_job:hover{
+        background-color:  rgb(123, 180, 230);
+        color: rgb(38, 82, 164);
+    }
+
+    .jobsssdata{
+        margin-top: 50px; 
+        background-color: rgba(226, 229, 230, 0.8);
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.6);
+        border-radius: 15px;
+        display:flex;
+        flex-direction: row;
+        align-items: center;
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    .jobss_datas{
+        margin:10px;
+        max-width: 510px;
+    }
+
+    .job_image_data{
+        object-fit: contain; 
+        border-radius: 10px; 
+        max-width: 500px;
+        margin-left: 60px;
+    }
+
+    .labelled_job_data{
+        font-weight: 500;
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    @media (max-width: 1200px) {
+        .btn_view_edit_job{
+    }
+    .jobss_datas{
+        max-width: 350px;
+    }
+    }
+    @media (max-width: 1000px) {
+        .jobsssdata{
+        flex-direction: column;
+    }
+    .job_image_data{
+        margin-left: 10px;
+        margin-bottom: 20px;
+    }
+    }
+    @media (max-width: 766px) {
+    .job_image_data{
+        margin-left: 1px;
+    }
+    }
+    @media (max-width: 530px) {
+    .job_image_data{
+        max-width: 400px;
+    }
+    }
+    @media (max-width: 430px) {
+    .job_image_data{
+        max-width: 350px;
+    }
+    .btn_view_edit_job{
+        width: 90px;
+        font-weight: 500;
+        padding: 8px;
+    }
+    .btn_view_edit_job_edit{
+        width: 80px;
+    }
+    .btn_view_edit_job_request{
+        margin-left: 7px;
+        width: 130px;
+    }
+    }
+    @media (max-width: 380px) {
+    .job_image_data{
+        max-width: 320px;
+    }
+    }
+     @media (max-width: 397px) {
+    .jobss_datas{
+        padding:8px;
+        max-width: 300px;
+    }
+    }
+    
+
+</style>
+
+<section class="container" style="padding-top: 80px;">
+    {{#each jobs}}
+    <div class="jobsssdata">
+        <div class="jobss_datas" >
+            <h6><strong>Company Name</strong></h6>
+            <p class="card-text labelled_job_data">{{this.CompanyName}}</p>
+            {{#if this.CompanyDescription}}
+            <h6><strong>Company Description</strong></h6>
+            <p class="card-text labelled_job_data">{{this.CompanyDescription}}</p>
+            {{/if}}
+            <h6><strong>Job Role</strong></h6>
+            <p class="card-text labelled_job_data">{{this.Jobrole}}</p><br>
+            {{#if this.jobDescription}}
+            <h6><strong>Job Description</strong></h6>
+            <p class="card-text labelled_job_data">{{this.jobDescription}}</p><br>
+            {{/if}}
+            <h6><strong>Eligibility</strong></h6>
+            <p class="card-text labelled_job_data">{{this.Eligibility}}</p>
+            <div class="button-container">
+                <a href="/admin/edit_admin_job/{{this._id}}"  class="btn btn_view_edit_job btn_view_edit_job_edit">Edit</a>
+                <a href=""  class="btn btn_view_edit_job btn_view_edit_job_delete" onclick="deleteAdminJob('{{this._id}}')">Delete</a>
+                <a href="/admin/view_admin_job_requests/{{this._id}}"  class="btn btn_view_edit_job btn_view_edit_job_request">view requests</a>
+            </div>  
+        </div>
+        {{#if this.jobImage}}
+            <div>
+                <img class="job_image_data" src="/job-images/{{this._id}}.jpg" alt="No image available">   
+            </div>
+        {{/if}}
+    </div>
+    {{/each}}
+</section>
+<script>
+    function deleteAdminJob(jobId) {
+        if (confirm("Do you want to delete this Job from the Portal?")) {
+            $.ajax({
+            url: '/admin/delete_admin_job_form_portal',
+            method: 'post',
+            data: {
+                JoB: jobId,
+            },
+            success: function (response) {
+                if (response.deleteJob) {
+                location.reload();
+                }
+            },
+            });
+        }
+    }
+</script>
