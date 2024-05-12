@@ -1,0 +1,470 @@
+<style>
+    body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .common_feature{
+        background-color: rgb(199, 205, 207);
+        border-radius: 6px;
+        margin-top: 15px;
+        margin-bottom: 25px;
+        padding: 25px;
+        padding-left: 25px;
+        padding-bottom: 10px;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+    .common_feature:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    .rectified_p{
+        font-weight: bold;
+        font-size: 14px;
+        color: rgb(6, 116, 14);
+    }
+    .All_Notif{
+
+    }
+    .text_content{
+        font-weight: 600;
+    }
+    .all_a_here{
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+    }
+    .all_a_here:hover{
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+    }
+    .profile-pic-chat {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+        object-fit: cover;
+    }
+
+    .pass_change_notif{
+    }
+    .btn_confirm_pass_updation{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        padding: 5px;
+        font-size: 15px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        font-weight: bold;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .btn_confirm_pass_updation:hover{
+        background-color: rgb(46, 98, 194);
+        color: white;
+        text-decoration: none;
+    }
+
+    .spacer{
+        background-color: rgb(46, 98, 194);
+        color: white;
+        border-radius: 0px 20px 0px 20px;
+        padding: 5px;
+        font-weight: bold;
+        margin-top: 70px;
+        margin-bottom: 70px;
+        text-align: center;
+    }
+
+    .post_add_notif{
+        
+    }
+    .admin_view_privatechat{
+    }
+    .mentor_add_notif{
+        
+    }
+    .mentor_got_reply_notif{
+        
+    }
+    .user_view_profile_notif{
+        
+    }
+    .jobs_add_notif{
+        
+    }
+    .interns_add_notif{
+        
+    }
+    .post_like_notif{
+        
+    }
+    .groupchat_new_notif{
+        
+    }
+    .new_message_notif{
+        
+    }
+    .new_messenger_notif{
+        
+    }
+    .new_admin_broadcast_notif{
+        
+    }
+    .new_admin_personal_notif{
+
+    }
+
+    .container{
+        padding-top: 200px;
+    }
+
+     @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+        .container{
+            padding-top: 150px;
+        }
+    }
+    @media (max-width: 549px) {
+        .text_content{
+            font-size: 14px;
+        }
+        .btn_confirm_pass_updation{ 
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+        }
+    }
+</style>
+
+<section class="container" >
+    {{#each firstNotification}}
+    <div class="All_Notif" >
+
+        {{#if upass_diff}}
+            <div class="pass_change_notif common_feature">
+                <p class="text_content">Your password has been updated. is that you or done with your permission?</p>
+                <a href="javascript:void(0)" class=" btn_confirm_pass_updation" onclick="confirmUpdatePassYes()">yes</a>
+                <a href="/confirm_update_pass_no" style="margin-left: 20px;" class=" btn_confirm_pass_updation" >no</a>
+            </div>
+        {{/if}}
+
+        {{#if adminViewConsentPending}}
+            <div class="admin_view_privatechat common_feature">
+                <p class="text_content">Admin view your deleted private with someone.Is it with your conscent.</p>
+                <a href="javascript:void(0)" class=" btn_confirm_pass_updation" onclick="confirmPrivatechatAccessPassYes()">yes</a>
+                <a href="/confirm_privatechat_access_pass_no" style="margin-left: 20px;" class=" btn_confirm_pass_updation">no</a>
+                <a href="/admin_view_detail_onechat" class=" btn_confirm_pass_updation" style="margin-left: 20px;">view details</a>
+            </div>
+        {{/if}}
+
+        {{#if new_mentor_reply_notif}}
+            <a class="all_a_here" href="/mentorshipportal">
+                <div class="mentor_got_reply_notif common_feature">
+                    <p class="text_content">You got reply for {{mentorQuestionNumbers}} question you posted in mentorship portal since you left</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if new_admin_mess_notif}}
+            <a class="all_a_here" href="/one_on_admin_chat/{{../admin_id}}">
+                <div class="new_admin_personal_notif common_feature">
+                    <p class="text_content">you got {{total_new_Admin_mess}} direct message from admin.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if new_messenger_count_notif}}
+            <div class="new_messenger_notif common_feature">
+                {{#each newmessages}}
+                    <div style="display: flex;align-items: center;">
+                        <a style="text-decoration: none;" href="/view-profile/{{this.id}}">
+                            <img class="profile-pic-chat profileImageAlternate" src="/user-images/{{this.id}}.jpg" alt="User Image">
+                        </a>
+                        <a class="all_a_here" href="/chatwith">
+                            <p class="text_content" style="margin-bottom: 0px;">You got a new message from {{this.name}}</p>
+                        </a>
+                    </div>
+                {{/each}}
+            </div>
+        {{/if}}
+
+        {{#if new_admin_broad_notif}}
+            <a class="all_a_here" href="/one_on_admin_broadcast">
+                <div class="new_admin_broadcast_notif common_feature">
+                    <p class="text_content">You nave {{admin_broadcast}} new unreaded  broadcasted messages from admin.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if new_mess_notif}}
+            <a class="all_a_here" href="/chatwith">
+                <div class="new_message_notif common_feature">
+                    <p class="text_content">You nave {{total_new_mess}} new unreaded messages in your chat.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if job_notif}}
+            <a class="all_a_here" href="/jobportal">
+                <div class="jobs_add_notif common_feature">
+                    <p class="text_content">{{jobcount}} new jobs posted since you left from job portal.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if groupchat_notif}}
+            <a class="all_a_here" href="/groupchat">
+                <div class="groupchat_new_notif common_feature">
+                    <p class="text_content">There are unchecked {{groupchatcount}} new groupchat messaged for you.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if intern_notif}}
+            <a class="all_a_here" href="/internshipportal">
+                <div class="interns_add_notif common_feature">
+                    <p class="text_content">{{interncount}} new internship requests appears since you left from internship portal.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if mentor_notif}}
+            <a class="all_a_here" href="/mentorshipportal">
+                <div class="mentor_add_notif common_feature">
+                    <p class="text_content">You have unchecked new {{NumberInt}} mentorship questions left.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if like_notif}}
+            <a class="all_a_here" href="/view-own-post">
+                <div class="post_like_notif common_feature">
+                    <p class="text_content">{{like_notify_number}} new users liked your posts</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if post_notif}}
+            <a class="all_a_here" href="/view-other-post">
+                <div class="post_add_notif common_feature">
+                    <p class="text_content">You have unchecked {{postcount}} new posts</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if new_view_notif}}
+            <a class="all_a_here" href="/profile_viewers">
+                <div class="user_view_profile_notif common_feature">
+                    <p class="text_content">{{new_view_user_count}} new users viewed your profile.</p>
+                </div>
+            </a>
+        {{/if}}
+    </div>
+    {{/each}}
+
+    <div class="spacer"> Old Notifications </div>
+
+    {{#each remainingNotification}}
+    <div class="All_Notif" >
+
+        {{#if upass_diff}}
+            <div class="pass_change_notif common_feature">
+                <p class="text_content">Your password has been updated. is that you or done with your permission?</p>
+                <p class="rectified_p">rectified &#10004;</p>
+            </div>
+        {{/if}}
+
+        {{#if adminViewConsentPending}}
+            <div class="admin_view_privatechat common_feature">
+                <p class="text_content">Admin view your deleted private with someone.Is it with your conscent.</p>
+                <p class="rectified_p">rectified &#10004;</p>
+            </div>
+        {{/if}}
+
+        {{#if new_mentor_reply_notif}}
+            <a class="all_a_here" href="/mentorshipportal">
+                <div class="mentor_got_reply_notif common_feature">
+                    <p class="text_content">You got reply for {{mentorQuestionNumbers}} question you posted in mentorship portal since you left</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if new_admin_mess_notif}}
+            <a class="all_a_here" href="/one_on_admin_chat/{{../admin_id}}">
+                <div class="new_admin_personal_notif common_feature">
+                    <p class="text_content">you got {{total_new_Admin_mess}} direct message from admin.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if new_messenger_count_notif}}
+            <div class="new_messenger_notif common_feature">
+                {{#each newmessages}}
+                    <div style="display: flex;align-items: center;">
+                        <a style="text-decoration: none;" href="/view-profile/{{this.id}}">
+                            <img class="profile-pic-chat profileImageAlternate" src="/user-images/{{this.id}}.jpg" alt="User Image">
+                        </a>
+                        <a class="all_a_here" href="/chatwith">
+                            <p class="text_content" style="margin-bottom: 0px;">You got a new message from {{this.name}}</p>
+                        </a>
+                    </div>
+                {{/each}}
+            </div>
+        {{/if}}
+
+        {{#if new_admin_broad_notif}}
+            <a class="all_a_here" href="/one_on_admin_broadcast">
+                <div class="new_admin_broadcast_notif common_feature">
+                    <p class="text_content">You nave {{admin_broadcast}} new unreaded  broadcasted messages from admin.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if new_mess_notif}}
+            <a class="all_a_here" href="/chatwith">
+                <div class="new_message_notif common_feature">
+                    <p class="text_content">You nave {{total_new_mess}} new unreaded messages in your chat.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if job_notif}}
+            <a class="all_a_here" href="/jobportal">
+                <div class="jobs_add_notif common_feature">
+                    <p class="text_content">{{jobcount}} new jobs posted since you left from job portal.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if groupchat_notif}}
+            <a class="all_a_here" href="/groupchat">
+                <div class="groupchat_new_notif common_feature">
+                    <p class="text_content">There are unchecked {{groupchatcount}} new groupchat messaged for you.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if intern_notif}}
+            <a class="all_a_here" href="/internshipportal">
+                <div class="interns_add_notif common_feature">
+                    <p class="text_content">{{interncount}} new internship requests appears since you left from internship portal.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if mentor_notif}}
+            <a class="all_a_here" href="/mentorshipportal">
+                <div class="mentor_add_notif common_feature">
+                    <p class="text_content">You have unchecked new {{NumberInt}} mentorship questions left.</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if like_notif}}
+            <a class="all_a_here" href="/view-own-post">
+                <div class="post_like_notif common_feature">
+                    <p class="text_content">{{like_notify_number}} new users liked your posts</p>
+                </div>
+            </div>
+        {{/if}}
+
+        {{#if post_notif}}
+            <a class="all_a_here" href="/view-other-post">
+                <div class="post_add_notif common_feature">
+                    <p class="text_content">You have unchecked {{postcount}} new posts</p>
+                </div>
+            </a>
+        {{/if}}
+
+        {{#if new_view_notif}}
+            <a class="all_a_here" href="/profile_viewers">
+                <div class="user_view_profile_notif common_feature">
+                    <p class="text_content">{{new_view_user_count}} new users viewed your profile.</p>
+                </div>
+            </a>
+        {{/if}}
+    </div>
+    {{/each}}
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const profileImages = document.querySelectorAll('.profileImageAlternate');
+        profileImages.forEach(img => {
+            const imageUrl = img.src;
+            fetch(imageUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        img.src = "/user-images/user.png";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching image:", error);
+                    img.src = "/user-images/user.png";
+                });
+            });
+        });
+    </script>
+
+<script>
+        function reloadBaseRoot() {
+            fetch('/reload_root_on_leave_notification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(),
+            });
+        }
+        window.addEventListener('beforeunload', reloadBaseRoot);
+    </script>
+    
+<script>
+    window.addEventListener('pageshow', function(event) {
+        var historyTraversal = event.persisted || (typeof window.performance != 'undefined' && window.performance.navigation.type === 2);
+        if (historyTraversal) {
+            window.location.reload();
+        }
+    });
+</script>
+<script>
+    function confirmUpdatePassYes() {
+    $.ajax({
+        url: '/confirm_update_pass_yes',
+        method: 'post',
+        data: {},
+        success: function (response) {
+            if (response.success) {
+                location.reload();
+            }
+        },
+    });
+}
+
+
+    function confirmPrivatechatAccessPassYes() {
+    $.ajax({
+        url: '/confirm_privatechat_access_pass_yes',
+        method: 'post',
+        data: {},
+        success: function (response) {
+            if (response.success) {
+                location.reload();
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+            // Handle error if needed
+        }
+        });
+    }
+
+
+</script>

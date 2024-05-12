@@ -1,0 +1,82 @@
+<style>
+  body {
+    background-color: rgba(0, 0, 0, 0.5); /* Dimmer background */
+    overflow: hidden; /* Disable scrolling */
+  }
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+  }
+  
+  .btn_react,.btn_Logout{
+    border-radius: 6px;
+    color: white;
+    padding: 10px;
+    box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+    font-weight: bold;
+    background-color: rgb(92, 92, 179);
+    transition: background-color 0.3s ease;
+
+  }
+
+  .btn_react:hover,.btn_Logout:hover{
+    background-color: rgb(153, 153, 201);
+    color: #fff;
+  }
+
+  .button_container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+  }
+
+</style>
+
+
+<div class="popup">
+  <h2>Account disabled</h2>
+  <p>You had disabled your account. To continue again reactivate it.</p>
+  <div class="button_container">
+    <button class="btn btn_react" onclick="confirmReactivate('{{userId}}')">Reactivate</button>
+    <a href="/logout" class="btn btn_Logout">logout</a>
+  </div>
+</div>
+
+<script>
+
+function confirmReactivate(userId) {
+    if (confirm("Are you sure you want to reactivate your account?")) {
+      ReactivateBtn(userId);
+    }
+  }
+
+function ReactivateBtn(userId) {
+    fetch('/reactivate_account', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({userId:userId})
+    })
+        .then(response => {
+            if (response.ok) {
+                // Reload the page
+                window.location.reload();
+            } else {
+                console.error('Failed to toggle switch');
+            }
+        })
+        .catch(error => {
+            console.error('Error toggling switch:', error);
+        });
+}
+</script>

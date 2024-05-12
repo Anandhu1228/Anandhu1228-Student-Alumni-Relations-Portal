@@ -1,0 +1,1151 @@
+<style>
+.top_row{
+    display:flex;
+    flex-direction: row;
+    padding-top: 220px;
+}
+.col_top_left{
+    width: 50%;
+    position: relative;
+    margin-left: 100px;
+    margin-top: 150px;
+    margin-right: auto;
+}
+.col_top_left h2{
+    font-size: 35px;
+}
+.col_top_left h3{
+    font-size: 25px;
+    color:rgb(93, 138, 222);
+    margin-top: 30px;
+    font-weight: 300;
+}
+.col_top_left ::after{
+    content: '';
+    margin-top: -30px;
+    width: 10px;
+    height: 120%;
+    background: linear-gradient(#fff,rgb(93, 138, 222));
+    position: absolute;
+    left: -40px;
+    top: -3px;
+}
+.col_top_right{
+    position: relative;
+    width: 50%;
+    margin-left: auto;
+}
+.top_image{
+    width: 85%;
+}
+.right_color_box{
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: linear-gradient(#fff,rgb(93, 138, 222));
+    border-radius: 80px 0px 0px 400px;
+    height: 100%;
+    width: 85%;
+    z-index : -1;  
+}
+
+.logo_image_div{
+    display: none;
+}
+
+.about1{
+    width: 100%;
+    margin-top: 230px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 25px; 
+}
+.about2{
+    width: 100%;
+    margin-top: 230px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 25px; 
+    display: none;
+}
+
+.image_about{
+    width: 50%;
+}
+.image_about img{
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+}
+
+.content_about{
+    width:50%;
+    padding: 50px;
+    padding-top: 0px;
+}
+.content_about h1{
+    letter-spacing: 2.5px;
+    margin-top: 40px;
+    color: #222;
+    font-weight: 500;
+}
+.content_about p{
+    font-size: 22px;
+    margin-top: 45px;
+    line-height: 1.5;
+}
+
+.bold-line {
+    border: none;
+    border-top: 5px solid rgb(93, 138, 222);
+    margin: 20px 0;
+    margin-top: 5px;
+    width: 30%;
+}
+
+.activities{
+    background-color:rgb(93, 138, 222);
+    width:97%;
+    margin: auto;
+    margin-top: 170px;
+    padding: 50px;
+}
+.activity_heading_div{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.activity_heading{
+    font-size: 40px;
+    letter-spacing: 2.5px;
+    color:#fff;
+    font-weight: 550;
+}
+.activity_box{
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.activity_box_entry{
+    width:300px;
+    height: 370px;
+    background: radial-gradient(circle at top left,transparent 340px,rgba(255,255,255,.3)),radial-gradient(circle at bottom right,transparent 340px, rgba(255,255,255,.3));
+    margin:15px;
+    padding:5px;
+    text-align: center;
+    transition: .3s ease-in-out;
+    color:#fff;
+    margin-top: 45px;
+}
+.activity_box_entry i{
+    font-size: 40px;
+    margin-top: 25px;
+}
+.activity_box_entry h2{
+    margin-top: 30px;
+    line-height: 1.5;
+    font-size: 28px; 
+}
+.activity_box_entry p{
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+
+.contributions{
+    background-color:rgb(93, 138, 222);
+    width:97%;
+    margin: auto;
+    margin-top: 270px;
+    padding: 50px;
+}
+.contributions_heading_div{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.contributions_heading{
+    font-size: 40px;
+    letter-spacing: 2.5px;
+    color:#fff;
+    font-weight: 550;
+}
+.contributions_box{
+    flex-wrap: wrap;
+    padding-left: 300px;
+    padding-right: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contributions_box_entry{
+    width:300px;
+    height: 370px;
+    background: radial-gradient(circle at top left,transparent 340px,rgba(255,255,255,.3)),radial-gradient(circle at bottom right,transparent 340px, rgba(255,255,255,.3));
+    margin:15px;
+    padding:20px;
+    text-align: center;
+    transition: .3s ease-in-out;
+    color:#fff;
+    margin-top: 45px;
+}
+.contributions_box_entry i{
+    font-size: 40px;
+    margin-top: 25px;
+}
+.contributions_box_entry h2{
+    margin-top: 30px;
+    line-height: 1.5;
+    font-size: 28px; 
+}
+.contributions_box_entry p{
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+
+.contact{
+    background-color:rgb(93, 138, 222);
+    width:97%;
+    margin: auto;
+    margin-top: 270px;
+    padding: 50px;
+}
+.contact_heading_div{
+    text-align: center;
+    margin-bottom: 50px;
+}
+.contact_heading{
+     font-size: 40px;
+    letter-spacing: 2.5px;
+    color:#fff;
+    font-weight: 550;
+}
+.contact-info{
+    margin-left: 40px;
+    font-size: 25px;
+    margin-top: 100px;
+    border-radius: 15px 15px 15px 15px;
+    color:white;
+}
+.contact-info-content h2{
+    margin-bottom:30px;
+    margin-left: 20px;
+}
+.contact-info-content p{
+    margin-bottom:30px;
+    margin-left: 10px;
+    font-size: 20px;
+}
+.contact-info-item{
+    display: flex;
+    margin-bottom:30px;
+}
+.contact-info-icon{
+    height: 70px;
+    width:70px;
+    text-align: center;
+}
+
+/*body{
+    background-color: #ffffff;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+        background-image: url('/images/logo_transparent1.png');
+    background-size: 80% auto;
+    background-position: center bottom 60%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+@media (max-width: 768px) {
+    body {
+        background-image: url('/images/logo1.png');
+        background-position: center bottom 40%;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        background-image: url('/images/logo1.png');
+        background-position: center bottom 40%;
+    }
+}*/
+
+@media (max-width: 1810px) {
+
+    .top_row{
+        display:flex;
+        flex-direction: row;
+        padding-top: 170px;
+    }
+    .col_top_left{
+        width: 50%;
+        position: relative;
+        margin-left: 100px;
+        margin-top: 70px;
+        margin-right: auto;
+    }
+
+   .about1
+   {
+        margin-top: 230px;
+        padding: 25px; 
+    }
+
+    .image_about{
+        width: 50%;
+    }
+    .image_about img{
+        width: 100%;
+    }
+
+    .content_about{
+        width:50%;
+        padding: 30px;
+        padding-top: 0px;
+    }
+    .content_about h1{
+        letter-spacing: 2.5px;
+        margin-top: 40px;
+        color: #222;
+        font-weight: 500;
+    }
+    .content_about p{
+        font-size: 20px;
+        margin-top: 40px;
+        line-height: 1.5;
+    }
+    .about{
+        margin-top: 110px;
+    }
+    
+
+    .activities{
+        margin-top: 100px;
+    }
+
+    .activity_box{
+        padding: 50px;
+        padding-left: 190px;
+        padding-right: 190px;
+    }
+
+    .contributions{
+        margin-top: 100px;
+    }
+
+    .contributions_box{
+        padding: 50px;
+        padding-left: 190px;
+        padding-right: 190px;
+    }
+
+    .contact{
+        margin-top: 100px;
+    }
+
+    .bold-line {
+        border: none;
+        border-top: 5px solid rgb(93, 138, 222);
+        margin: 20px 0;
+        margin-top: 5px;
+        width: 33%;
+    }
+}
+@media (max-width: 1560px) {
+   .about1
+   {
+        margin-top: 50px;
+        padding: 25px; 
+    }
+
+    .image_about{
+        width: 40%;
+    }
+    .image_about img{
+        width: 100%;
+    }
+
+    .col_top_left ::after{
+        height: 100%;
+    }
+
+    .content_about{
+        width:60%;
+        padding: 30px;
+        padding-top: 0px;
+    }
+    .content_about h1{
+        letter-spacing: 2.5px;
+        margin-top: 26px;
+        font-size: 24px;
+    }
+    .content_about p{
+        font-size: 18px;
+        font-weight: 500;
+        margin-top: 15px;
+        line-height: 1.5;
+    }
+
+    .bold-line {
+        border: none;
+        margin-top: 3px;
+        border-top: 5px solid rgb(93, 138, 222);
+        width: 20%;
+    }
+
+    .activities{
+        margin-top: 70px;
+    }
+
+    .activity_box{
+        padding: 50px;
+    }
+
+    .contributions{
+        margin-top: 90px;
+    }
+
+    .contributions_box{
+        padding: 50px;
+    }
+
+    .contact{
+        margin-top: 90px;
+    }
+    
+}
+
+@media (max-width: 1382px) {
+
+    .col_top_left{
+        width: 50%;
+        margin-left: 100px;
+        margin-top: 100px;
+    }
+    .col_top_left h2{
+        font-size: 30px;
+    }
+
+    .col_top_left h3{
+        font-size: 20px;
+        color:rgb(93, 138, 222);
+        margin-top: 30px;
+        font-weight: 300;
+    }
+
+    .about2{
+        display: flex;
+        margin-top: 200px;
+        padding: 0px; 
+        flex-direction: column;
+    }
+
+   .about1
+   {
+        display: none;
+    }
+
+    .image_about{
+        width: 70%;
+        margin-bottom: 20px;
+    }
+    .image_about img{
+        width: 100%;
+    }
+
+    .col_top_left ::after{
+        height: 100%;
+    }
+
+    .content_about{
+        width:70%;
+        padding: 10px;
+        padding-top: 0px;
+    }
+    .content_about_h1{
+        letter-spacing: 2.5px;
+        margin-top: 26px;
+        font-size: 28px;
+    }
+    .content_about p{
+        font-size: 20px;
+        font-weight: 500;
+        margin-top: 18px;
+        line-height: 1.5;
+    }
+
+    .bold-line {
+        border: none;
+        margin-top: 3px;
+         border-top: 5px solid rgb(93, 138, 222);
+        width: 100%;
+    }
+
+    .activities{
+        margin-top: 70px;
+    }
+
+    .activity_box{
+        padding: 50px;
+    }
+
+    .contributions{
+        margin-top: 90px;
+    }
+
+    .contributions_box{
+        padding: 50px;
+    }
+
+    .contact{
+        margin-top: 90px;
+    }
+    
+    
+}
+
+@media (max-width: 889px) {
+
+    .top_row{
+        display:flex;
+        flex-direction: row;
+        padding-top: 190px;
+    }
+
+    .col_top_left{
+        width: 60%;
+        margin-left: 100px;
+        margin-top: 50px;
+    }
+    .col_top_left h2{
+        font-size: 30px;
+    }
+    
+    .col_top_left h3{
+        font-size: 19px;
+        color:rgb(93, 138, 222);
+        margin-top: 25px;
+        font-weight: 500;
+    }
+    .col_top_right{
+        width: 40%;
+    }
+
+    .top_image{
+        width: 100%;
+    }
+    .right_color_box{
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: linear-gradient(#fff,rgb(93, 138, 222));
+        border-radius: 80px 0px 0px 185px;
+        height: 100%;
+        width: 100%;
+        z-index : -1;  
+    }
+
+   .about2{
+        display: flex;
+        margin-top: 120px;
+        padding: 0px; 
+    }
+
+   .about1
+   {
+        display: none;
+    }
+
+    .image_about{
+        width: 85%;
+    }
+    .image_about img{
+        width: 100%;
+    }
+
+    .col_top_left ::after{
+        height: 110%;
+    }
+
+    .content_about{
+        width:85%;
+        padding: 10px;
+        padding-top: 0px;
+    }
+    .content_about_h1{
+        letter-spacing: 2.5px;
+        margin-top: 26px;
+        font-size: 28px;
+        font-weight: 600;
+    }
+    .content_about p{
+        font-size: 20px;
+        font-weight: 500;
+        margin-top: 18px;
+        line-height: 1.5;
+    }
+
+    .bold-line {
+        border: none;
+        margin-top: 3px;
+         border-top: 5px solid rgb(93, 138, 222);
+        width: 100%;
+    }
+
+    .activities{
+        margin-top: 70px;
+    }
+
+    .activity_box{
+        padding: 0px;
+    }
+
+    .activity_box_entry{
+        width:270px;
+        height: 400px;
+        background: radial-gradient(circle at top left,transparent 340px,rgba(255,255,255,.3)),radial-gradient(circle at bottom right,transparent 340px, rgba(255,255,255,.3));
+        margin:15px;
+        padding:10px;
+        text-align: center;
+        transition: .3s ease-in-out;
+        color:#fff;
+        margin-top: 45px;
+    }
+    .activity_box_entry i{
+        font-size: 40px;
+        margin-top: 25px;
+    }
+    .activity_box_entry h2{
+        margin-top: 30px;
+        line-height: 1.5;
+        font-size: 26px; 
+    }
+    .activity_box_entry p{
+        margin: 10px;
+        margin-top: 20px;
+        font-size: 20px;
+    }
+
+    .contributions{
+        margin-top: 90px;
+    }
+
+    .contributions_box{
+        padding: 0px;
+    }
+
+    .contributions_heading_div{
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .contributions_heading{
+        font-size: 40px;
+        letter-spacing: 2.5px;
+        color:#fff;
+        font-weight: 550;
+    }
+    
+    .contributions_box_entry{
+        width:270px;
+        height: 410px;
+        background: radial-gradient(circle at top left,transparent 340px,rgba(255,255,255,.3)),radial-gradient(circle at bottom right,transparent 340px, rgba(255,255,255,.3));
+        margin:15px;
+        padding:10px;
+        text-align: center;
+        transition: .3s ease-in-out;
+        color:#fff;
+        margin-top: 45px;
+    }
+    .contributions_box_entry i{
+        font-size: 40px;
+        margin-top: 25px;
+    }
+    .contributions_box_entry h2{
+         margin-top: 30px;
+        line-height: 1.5;
+        font-size: 26px;
+    }
+    .contributions_box_entry p{
+        margin: 10px;
+        margin-top: 20px;
+        font-size: 20px;
+    }
+
+    .contact{
+        margin-top: 90px;
+    }
+}
+
+@media (max-width: 746px) {
+
+    .top_row{
+        display:flex;
+        flex-direction: row;
+        padding-top: 190px;
+    }
+
+    .col_top_left{
+        width: 60%;
+        margin-left: 60px;
+        margin-top: 50px;
+    }
+    .col_top_left h2{
+        font-size: 27px;
+    }
+
+    .col_top_left ::after{
+        content: '';
+        margin-top: -30px;
+        width: 10px;
+        height: 130%;
+        background: linear-gradient(#fff,rgb(93, 138, 222));
+        position: absolute;
+        left: -40px;
+        top: -3px;
+    }
+    
+    .col_top_left h3{
+        font-size: 16px;
+        color:rgb(93, 138, 222);
+        margin-top: 25px;
+        font-weight: 500;
+    }
+    .col_top_right{
+        width: 40%;
+    }
+
+    .top_image{
+        width: 100%;
+    }
+    .right_color_box{
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: linear-gradient(#fff,rgb(93, 138, 222));
+        border-radius: 80px 0px 0px 185px;
+        height: 100%;
+        width: 100%;
+        z-index : -1;  
+    }
+
+   .about2{
+        display: flex;
+        margin-top: 120px;
+        padding: 0px; 
+    }
+
+   .about1
+   {
+        display: none;
+    }
+
+    .image_about{
+        width: 85%;
+    }
+    .image_about img{
+        width: 100%;
+    }
+
+    .col_top_left ::after{
+        height: 110%;
+    }
+
+    .content_about{
+        width:85%;
+        padding: 10px;
+        padding-top: 0px;
+    }
+    .content_about_h1{
+        letter-spacing: 2.5px;
+        margin-top: 26px;
+        font-size: 28px;
+        font-weight: 600;
+    }
+    .content_about p{
+        font-size: 20px;
+        font-weight: 500;
+        margin-top: 18px;
+        line-height: 1.5;
+    }
+
+    .bold-line {
+        border: none;
+        margin-top: 3px;
+         border-top: 5px solid rgb(93, 138, 222);
+        width: 100%;
+    }
+}
+
+@media (max-width: 604px) {
+
+    .top_row{
+        display:flex;
+        flex-direction: row;
+        padding-top: 150px;
+    }
+
+    .col_top_left{
+        width: 95%;
+        margin-left: 50px;
+        margin-top: 50px;
+    }
+    .col_top_left h2{
+        font-size: 22px;
+    }
+
+    .col_top_left ::after{
+        content: '';
+        margin-top: -30px;
+        width: 10px;
+        height: 100%;
+        background: linear-gradient(#fff,rgb(93, 138, 222));
+        position: absolute;
+        left: -45px;
+        top: 16px;
+    }
+    
+    .col_top_left h3{
+        font-size: 14px;
+        color:rgb(93, 138, 222);
+        margin-top: 25px;
+        font-weight: 500;
+    }
+    .col_top_right{
+        width: 3%;
+        margin-right: 5px;
+    }
+
+    .top_image{
+        width: 100%;
+        display: none;
+    }
+    .right_color_box{
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: linear-gradient(rgb(93, 138, 222),white);
+        border-radius: 0px 0px 0px 0px;
+        height: 100%;
+        width: 100%;
+        z-index : -1;  
+    }
+
+    .logo_image_div{
+        display: flex;
+        margin-top: 30px;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
+
+    .logo_image{
+       max-width: 100%;
+       max-height: 100%;
+    }
+
+   .about2{
+        display: flex;
+        margin-top: 50px;
+        padding: 0px; 
+    }
+
+   .about1
+   {
+        display: none;
+    }
+
+    .image_about{
+        width: 85%;
+    }
+    .image_about img{
+        width: 100%;
+    }
+
+    .col_top_left ::after{
+        height: 110%;
+    }
+
+    .content_about{
+        width:85%;
+        padding: 10px;
+        padding-top: 0px;
+    }
+    .content_about_h1{
+        letter-spacing: 2.5px;
+        margin-top: 26px;
+        font-size: 22px;
+        font-weight: 500;
+        margin-bottom: 0px;
+    }
+    .content_about p{
+        font-size: 16px;
+        font-weight: 500;
+        margin-top: 18px;
+        line-height: 1.5;
+    }
+
+    .bold-line {
+        border: none;
+        margin-top: 0px;
+         border-top: 5px solid rgb(93, 138, 222);
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .activities{
+        margin-top: 70px;
+    }
+
+    .activity_box{
+        padding: 0px;
+    }
+
+    .activity_heading{
+        font-size: 23px;
+        font-weight: 500;
+    }
+
+    .activity_box_entry{
+        width:270px;
+        height: 380px;
+        background: radial-gradient(circle at top left,transparent 340px,rgba(255,255,255,.3)),radial-gradient(circle at bottom right,transparent 340px, rgba(255,255,255,.3));
+        margin:15px;
+        padding:10px;
+        text-align: center;
+        transition: .3s ease-in-out;
+        color:#fff;
+        margin-top: 45px;
+    }
+    .activity_box_entry i{
+        font-size: 40px;
+        margin-top: 25px;
+    }
+    .activity_box_entry h2{
+        margin-top: 30px;
+        line-height: 1.5;
+        font-size: 23px; 
+    }
+    .activity_box_entry p{
+        margin: 15px;
+        margin-top: 20px;
+        font-size: 17px;
+    }
+
+    .contributions{
+        margin-top: 90px;
+    }
+
+    .contributions_box{
+        padding: 0px;
+    }
+
+    .contributions_heading_div{
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .contributions_heading{
+        font-size: 23px;
+        font-weight: 500;
+    }
+    
+    .contributions_box_entry{
+        width:270px;
+        height: 380px;
+        background: radial-gradient(circle at top left,transparent 340px,rgba(255,255,255,.3)),radial-gradient(circle at bottom right,transparent 340px, rgba(255,255,255,.3));
+        margin:15px;
+        padding:10px;
+        text-align: center;
+        transition: .3s ease-in-out;
+        color:#fff;
+        margin-top: 45px;
+    }
+    .contributions_box_entry i{
+        font-size: 40px;
+        margin-top: 25px;
+    }
+    .contributions_box_entry h2{
+        margin-top: 30px;
+        line-height: 1.5;
+        font-size: 23px; 
+    }
+    .contributions_box_entry p{
+        margin: 15px;
+        margin-top: 20px;
+        font-size: 17px;
+    }
+
+    .contact{
+        margin-top: 90px;
+    }
+
+    .contact_heading{
+        font-size: 23px;
+        font-weight: 500;
+    }
+    .contact-info{
+        margin-left: 0px;
+        font-size: 25px;
+        margin-top: 40px;
+        border-radius: 15px 15px 15px 15px;
+        color:white;
+    }
+    .contact-info-content h2{
+        margin-bottom:30px;
+        margin-left: 18px;
+    }
+    .contact-info-content p{
+        margin-bottom:30px;
+        margin-left: 10px;
+        font-size: 15px;
+    }
+    .contact-info-item{
+        display: flex;
+        margin-bottom:30px;
+    }
+    .contact-info-icon{
+        height: 70px;
+        width:70px;
+        text-align: center;
+    }
+}
+
+</style>
+
+<section class="top">
+    <div class="top_row">
+        <div class="col_top_left"> 
+            <h2>ALUMNI RELATION CELL<br>College of Engineering Chengannur</h2>
+            <h3>Official website of Alumni Relations Cell,<br> College of Engineering Chengannur</h3>
+        </div>
+        <div class="col_top_right">
+                <img src="https://arc.ceconline.edu/static/media/arc-logo.84bca8bc.png" class="top_image">
+                <div class=" right_color_box "></div>
+        </div>
+    </div>
+</section>
+
+<section class="logo_image_div">
+    <img class="logo_image" src="/images/logo.png" >
+</section>
+
+<section id="about" class="about1">
+    <div class="image_about">
+        <img src="https://ceconline.edu/wp-content/uploads/2022/07/pic1-01-scaled.jpeg">  
+    </div>
+    <div class="content_about">
+        <h1>ABOUT  US</h1>
+        <hr class="bold-line">
+        <p>Alumni Relation Cell of the College of Engineering Chengannur was established on July 2011. It mainly focuses on the development of Alumni support to do the continuing development of the institution's academics, research, placements, expansion and renewal of its faculties and providing scholarship and financial support to students.</p>
+        <p>Alumni Relation Cell works towards ensuring the mutual benefit of the alumni as well as the students. ARC helps the alumni in staying connected to their campus. ARC has been instrumental in organizing the Alumni Meets, Mentorship programme, regular guest lectures by distinguished alumni in the campus.</p>
+    </div>
+</section>
+
+<section id="about" class="about2">
+    <div class="content_about_h1_div">
+        <h1 class="content_about_h1">ABOUT  US</h1>
+        <hr class="bold-line">
+    </div>
+    <div class="image_about">
+        <img style="border-radius: 5px;" src="https://ceconline.edu/wp-content/uploads/2022/07/pic1-01-scaled.jpeg">  
+    </div>
+    <div class="content_about">
+        <p>Alumni Relation Cell of the College of Engineering Chengannur was established on July 2011. It mainly focuses on the development of Alumni support to do the continuing development of the institution's academics, research, placements, expansion and renewal of its faculties and providing scholarship and financial support to students.</p>
+        <p>Alumni Relation Cell works towards ensuring the mutual benefit of the alumni as well as the students. ARC helps the alumni in staying connected to their campus. ARC has been instrumental in organizing the Alumni Meets, Mentorship programme, regular guest lectures by distinguished alumni in the campus.</p>
+    </div>
+</section>
+
+<section class="activities" id="activities">
+    <div class="activity_heading_div">
+        <h1 class="activity_heading">ACTIVITIES</h1>
+    </div>
+    <div class="activity_box">
+        <div class="activity_box_entry">
+            <i class="fas fa-handshake"></i>
+            <h2>Alumni Meet</h2>
+            <p>The Alumni Relation Cell organizes alumni meet once in every 3 year to enhance alumni relation with college.</p>
+        </div>
+        <div class="activity_box_entry">
+            <i class="fa fa-graduation-cap"></i>
+            <h2>Scolarship Distribution</h2>
+            <p>Scholarships are given to 10 students of our college annually by our alumni members.</p>
+        </div>
+        <div class="activity_box_entry">
+            <i class="fas fa-database"></i>
+            <h2>Data Collection of Alumini Members</h2>
+            <p>Continuous collection of data regarding Alumni Members organized according to their batch.</p>
+        </div>
+    </div>
+</section>
+
+<section class="contributions" id="contributions">
+    <div class="contributions_heading_div">
+        <h1 class="contributions_heading">CONTRIBUTIONS</h1>
+    </div>
+    <div class="contributions_box">
+        <div class="contributions_box_entry">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <h2>Seminar Hall</h2>
+            <p>The Alumni Relation Cell organizes alumni meet once in every 3 year to enhance alumni relation with college.</p>
+        </div>
+        <div class="contributions_box_entry">
+            <i class="fa fa-graduation-cap"></i>
+            <h2>Scholarship for 10 students annually</h2>
+            <p>The Alumni Relation Cell organizes alumni meet once in every 3 year to enhance alumni relation with college.</p>
+        </div>
+        <div class="contributions_box_entry">
+            <i class="fas fa-desktop"></i>
+            <h2>Advanced computer lab</h2>
+            <p>The Alumni Relation Cell organizes alumni meet once in every 3 year to enhance alumni relation with college.</p>
+        </div>
+        <div class="contributions_box_entry">
+            <i class="fas fa-home"></i>
+            <h2>Sahapadikkoru veed</h2>
+            <p>Scholarships are given to 10 students of our college annually by our alumni members.</p>
+        </div>
+        <div class="contributions_box_entry">
+            <i class="fas fa-laptop-code"></i>
+            <h2>Computer lab</h2>
+            <p>Continuous collection of data regarding Alumni Members organized according to their batch.</p>
+        </div>
+    </div>
+</section>
+
+<section class="contact" id="contact">
+    <div class="contact_heading_div">
+        <h2 class="contact_heading">GET IN TOUCH</h2>
+    </div>
+    <div class="contact-info">
+        <div class="contact-info-item">
+            <div class="contact-info-icon">
+                <i class="fas fa-university"></i>
+            </div>
+            <div class="contact-info-content">
+                <h4 class="contact-info-h">Address</h4>
+                <p class="contact-info-p">College of Engineering Chengannur, <br>
+                    Kerala 689121</p>
+            </div>
+        </div>
+        <div class="contact-info-item">
+        <div class="contact-info-icon">
+            <i class="fas fa-phone"></i>
+        </div>
+        <div class="contact-info-content">
+            <h4 class="contact-info-h">Phone</h4>
+            <p class="contact-info-p">+91 9447324845</p>
+        </div>
+        </div> 
+        <div class="contact-info-item">
+        <div class="contact-info-icon">
+            <i class="fas fa-envelope"></i>
+        </div>
+        <div class="contact-info-content">
+            <h4 class="contact-info-h">Email</h4>
+            <p class="contact-info-p">alumnicell@ceconline.edu</p>
+        </div>
+        </div>
+    </div>
+</section>
