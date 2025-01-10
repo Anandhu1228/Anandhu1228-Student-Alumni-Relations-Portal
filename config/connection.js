@@ -16,7 +16,7 @@ const { MongoClient } = require("mongodb");
 
 let dbConnection;
 const mongoURI = "mongodb://0.0.0.0:27017/alumni";
-//const mongoURI = "mongodb+srv://anandhumohan2018:7QQr7qbtssOjzq5b@alumni.lf2wz2i.mongodb.net/?retryWrites=true&w=majority&appName=alumni";
+//const mongoURI = "mongodb+srv://axxxxxxxx2018:7xxxr7qbtsxxxxxsOjzq5b@axxxi.lxxx2i.mongodb.nxxt/?retxxrites=true&w=mxxxxappName=alumni";
 
 module.exports = {
   connectToDb: (cb) => {
