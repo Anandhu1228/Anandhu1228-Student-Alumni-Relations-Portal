@@ -1,0 +1,149 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+    body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .common_feature{
+        background-color: rgb(199, 205, 207);
+        border-radius: 6px;
+        margin-top: 15px;
+        margin-bottom: 25px;
+        padding: 25px;
+        padding-left: 25px;
+        padding-bottom: 10px;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .common_feature:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .all_a_here{
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+    }
+
+    .all_a_here:hover{
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+    }
+
+    .btn_confirm_pass_updation{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        padding: 5px;
+        font-size: 15px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        font-weight: bold;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .btn_confirm_pass_updation:hover{
+        background-color: rgb(46, 98, 194);
+        color: white;
+        text-decoration: none;
+    }
+
+    .container{
+        padding-top: 200px;
+    }
+
+    .contact_admin{
+        width: 100%;
+        background-color: rgb(46, 98, 194);
+        padding: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        text-decoration: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: background-color 0.3s ease;
+    }
+
+    .contact_admin:hover{
+        background-color: rgb(7, 56, 148);
+        color: white;
+        text-decoration: none;
+    }
+
+     @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+        .container{
+            padding-top: 170px;
+        }
+    }
+
+     @media (max-width: 575px) {
+       .all_p_here{
+        font-size: 14px;
+       }
+    }
+
+</style>
+
+<section class="container" >
+    <div style="width: 100%;" >
+        <p class="all_p_here darkcolorchanger1" style="font-weight: 550;word-spacing:4px;margin-bottom:40px;">
+            This notification appeared because the admin had viewed your deleted private chat with some other user.
+            Admin can only do this either after you or the other user request to resolve some issues. Also you or the
+            other user need to turn on the toggle button in contact admin inside settings.
+            If this notification appeared without your knowledge, then the other user has requested to view it due to 
+            raising an issue. You can contact the other user and varify weather this was done with their conscent.
+            If they are also unaware, then the admin has viewed your private chat without both of your conscent or the 
+            website has been hacked. In both the cases, you can raise a question to admin. 
+            If admin has viewed your private chat without both of your conscent <span style="font-weight: 400;">(not possible without toggling your access 
+            switch in most cases )</span>, it can be considered as a serious offence and you can contact the college authorities or 
+            the contact number provided at the contact section of <a href="/">main page</a>.
+        </p>
+
+        <a href="/ask_admin" class="contact_admin darkcolorchanger2">Raise admin a question</a>
+
+        <a onclick="directMessageAdmin('{{adminID}}')" href="javascript:void(0)"><p class="all_p_here drop_dop_nav3" style="font-weight: 550;word-spacing:4px;margin-top:40px;text-decoration: underline;cursor:pointer;">You can also engage in direct chat with admin</p></a>
+        <p class="all_p_here darkcolorchanger1" style="font-weight: 550;word-spacing:4px;margin-top:40px;">In case if you don't get any reply, you may directly contact college authorities</p>
+    </div>
+</section>
+
+<script>
+    
+    function directMessageAdmin(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/one_on_admin_chat';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'User_Id';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+</script>
+    

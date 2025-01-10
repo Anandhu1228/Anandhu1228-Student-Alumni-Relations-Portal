@@ -1,0 +1,232 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+     body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-color: rgb(242, 245, 248);
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .input_box{
+        border-radius: 20px;
+        width: 100%;
+        padding: 15px;
+        font-weight: bold;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .input_box:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .prof_lab_add_skl{
+        margin-top: 0px;
+        font-size: 15px;
+        margin-bottom: 6px;
+        font-weight: bold;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 50px;
+        margin-top: 0px;
+    }
+
+    .skills_title_head{
+        font-weight: 600;
+    }
+
+    .custom_add_skl_delete{
+        background-color: rgb(184, 8, 8);
+        color: white;
+        font-weight: bold;
+        border-radius: 0px 20px 20px 0px;
+        transition: background-color 0.3s ease;
+    }
+
+    .custom_add_skl_delete:hover{
+        background-color: rgb(255, 0, 0);
+    }
+
+    .add_btn_custom_add_skills{
+        border-radius: 0px 20px 20px 0px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn_custom_submit_add_skill,.btn_custom_cancel_add_skill,.btn_custom_reset_add_skill{
+        background-color: rgb(38, 82, 164);
+        width: 250px;
+        padding: 12px;
+        color: white;
+        font-weight: bold;
+        transition: -color 0.3s ease;
+        transition: background-color 0.3s ease;
+        border-radius: 16px;
+    }
+
+    .btn_custom_cancel_add_skill,.btn_custom_reset_add_skill{
+        margin-left: 8px;
+    }
+
+    .btn_custom_submit_add_skill:hover,.btn_custom_cancel_add_skill:hover,.btn_custom_reset_add_skill:hover,.add_btn_custom_add_skills:hover{
+        background-color: rgb(123, 180, 230);
+        color: rgb(38, 82, 164);
+    }
+
+ 
+    @media (max-width: 1122px) and (min-width: 521px) {
+        .skills_title_head{
+            font-weight: 600;
+            font-size:25px;
+        }
+    }
+
+    @media (max-width: 1300px){
+        .custom_add_skl_delete{
+            font-weight: bold;
+            font-size: 13px;
+            padding: 10px;
+        }
+        .add_btn_custom_add_skills{
+            font-weight: bold;
+            font-size: 13px;
+            padding: 10px;
+        }
+    }
+
+    @media (max-width: 450px){
+        .custom_add_skl_delete{
+            font-weight: bold;
+            font-size: 12px;
+            padding: 9px;
+        }
+        .add_btn_custom_add_skills{
+            font-weight: bold;
+            font-size: 12px;
+            padding: 9px;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .skills_title_head{
+            font-weight: 600;
+            font-size:25px;
+        }
+        .btn_custom_submit_add_skill,
+        .btn_custom_cancel_add_skill,
+        .btn_custom_reset_add_skill {
+            width: 130px;
+            padding: 8px;
+        }
+    }
+
+    @media (max-width: 430px) {
+        .btn_custom_submit_add_skill,.btn_custom_cancel_add_skill,.btn_custom_reset_add_skill{
+            width: 120px;
+            padding: 10px;
+        }
+        .skills_title_head{
+            font-weight: 600;
+            font-size:21px;
+        }
+    }
+
+</style> 
+ 
+ 
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <div class="container mt-5 pl-5">
+            <h2 class="text-center skills_title_head darkcolorchanger1">ADD SKILLS / ADD WORKING DOMAINS</h2>
+            <form action="/add-skills" method="POST" enctype="multipart/form-data">
+            <!-- Work Domains -->
+            <div class="form-group form-top">
+                <label class="prof_lab_add_skl darkcolorchanger1" for="workDomains">Work Domains</label>
+                <div id="workingDomainsContainer">
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control input_box" oninput="limitCharacters(this, 30);" required name="workDomains" placeholder="Work Domain">
+                        <div class="input-group-append">
+                            <button type="button" class="btn add_btn_custom_add_skills" onclick="addWorkingDomain()">Add Domain</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control input_box" oninput="limitCharacters(this, 30);" name="workDomains" placeholder="Work Domain">
+                        <div class="input-group-append">
+                            <button type="button" class="btn custom_add_skl_delete" onclick="removeWorkingDomain(this)">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="button-container">
+            <button type="submit" class="btn btn_custom_submit_add_skill mt-4 darkcolorchanger2">Submit</button>
+            <button type="reset" class="btn btn_custom_reset_add_skill mt-4 darkcolorchanger2">Reset</button>
+            <a href="/profile" class="btn btn_custom_cancel_add_skill mt-4 darkcolorchanger2">Cancel</a>
+        </div>
+
+        </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function addWorkingDomain() {
+        const workingDomainsContainer = document.getElementById('workingDomainsContainer');
+        const newWorkingDomainField = document.createElement('div');
+        newWorkingDomainField.className = 'input-group mb-2';
+
+        newWorkingDomainField.innerHTML = `
+            <input type="text" class="form-control input_box" name="workDomains" oninput="limitCharacters(this, 30);" placeholder="Work Domain">
+            <div class="input-group-append">
+                <button type="button" class="btn custom_add_skl_delete" onclick="removeWorkingDomain(this)">Delete</button>
+            </div>
+        `;
+
+        workingDomainsContainer.appendChild(newWorkingDomainField);
+    }
+
+
+    function removeWorkingDomain(button) {
+        const workingDomainField = button.closest('.input-group');
+        workingDomainField.remove();
+    }
+
+    function limitCharacters(input, maxChars) {
+        if (input.value.length > maxChars) {
+            alert("You have reached the maximum allowed characters.");
+            input.value = input.value.substring(0, maxChars);
+        }
+    }
+    
+</script>

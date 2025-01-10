@@ -1,0 +1,208 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+     body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-color: aliceblue;
+        /* background-color: rgba(255, 255, 255, 0.8);*/
+    }
+
+    .profile_image_internshipportal{
+        width: 50px;
+        border-radius: 50%;
+    }
+
+    .internship_posted_name{
+        font-weight: bolder;
+    }
+
+    .profile_view_internship_button{
+        width: 100%;
+        padding: 10px;
+        border-radius: 20px;
+        background-color: rgb(38, 82, 164);
+        font-weight: 700;
+        text-decoration: none;
+        color: white;
+    }
+
+    .profile_view_internship_button:hover{
+        border-radius: 20px;
+        color: white;
+    }
+
+    .intern_Detail_Box{
+        width: 100%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        padding:20px;
+        background-color:rgba(255, 255, 255, 0.8);
+        border-radius: 20px;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.6);
+        border: none;
+    }
+
+    .ind_int_text{
+        color: rgb(38, 82, 164);;
+    }
+
+    .ind_int_par{
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .input_box{
+        width: 100%;
+        padding: 15px;
+        font-weight: bold;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    @media (max-width: 450px) {
+        .ind_int_par{
+            font-size: 16px;
+            font-weight: 500;
+        }
+    }
+
+    .inter_profile_picture{
+        width: 300px;
+        height:300px;
+        border-radius:50%; 
+        object-fit:contain;
+        -webkit-user-drag: none;
+        user-drag: none;
+    }
+
+    .profileImageAlternate {
+        -webkit-user-drag: none;
+        user-drag: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit:contain
+    }
+    
+</style>
+
+<section class="container" style="padding-top: 180px;">
+    <div class="card intern_Detail_Box">
+        <h5 style="font-weight: bolder;" class="card-title">Candidate Details</h5><br>
+        <img class="card-img-top inter_profile_picture" src="/internship-folder/profile-pictures/{{indintern._id}}.jpg" id="individual_intern_profile" draggable="false" alt="No image available">
+        <div class="card-body">
+            <h6 class="ind_int_text blackName"><strong>Full name :</strong></h6>
+            <p class="card-text ind_int_par">{{indintern.firstName}} {{indintern.lastName}}</p><br>
+
+            <h6 class="ind_int_text blackName"><strong>Gender :</strong></h6>
+            <p class="card-text ind_int_par">{{indintern.gender}}</p><br>
+
+            <h6 class="ind_int_text blackName"><strong>Email id :</strong></h6>
+            <p class="card-text ind_int_par">{{indintern.Email}}</p><br>
+
+            <h6 class="ind_int_text blackName"><strong>Seeking an internship/job opportunity in the field of :</strong></h6>
+            <p class="card-text ind_int_par">{{indintern.Interest}}</p><br>
+
+            <h6 class="ind_int_text blackName"><strong>Currently looking for (job / internship) :</strong></h6>
+            <p class="card-text ind_int_par">{{indintern.jobintern}}</p><br>
+
+            <h6 class="ind_int_text blackName"><strong>Current location :</strong></h6>
+            <p class="card-text ind_int_par">{{indintern.LocationCurrent}}</p><br>
+
+            <h6 class="ind_int_text blackName"><strong>Preffered work mode (in office / work from home) :</strong></h6>
+            <p class="card-text ind_int_par">{{indintern.workmode}}</p><br>
+
+            <!-- Display languages -->
+            {{#if indintern.language}}
+            <h6 class="ind_int_text blackName"><strong>Known languages :</strong></h6>
+            <ul class="list-group">
+                {{#each indintern.language}}
+                    <li class="list-group-item input_box">{{ this }}</li>
+                {{/each}}
+            </ul><br>
+            {{/if}}
+
+            <!-- Display interest areas -->
+            {{#if indintern.interestarea}}
+            <h6 class="ind_int_text blackName"><strong>Area of interests :</strong></h6>
+            <ul class="list-group">
+                {{#each indintern.interestarea}}
+                    <li class="list-group-item input_box">{{ this }}</li>
+                {{/each}}
+            </ul><br>
+            {{/if}}
+
+            <!-- Display hobbies -->
+            {{#if indintern.hobbies}}
+            <h6 class="ind_int_text blackName"><strong>Hobbies :</strong></h6>
+            <ul class="list-group">
+                {{#each indintern.hobbies}}
+                    <li class="list-group-item input_box">{{ this }}</li>
+                {{/each}}
+            </ul><br>
+            {{/if}}
+
+            <!-- Display resume -->
+            <h6 class="ind_int_text blackName"><strong>Resume :</strong></h6>
+            {{#if indintern.resume}}
+                <a style="font-weight: bold;" href="/internship-folder/resumes/{{indintern.resume}}" target="_blank">Download Resume</a>
+            {{else}}
+                <p>No resume available</p>
+            {{/if}}<br><br>
+            
+
+
+            <h6 class="ind_int_text blackName"><strong>Posted by : </strong></h6>
+                <div style="display: inline-block;padding:20px">
+                    <img class="profile_image_internshipportal profileImageAlternate" src="/user-images/{{indintern.UserId}}.jpg" alt="Card image cap" draggable="false">
+                </div>
+                <div style="display: inline-block;">
+                     <p class="internship_posted_name">{{indintern.Name}}</p>
+                </div>
+                <div style="display: flex;border-radius:20px;background-color:white;">
+                    <a href="javascript:void(0)" class="btn profile_view_internship_button darkcolorchanger2" onclick="viewProfile('{{indintern.UserId}}')" >view profile</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    
+    function viewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/view-profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+    document.getElementById('individual_intern_profile').addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+</script>

@@ -1,0 +1,115 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+    .container{
+        margin-top: 200px;
+    }
+
+    .input_box{
+        border-radius: 20px;
+        width: 100%;
+        padding: 15px;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .input_box:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    .heading{
+        font-weight: 550;
+    }
+
+    body{
+        margin-top: 180px;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+    }
+    
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .btn{
+        width: 150px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        border-radius: 20px;
+        padding: 10px;
+        transition: background-color 0.3s ease;
+    }
+    .btn:hover{
+        background-color:  rgb(123, 180, 230);
+        color: rgb(38, 82, 164);
+    }
+
+    @media (max-width: 1200px) {
+        .btn{
+            width: 100px;
+        }
+    }
+
+    @media (max-width: 426px) {
+        .heading{
+            font-size: 22px;
+        }
+    }
+    
+</style>
+
+<div  class="container">
+    <div class="col-md-6 m-auto">
+        <h2 class="text-center heading darkcolorchanger1" style="margin-bottom: 40px;">UPDATE PASSWORD</h2>
+        {{#if invalid}}
+            <p style="color: red;margin-top: 20px; margin-bottom:0px;">Invalid old password. Please try again.</p> 
+            <p style="color: red;">You have {{upassfailattemptleft}} attempts left.</p>
+        {{/if}}
+        <form action="/updatepass" method="POST" enctype="multipart/form-data">
+            <input type="password" name="OldPass" class="form-control input_box" oninput="limitCharacters(this, 100);" placeholder="Old password">
+            <input type="password" name="NewPass" class="form-control input_box" oninput="limitCharacters(this, 100);" placeholder="New password">
+        <div class="button-container">
+            <button type="submit" class="btn  mt-4 darkcolorchanger2">Submit</button>
+            <button type="reset" class="btn  mt-4 darkcolorchanger2">Reset</button>
+            <a href="/profile" style="text-decoration: none;" class="btn  mt-4 darkcolorchanger2">Cancel</a>
+        </div>
+            <p style="font-size: small;margin-top:20px;" class="darkcolorchanger1">"current page won't get redirected to profile if provided older password was wrong</p>
+        </form>
+    </div>
+</div>
+
+<script>
+    function limitCharacters(input, maxChars) {
+        if (input.value.length > maxChars) {
+            alert("You have reached the maximum allowed characters.");
+            input.value = input.value.substring(0, maxChars);
+        }
+    }
+</script>

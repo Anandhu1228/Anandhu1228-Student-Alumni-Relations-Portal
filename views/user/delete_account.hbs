@@ -1,0 +1,116 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-color: rgb(255, 255, 255);
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .input_box{
+        border-radius: 20px;
+        width: 100%;
+        padding: 10px;
+        padding-left: 15px;
+        font-weight: bold;
+        margin-top: 1px;
+        margin-bottom: 20px;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .input_box:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .btn_custom{
+        width: 100%;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 10px;
+        transition: background-color 0.3s ease;
+        margin-bottom: 50px;
+    }
+
+    .btn_custom:hover{
+        background-color:  rgb(123, 180, 230);
+        color: rgb(38, 82, 164);
+    }
+
+    @media (max-width: 412px) {
+        .input_box{
+            font-size: 15px;
+        }
+    }
+
+</style>
+
+
+<section class="container" style="padding-top: 250px;">
+
+    <p class="info_text darkcolorchanger1">This will actually disable your account.
+        No one can find you through search or message you or view your profile.
+        You cannot also use any functions like messaging , view other profiles or access
+        any other normal functions. The only thing you can do in suspended mode is to 
+        re-enable your account rather than login.
+    </p>
+
+    <form id="deleteForm" action="/delete_account" method="POST" enctype="multipart/form-data">
+        <div style="margin-top: 30px;" class="form-group">
+            <textarea class="form-control input_box" id="experienceDescription" required name="delete_reason" rows="6" oninput="resizeTextarea(); limitCharacters(this, 2000);" placeholder="Reason for deleting account."></textarea>
+        </div>
+        <button type="button" class="btn_custom mt-4 darkcolorchanger2" onclick="confirmDelete()">Confirm</button>
+    </form>
+
+</section>
+
+
+<script>
+
+    function resizeTextarea() {
+        var textarea = document.getElementById("experienceDescription");
+        textarea.style.height = "auto";
+        textarea.style.height = (textarea.scrollHeight) + "px";
+    }
+
+
+    function confirmDelete() {
+        if (confirm("Are you sure you want to delete your account? ")) {
+            document.getElementById("deleteForm").submit();
+        }
+    }
+
+    function limitCharacters(textarea, maxChars) {
+        if (textarea.value.length > maxChars) {
+            alert("You have reached the maximum allowed characters.");
+            textarea.value = textarea.value.substring(0, maxChars);
+        }
+    }
+    
+</script>
