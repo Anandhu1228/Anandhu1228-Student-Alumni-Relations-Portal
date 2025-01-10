@@ -1,0 +1,144 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+  body{
+    background-image: url('/images/logo_transparent1.png');
+    background-size: 80% auto;
+    background-position: center bottom 75%;
+    background-repeat: no-repeat;
+  }
+
+  @media (max-width: 668px) {
+    body {
+      background-image: url('/images/logo_transparent1.png');
+      background-position: center bottom 150%;
+      background-size: 100% auto;
+    }
+  }
+
+  .admin-section {
+    margin-bottom: 10px;
+    background-color: rgb(38, 82, 164);
+    border-radius: 10px;
+    border: none;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+  .admin-section:hover{
+    background-color: rgb(123, 180, 230);
+  }
+
+  .admin_button{
+    color: rgb(38, 82, 164);
+    font-weight: bold;
+    margin-right: 20px;
+  }
+
+  .admin_title{
+    color: white;
+    font-weight: 600;
+    margin-left: 20px;
+    margin-bottom: 0px;
+  }
+
+  @media (max-width: 620px) {
+    .admin_title{
+      font-size: 15px;
+    }
+    .admin_title{
+      margin-left: 10px;
+      margin-bottom: 2px;
+    }
+    .admin_button{
+      margin-right: 0px;
+    }
+  }
+
+  @media (max-width: 490px) {
+    .inside_div_view_page{
+      padding: 8px;
+    }
+    .admin_button{
+      padding: 7px;
+      margin-right: 0px;
+    }
+    .admin_title{
+      margin-left: 10px;
+      margin-bottom: 2px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .inside_div_view_page{
+      padding: 5px;
+      padding-left: 4px;
+    }
+    .admin_title{
+      font-size: 14px;
+    }
+    .admin_button{
+      padding: 4px;
+      font-size: 14px;
+      margin-right: 0px;
+    }
+    .admin_title{
+      margin-left: 10px;
+      margin-bottom: 2px;
+    }
+  }
+  
+</style>
+
+<section style="padding-top:140px">
+
+  <div class="card text-center admin-section darkcolorchanger2">
+    <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+      <h5 class="card-title admin_title text-left">Edit main page content</h5>
+      <a href="/maintainer/edit_page_content" class="btn admin_button btn-light blackName">select</a>
+    </div>
+  </div>
+
+  <div class="card text-center admin-section darkcolorchanger2">
+    <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+      <h5 class="card-title admin_title text-left">Edit Gallery</h5>
+      <a href="/maintainer/edit_gallery" class="btn admin_button btn-light blackName">select</a>
+    </div>
+  </div>
+
+  <div class="card text-center admin-section darkcolorchanger2">
+    <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+      <h5 class="card-title admin_title text-left">Maintainer guidelines</h5>
+      <a href="/maintainer/maintainer_guideline" class="btn admin_button btn-light blackName">select</a>
+    </div>
+  </div>
+
+</section>
+
+<script>
+
+  window.addEventListener('pageshow', function(event) {
+    // Check if the page was loaded from the cache (e.g., back button used)
+    if (event.persisted) {
+      // Reload the page
+      window.location.reload();
+    }
+  });
+
+</script>

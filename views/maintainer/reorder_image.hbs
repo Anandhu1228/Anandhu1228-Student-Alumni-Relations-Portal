@@ -1,0 +1,191 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    .image_carder {
+        max-height: 200px;
+        object-fit: contain;
+        max-width: 18rem;
+    }
+
+    .card_edit {
+        display: inline-block;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        margin: 40px;
+    }
+
+    .numberSelect {
+        border-radius: 5px;
+        border: rgb(165, 165, 165) solid 2px;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .buttonSubmitForReorder{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        display: block;
+        margin: 40px;
+    }
+
+    #loading-indicator{
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        z-index: 1000;
+    }
+
+    #loading-indicator p{
+        margin: 10px 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    #loading-indicator .spinner{
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+</style>
+
+<section style="padding-top: 150px;" class="container-fluid">
+    {{#each contents}}
+        <div class="card card_edit right_color_box" style="width: 18rem;">
+            {{#compare mediaType "===" "image"}}
+                <img class="card-img-top image_carder" src="/gallery/{{this.fileName}}" alt="Card image cap">
+            {{/compare}}
+            {{#compare mediaType "===" "video"}}
+                <video class="image_carder" controls>
+                    <source src="/gallery/{{this.fileName}}" type="video/mp4">
+                </video>
+            {{/compare}}
+            <div class="card-body">
+                <p class="card-text">{{this.messageContent}}</p>
+                <select class="numberSelect" id="numberSelect_{{this.MediaId}}">
+                </select>
+            </div>
+        </div>
+    {{/each}}
+    <button class="buttonSubmitForReorder btn darkcolorchanger2" onclick="sendOrderData()">Submit</button>
+</section>
+
+<div id="loading-indicator">
+    <div class="spinner"></div>
+    <p>processing...</p>
+</div>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var contentCount = {{content_count}};
+        document.querySelectorAll('.numberSelect').forEach(function(selectElement, index) {
+            populateDropdown(selectElement, index + 1, contentCount);
+        });
+    });
+
+
+    function populateDropdown(selectElement, selectedIndex, contentCount) {
+        for (let i = 1; i <= contentCount; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.text = i;
+
+            // Pre-select the option corresponding to the iteration index
+            if (i === selectedIndex) {
+                option.selected = true;
+            }
+
+            selectElement.appendChild(option);
+        }
+    }
+
+
+    function sendOrderData() {
+        var dataToSend = [];
+        var orderValues = new Set(); // To track unique order values
+        var hasDuplicates = false;   // Flag to track if duplicates are found
+
+        // Iterate through each select element
+        document.querySelectorAll('.numberSelect').forEach(function(selectElement) {
+            let mediaID = selectElement.id.split('_')[1]; // Extract mediaID from the select element's ID
+            let selectedValue = selectElement.options[selectElement.selectedIndex].value;
+
+            if (selectedValue !== 'Select order') {
+                // Check for duplicate order values
+                if (orderValues.has(selectedValue)) {
+                    alert(`Two entries cannot have the same order value: ${selectedValue}`);
+                    hasDuplicates = true; // Set the flag if a duplicate is found
+                    return; // Stop the function execution if duplicate is found
+                }
+                orderValues.add(selectedValue);
+
+                dataToSend.push({
+                    mediaID: mediaID,
+                    order: selectedValue
+                });
+            }
+        });
+
+        // If no duplicates, proceed with the server-side code
+        if (!hasDuplicates) {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            loadingIndicator.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+
+            $.ajax({
+                url: '/maintainer/send_gallery_media_reorder',
+                method: 'post',
+                data: {
+                    DaTaToSeNd: JSON.stringify(dataToSend)
+                },
+                success: function(response) {
+                    // Handle the response from the server
+                    if (response.reOrdered) {
+                        // Redirect to the maintainer_view_page
+                        window.location.href = "/maintainer/edit_gallery";
+                    }
+                },
+                error: function(error) {
+                    console.error('Error sending message:', error);
+                },
+                complete: function() {
+                    // Hide the loading indicator after the AJAX call completes
+                    loadingIndicator.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        } else {
+            console.log("Duplicate found, data not sent.");
+        }
+    }
+
+</script>
+

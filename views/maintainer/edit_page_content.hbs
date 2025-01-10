@@ -1,0 +1,702 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+  body{
+    background-image: url('/images/logo_transparent1.png');
+    background-size: 80% auto;
+    background-position: center bottom 75%;
+    background-repeat: no-repeat;
+  }
+
+  @media (max-width: 668px) {
+    body {
+      background-image: url('/images/logo_transparent1.png');
+      background-position: center bottom 150%;
+      background-size: 100% auto;
+    }
+  }
+
+  .admin-section {
+    margin-bottom: 10px;
+    background-color: rgb(38, 82, 164);
+    border-radius: 10px;
+    border: none;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+  .admin-section:hover{
+    background-color: rgb(123, 180, 230);
+  }
+
+  .admin_button{
+    color: rgb(38, 82, 164);
+    font-weight: bold;
+    margin-right: 20px;
+  }
+
+  .maintainer_section{
+    margin-bottom: 10px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    border: none;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    font-weight: 600;
+    margin-top: 20px;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    transition: background-color 0.3s ease;
+  }
+  .maintainer_section:hover{
+    background-color: rgb(240, 241, 241);
+  }
+
+  .btn_upl{
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-weight: bold;
+  }
+
+  .admin_title{
+    color: white;
+    font-weight: 600;
+    margin-left: 20px;
+    margin-bottom: 0px;
+  }
+
+  @media (max-width: 620px) {
+    .admin_title{
+      font-size: 15px;
+    }
+    .admin_title{
+      margin-left: 10px;
+      margin-bottom: 2px;
+    }
+    .admin_button{
+      margin-right: 0px;
+    }
+  }
+
+  @media (max-width: 490px) {
+    .inside_div_view_page{
+      padding: 8px;
+    }
+    .admin_button{
+      padding: 7px;
+      margin-right: 0px;
+    }
+    .admin_title{
+      margin-left: 10px;
+      margin-bottom: 2px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .inside_div_view_page{
+      padding: 5px;
+      padding-left: 4px;
+    }
+    .admin_title{
+      font-size: 14px;
+    }
+    .admin_button{
+      padding: 4px;
+      font-size: 14px;
+      margin-right: 0px;
+    }
+    .admin_title{
+      margin-left: 10px;
+      margin-bottom: 2px;
+    }
+  }
+
+  .popup-form {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+        z-index: 101;
+        min-width: 40%;
+        width: 60%;
+        height: auto;
+    }
+
+    #uploadForm {
+        background-color: rgb(245, 246, 247);
+        border-radius: 10px 10px 10px 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 135% auto;
+        background-position: center bottom 45%;
+        background-repeat: no-repeat;
+        z-index: 101;
+    }
+
+    .close_pop_up{
+        font-size: 20px;
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    .close_pop_up:hover{
+        color: red;
+    }
+
+    .formpostgroup {
+        display: flex;
+        flex-direction: column;
+        margin-top: 0px;
+    }
+
+    .labelpostgroup {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .inputpostgroup {
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .custom_text_area_postgroup{
+        margin-bottom: 30px;
+        margin-top:30px;
+        max-height: 250px;
+    }
+
+    .inputpostgroup{
+        border-radius: 20px;
+        width: 100%;
+        padding: 15px;
+        font-weight: bold;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .buttonpostgroup {
+        background-color: rgb(38, 82, 164);
+        padding: 10px;
+        border: none;
+        color: rgb(255, 255, 255);
+        font-weight: bold;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 40px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .buttonpostgroup:hover {
+        background-color: #d5dade;
+    }
+
+    .custom-file-upload {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        display: inline-block;
+        padding: 10px;
+        cursor: pointer;
+        background-color: white;
+        margin-top: 0px;
+        border-radius: 15px;
+    }
+
+
+    #imageCarousel {
+        text-align: center;
+        margin: auto;
+    }
+
+    .carousel-inner{
+        max-height: 250px;
+        width: 100%;
+    }
+
+    .video-preview_popup{
+        width: 100%;
+        height: 88%;
+    }
+
+    .image-preview_popup{
+        width: 100%;
+        max-height: 250px;
+    }
+
+    @media (max-width: 1550px) {
+        .popup-form {
+            min-width: 50%;
+        }
+    }
+
+    @media (max-width: 1250px) {
+        .popup-form {
+            min-width: 54%;
+        }
+    }
+
+    @media (max-width: 1050px) {
+        .popup-form {
+            min-width: 58%;
+        }
+    }
+
+    @media (max-width: 850px) {
+        .popup-form {
+            min-width: 62%;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .popup-form {
+            min-width: 90%;
+        }
+        #uploadForm {
+            padding: 30px;
+        }
+    }
+
+    @media (max-width: 391px) {
+        .inputpostgroup{
+            font-size: 14px;
+        }
+    }
+    
+    @media (max-width: 363px) {
+        .inputpostgroup{
+            font-size: 12px;
+        }
+    }
+
+    @media (max-height: 960px) {
+       .custom_text_area_postgroup{
+            font-size: 15px;
+            max-height: 310px;
+        }
+    }
+
+    @media (max-height: 931px) {
+       .custom_text_area_postgroup{
+            max-height: 240px;
+            font-size: 14.5px;
+        }
+    } 
+
+    @media (max-height: 828px) {
+       .custom_text_area_postgroup{
+            max-height: 220px;
+            font-size: 14px;
+        }
+    }
+
+    @media (max-height: 800px) {
+       .custom_text_area_postgroup{
+            max-height: 170px;
+            font-size: 14px;
+        }
+    }
+
+    @media (max-height: 942px) and (max-width: 942px) {
+       .carousel-inner{
+            max-height: 200px;
+            width: 100%;
+        }
+        .video-preview_popup{
+            width: 100%;
+            max-height: 200px;
+        }
+        .image-preview_popup{
+            width: 100%;
+            max-height: 200px;
+        }
+    }
+
+    @media (max-height: 744px) and (max-width: 744px) {
+        .carousel-inner{
+            max-height: 170px;
+            width: 100%;
+        }
+        .video-preview_popup{
+            width: 100%;
+            max-height: 170px;
+        }
+        .image-preview_popup{
+            width: 100%;
+            max-height: 170px;
+        }
+    }
+
+    @media (max-height: 480px) and (max-width: 480px) {
+       .carousel-inner{
+            max-height: 140px;
+            width: 100%;
+        }
+        .video-preview_popup{
+            width: 100%;
+            max-height: 140px;
+        }
+        .image-preview_popup{
+            width: 100%;
+            max-height: 140px;
+        }
+    }
+
+    @media (max-height: 458px) and  (max-width: 458px) {
+       .carousel-inner{
+            max-height: 130px;
+            width: 100%;
+        }
+        .video-preview_popup{
+            width: 100%;
+            max-height: 100%;
+        }
+        .image-preview_popup{
+            width: 100%;
+            max-height: 100%;
+        }
+    }
+
+    .remove_input{
+        margin-top: 40px;
+        border-radius: 10px;
+        padding: 15px;
+        font-weight: bold;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .remove_input:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+  
+</style>
+
+<section style="padding-top:140px">
+
+  <div class="card text-center admin-section darkcolorchanger2">
+    <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+      <h5 class="card-title admin_title text-left">Get all front page resources</h5>
+      <a href="/maintainer/get_current_frontpage_resources" 
+        class="btn admin_button btn-light blackName" 
+        onclick="return confirmMediaDownload();">select
+    </a>
+    </div>
+  </div>
+
+  <div class="card text-center admin-section darkcolorchanger2">
+    <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+      <h5 class="card-title admin_title text-left">Get current front page</h5>
+      <a href="/maintainer/get_current_frontpage" 
+        class="btn admin_button btn-light blackName" 
+        onclick="return confirmDownload();">select
+    </a>
+    </div>
+  </div>
+
+  <div class="card text-center maintainer_section">
+    <form action="/maintainer/upload_new_front_page" method="POST" enctype="multipart/form-data">
+        <label style="display: block;" for="file">Choose an HBS or HTML file:</label>
+        <input type="file" id="file" name="file" accept=".hbs, .html" required>
+        <br><br>
+        <button type="submit" class="btn btn_upl darkcolorchanger2 blackName">Upload</button>
+    </form>
+  </div>
+
+  <div class="card text-center admin-section darkcolorchanger2">
+    <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+      <h5 class="card-title admin_title text-left">Add media for main page</h5>
+      <button onclick="showAddImageMainMedia()" class="btn admin_button btn-light blackName">select</button>
+    </div>
+  </div>
+
+  <div class="card text-center admin-section darkcolorchanger2">
+    <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+      <h5 class="card-title admin_title text-left">Delete media from main page</h5>
+      <button onclick="showDeleteImageMainMedia()" class="btn admin_button btn-light blackName">select</button>
+    </div>
+  </div>
+
+</section>
+
+<div id="post-groupchat-container" class="popup-form" style="display: none;">
+    <div style="width:100%" class="rows">
+        <div id="uploadForm" class="right_color_box" style="width:100%;">
+            <p class="close_pop_up" onclick="closePopup()">&#10006;</p>
+            <form class="formpostgroup" id="postForm" enctype="multipart/form-data">
+                <div id="imageCarousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner" id="previewContainer"></div>
+                    <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+
+                <div class="custom-file-upload" style="margin-top: 40px;">
+                    <div>
+                        <img src="" alt="" style="width:100px;" id="userView">
+                        <input class="inputpostgroup" type="file" id="postImage" required name="postImage" accept="image/*,video/*" 
+                        multiple onchange="viewpImage(event)">
+                    </div>
+                </div>
+
+                <button class="buttonpostgroup darkcolorchanger2" type="submit" onclick="sendMainMedia(event)">Send</button>
+            </form> 
+        </div>
+    </div>
+</div>
+
+<div id="remove_resource" class="popup-form" style="display: none;">
+    <div style="width:100%" class="rows">
+        <div id="uploadForm" class="right_color_box" style="width:100%;">
+            <p class="close_pop_up" onclick="closePopupRemoveResource()">&#10006;</p>
+            <form class="formpostgroup" id="postRemoveForm" enctype="multipart/form-data">
+                <input class="remove_input" id="nameContent" oninput="limitCharacters(this, 50);" required name="FileName" placeholder="Enter correct file name with extension(case sensitive)">
+                <button class="buttonpostgroup darkcolorchanger2" type="submit" onclick="removeMainMediaResource(event)">Send</button>
+            </form> 
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function showAddImageMainMedia() {
+        var postGroupChatContainer = document.getElementById('post-groupchat-container');
+        postGroupChatContainer.style.display = (postGroupChatContainer.style.display === 'none') ? 'block' : 'none';
+        (document.body).style.overflow = 'hidden';
+    }
+
+    
+    function showDeleteImageMainMedia() {
+        var remove_resource_container = document.getElementById('remove_resource');
+        remove_resource_container.style.display = (remove_resource_container.style.display === 'none') ? 'block' : 'none';
+        (document.body).style.overflow = 'hidden';
+    }
+
+
+    function closePopupRemoveResource() {
+        document.getElementById("remove_resource").style.display = "none";
+        (document.body).style.overflow = 'auto';
+    }
+
+
+    function closePopup() {
+        document.getElementById("post-groupchat-container").style.display = "none";
+        (document.body).style.overflow = 'auto';
+    }
+
+
+    function viewpImage(event) {
+        var input = event.target;
+
+        // Clear previous previews
+        document.getElementById('previewContainer').innerHTML = "";
+        document.getElementById('userView').src = "";
+
+        if (input.files.length > 1) {
+            alert("Please select only one file.");
+            input.value = "";
+            return;
+        }
+
+        var file = input.files[0];
+        var fileType = file.type;
+        var fileSizeMB = file.size / (1024 * 1024); // Convert size to MB
+
+        if (fileType.includes("image") && fileSizeMB > 5) {
+            alert("The selected image exceeds the maximum size of 5 MB.");
+            input.value = "";
+            return;
+        }
+
+        if (fileType.includes("video") && fileSizeMB > 100) {
+            alert("The selected video exceeds the maximum size of 100 MB.");
+            input.value = "";
+            return;
+        }
+
+        var carouselInner = document.createElement("div");
+        carouselInner.className = "carousel-inner";
+
+        var carouselItem = document.createElement("div");
+        carouselItem.className = "carousel-item active";
+
+        // Set a fixed height for carousel items
+        carouselItem.style.height = "300px"; // Adjust the height as needed
+
+        if (fileType.includes("video")) {
+            var videoPreview = document.createElement("video");
+            videoPreview.controls = true;
+            videoPreview.classList.add("video-preview_popup");
+            var source = document.createElement("source");
+            source.src = URL.createObjectURL(file);
+            source.type = file.type;
+
+            videoPreview.appendChild(source);
+            carouselItem.appendChild(videoPreview);
+        } else {
+            var imgPreview = document.createElement("img");
+            imgPreview.classList.add("image-preview_popup");
+            imgPreview.src = URL.createObjectURL(file);
+            carouselItem.appendChild(imgPreview);
+        }
+
+        carouselInner.appendChild(carouselItem);
+        document.getElementById('previewContainer').appendChild(carouselInner);
+    }
+
+
+    async function sendMainMedia(event) {
+        event.preventDefault();
+
+        const popup_form = document.getElementById('post-groupchat-container');
+        popup_form.style.display = "none";
+        
+        const form = document.getElementById('postForm');
+        const formData = new FormData(form);
+        
+        const postImageInput = document.getElementById('postImage');
+        if (postImageInput.files.length === 0) {
+            alert('Please select an image or video.');
+            return;
+        }
+
+        // Show the loading indicator
+        const loadingIndicator = document.getElementById('loading-indicator');
+        loadingIndicator.style.display = 'block';
+        (document.body).style.overflow = 'hidden';
+                
+        const url = '/maintainer/add_main_media';
+        const method = 'POST';
+        
+        try {
+            const response = await $.ajax({
+                url: url,
+                method: method,
+                data: formData,
+                processData: false,
+                contentType: false,
+            });
+            
+            if (response.addedMainMedia) {
+                alert('Media added successfully.');
+            } else {
+                console.error('Failed to upload image');
+            }
+        } catch (error) {
+            console.error('Error uploading post:', error);
+        } finally {
+            // Hide the loading indicator
+            loadingIndicator.style.display = 'none';
+            (document.body).style.overflow = "auto";
+
+            // Reset the form to its initial state
+            form.reset();
+
+            // Clear preview container
+            document.getElementById('previewContainer').innerHTML = '';
+
+            // Clear userView image source
+            document.getElementById('userView').src = '';
+        }
+    }
+
+
+    async function removeMainMediaResource(event) {
+        event.preventDefault();
+
+        const popup_form = document.getElementById('remove_resource');
+        popup_form.style.display = "none";
+        
+        const form = document.getElementById('postRemoveForm');
+        const formData = new FormData(form);
+        
+        const nameContentInput = document.getElementById('nameContent');
+        if (nameContentInput.value == "") {
+            alert('Please mention a name.');
+            return;
+        }
+
+        // Show the loading indicator
+        const loadingIndicator = document.getElementById('loading-indicator');
+        loadingIndicator.style.display = 'block';
+        (document.body).style.overflow = 'hidden';
+                
+        const url = '/maintainer/removea_main_media';
+        const method = 'POST';
+        
+        try {
+            const response = await $.ajax({
+                url: url,
+                method: method,
+                data: formData,
+                processData: false,
+                contentType: false,
+            });
+            
+            if (response.removedaMainMedia) {
+                alert('Media removed successfully.');
+            } else {
+                console.error('Failed to remove media');
+            }
+        } catch (error) {
+            console.error('Error removing media:', error);
+        } finally {
+            // Hide the loading indicator
+            loadingIndicator.style.display = 'none';
+            (document.body).style.overflow = "auto";
+
+            // Reset the form to its initial state
+            form.reset();
+        }
+    }
+
+
+    function confirmDownload() {
+        return confirm("Do you want to download the current front page?");
+    }
+
+
+    function confirmMediaDownload() {
+        return confirm("Do you want to download the current front page resources?");
+    }
+
+
+    function limitCharacters(input, maxChars) {
+        if (input.value.length > maxChars) {
+            alert("You have reached the maximum allowed characters.");
+            input.value = input.value.substring(0, maxChars);
+        }
+    }
+
+</script>

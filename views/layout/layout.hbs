@@ -1,0 +1,701 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<!doctype html>
+<html lang="en" style="scroll-behavior: smooth;">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <title>Alumni Relations Cell CEC</title>
+    <style>
+        body {
+            background: white;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .chat-icon-top {
+            width: 35px;
+            height: 35px;
+            background-color: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .reply-link {
+            cursor: pointer;
+            color: white;
+            background-color: #2196f3;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            width: 60px;
+            margin-left: auto;
+            padding-top: 3px;
+            padding-bottom: 3px;
+        }
+
+        .delete-link {
+            cursor: pointer;
+            color: white;
+            background-color: red;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            width: 60px;
+            margin-left: 10px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+        }
+
+        /* Add additional styles for your content */
+        .content {
+            text-align: center;
+        }
+
+        #chat-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+
+        .reply {
+            background-color: #e0f7fa;
+            padding: 5px;
+            margin-left: 20px;
+        }
+
+        .custom-form-container {
+            max-width: 2000px;
+            margin: auto;
+        }
+
+        .form-top{
+            margin-top: 30px;
+        }
+
+        .form-bottom{
+            margin-bottom: 30px;
+        }
+
+        #chat-container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .message {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 2px solid #5e92f3;
+            background-color: #f9f9f9;
+            max-width: 900px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        .user-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .reply {
+            background-color: #e0f7fa;
+            padding: 5px;
+            margin-left: 20px;
+            font-size: 0.9em;
+            border-radius: 5px;
+            flex-grow: 1;
+        }
+
+        .actual-message {
+            margin-left: 20px;
+        }
+
+        #message-input {
+            width: 80%;
+            min-height: 60px;
+            height: auto;
+            resize: vertical;
+            border: 2px solid #5e92f3;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        #chat-form {
+            display: flex;
+            align-items: center;
+        }
+
+        #send-icon {
+            font-size: 24px;
+            cursor: pointer;
+            margin-left: 10px;
+            color: #2196f3;
+        }
+
+        #send-button {
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+            background-color: #2196f3;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+        }
+
+        .plus-button {
+            border-radius: 10px; /* Rounded corners */
+            font-size: 16px; /* Font size */
+            font-weight: bold;
+        }
+    
+        .interest-input,.hobby-input,.language-input {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .drop_dop{
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .drop_dop:hover {
+            transform: scale(1.2);
+        }
+
+        .remove-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .button_plus {
+            font-size: 20px;
+            font-weight: bolder;
+            color: rgb(38, 82, 164);
+            width: 35px;
+            height: 35px;
+            background: #fff;
+            cursor: pointer;
+            border: 2px solid rgb(38, 82, 164);
+            padding: 3px;
+        }
+
+        .button_plus:hover {
+            background-color: rgb(38, 82, 164);
+            transition: 0.2s;
+            color: white;
+        }
+
+        #uploadForm {
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+
+        }
+
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .custom-file-upload i {
+            margin-right: 5px;
+        }
+
+        .post-container {
+            width: 100%;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .location-post {
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .image-container-post {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .image-container-post img {
+            width: 100%;
+            display: block;
+        }
+
+        .caption-post {
+            padding: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        #loading-indicator{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        #loading-indicator p{
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #loading-indicator .spinner{
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        } 
+
+        .profileImageAlternate {
+            -webkit-user-drag: none;  /* Safari */
+            user-drag: none;           /* Non-prefixed version */
+        }
+
+        .darkmode_switch {
+            display: flex;
+            align-items: center;
+        }
+
+        .darkmode_switch_li{
+            display: flex;
+            align-items: center;
+        }
+
+        .darkmode_check_input {
+            width: 40px;
+            height: 20px;
+            background-color: #ccc;
+            border-radius: 50px;
+            position: relative;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s;
+            margin-left: 3px;
+            margin-right: 1px;
+        }
+
+        .darkmode_check_input:checked {
+            background-color: darkgray;
+        }
+
+        .darkmode_check_input::before {
+            content: '';
+            width: 18px;
+            height: 18px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            transition: 0.3s;
+        }
+
+        .darkmode_check_input:checked::before {
+            transform: translateX(20px);
+        }
+
+    </style>
+  </head>
+
+  <body>
+    {{#if admin}}
+      {{>admin-header}}
+    {{else}}
+      {{>user-header}}
+    {{/if}}
+    <div id="loading-indicator">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+    {{{body}}}
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    
+    <script>
+
+        // NO OVERFLOW ENABLED
+        /*$(document).ready(function() {
+            // Select all the header links that should trigger the loading indicator
+            const headerLinks = [
+                'a[href="/internshipportal"]',
+                'a[href="/jobportal"]',
+                'a[href="/mentorshipportal"]',
+                'a[href="/settings"]',
+                'a[href="/groupchat"]',
+                'a[href="/chatwith"]',
+                'a[href="/viewNotifications"]',
+                'a[href="/searchfriends"]'
+            ];
+
+            // Show loading indicator on any of the specified links click
+            $(headerLinks.join(',')).on('click', function() {
+                $('#loading-indicator').show();
+            });
+
+            // Hide loading indicator when the AJAX request completes
+            $(document).ajaxComplete(function() {
+                $('#loading-indicator').hide();
+            });
+
+            // Show loading indicator when the AJAX request starts
+            $(document).ajaxStart(function() {
+                $('#loading-indicator').show();
+            });
+        });*/
+
+
+        //   OVERFLOW ENABLED
+        $(document).ready(function() {
+            // Select all the header links that should trigger the loading indicator
+            const headerLinks = [
+                'a[href="/internshipportal"]',
+                'a[href="/jobportal"]',
+                'a[href="/mentorshipportal"]',
+                'a[href="/settings"]',
+                'a[href="/groupchat"]',
+                'a[href="/chatwith"]',
+                'a[href="/viewNotifications"]',
+                'a[href="/searchfriends"]',
+                'a[href="/profile"]',
+                'a[href="/gallery"]',
+                'a[href="/view-other-post"]',
+                'a[href="/view-own-post"]',
+            ];
+
+            // Function to show the loading indicator and prevent body overflow
+            function showLoadingIndicator() {
+                $('#loading-indicator').show();
+                $('body').css('overflow', 'hidden'); // Prevent scrolling
+            }
+
+            // Function to hide the loading indicator and restore body overflow
+            function hideLoadingIndicator() {
+                $('#loading-indicator').hide();
+                $('body').css('overflow', 'auto'); // Restore scrolling
+            }
+
+            // Ensure loading indicator is hidden on initial load
+            $(window).on('load', function() {
+                hideLoadingIndicator();
+            });
+
+            // Handle browser navigation (back/forward) to hide loading indicator
+            $(window).on('popstate', function() {
+                hideLoadingIndicator();
+            });
+
+            // Handle normal clicks on specified links
+            $(headerLinks.join(',')).on('click', function(event) {
+                showLoadingIndicator();
+            });
+
+            // Hide loading indicator when AJAX completes
+            $(document).ajaxComplete(function() {
+                hideLoadingIndicator();
+            });
+
+            // Handle page unload (e.g., navigation away or refresh)
+            $(window).on('beforeunload', function() {
+                showLoadingIndicator();
+            });
+
+            // For back/forward navigation, force hide the indicator after the navigation completes
+            window.addEventListener('pageshow', function(event) {
+                if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                    hideLoadingIndicator(); // Ensure it's hidden on back/forward navigation
+                }
+            });
+        });
+
+
+        // Optionally, prevent dragging and right-clicking for images within the specific messageElement. also user.png if profile image not present
+        /*const profileImages = document.querySelectorAll('.profileImageAlternate');
+        profileImages.forEach(img => {
+            img.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+            img.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+            });
+            img.onerror = function() {
+                this.onerror = null;
+                this.src = '/user-images/user.png';
+            };
+        });*/
+
+
+        // Optionally, prevent dragging and right-clicking for images within the specific messageElement. Also use user.png if profile image not present
+        const profileImages = document.querySelectorAll('.profileImageAlternate');
+        profileImages.forEach(function(img) {
+            // Check if the event listeners have already been added to prevent duplication
+            if (!img.dataset.contextMenuAdded) {
+                img.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                });
+                img.addEventListener('dragstart', function(e) {
+                    e.preventDefault();
+                });
+                img.onerror = function() {
+                    this.onerror = null;
+                    this.src = '/user-images/user.png';
+                };
+                // Mark as handled to avoid adding event listeners more than once
+                img.dataset.contextMenuAdded = true;
+            }
+        });
+
+
+        const profileImageById = document.getElementById('profileImageAlternate');
+        if (profileImageById) {
+            profileImageById.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+            profileImageById.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+            });
+            profileImageById.onerror = function() {
+                this.onerror = null;
+                this.src = '/user-images/user.png';
+            };
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get the toggle switch
+            var toggleSwitch = document.getElementById('darkModeToggle');
+
+            // Check if dark mode is enabled from a previous session (using localStorage)
+            if (localStorage.getItem('darkModeARCCEC') === 'enabled') {
+                if (document.body) {
+                    document.body.style.backgroundColor = 'black';
+                }
+                if (document.getElementById('all_header')) {
+                    document.getElementById('all_header').style.backgroundColor = "black";
+                }
+                if (document.getElementById('head_one_nav1')) {
+                    document.getElementById('head_one_nav1').style.backgroundColor = "black";
+                }
+                if (document.getElementById('head_one_navAdmin')) {
+                    document.getElementById('head_one_navAdmin').style.backgroundColor = "black";
+                }
+                if (document.getElementById('head_one_navSuperadmin')) {
+                    document.getElementById('head_one_navSuperadmin').style.backgroundColor = "black";
+                }
+                if (document.getElementById('head_one_navMaintainer')) {
+                    document.getElementById('head_one_navMaintainer').style.backgroundColor = "black";
+                }
+                document.querySelectorAll('.darkcolorchanger1').forEach(function (element) {
+                    element.style.color = 'darkgray';
+                });
+                document.querySelectorAll('.blackName').forEach(function (element) {
+                    element.style.color = '#414A4C';
+                });
+                document.querySelectorAll('.darkcolorchanger2').forEach(function (element) {
+                    element.style.color = 'white';
+                    element.style.backgroundColor = 'gray';
+                });
+                document.querySelectorAll('.darkcolorchanger3').forEach(function (element) {
+                    element.style.color = 'white';
+                    element.style.backgroundColor = 'black';
+                });
+                document.querySelectorAll('.drop_dop_nav3').forEach(function (element) {
+                    element.style.color = 'white';
+                });
+                document.querySelectorAll('.right_color_box').forEach(function (element) {
+                    element.style.background = 'linear-gradient(#fff, #606060)';
+                });
+                if (document.querySelector('.prof_body')) {
+                    document.querySelector('.prof_body').style.background = 'black';
+                }
+                toggleSwitch.checked = true;
+            }
+
+            // Add event listener for toggle switch
+            toggleSwitch.addEventListener('change', function () {
+                if (toggleSwitch.checked) {
+                    // Enable dark mode
+                    if (document.body) {
+                        document.body.style.backgroundColor = 'black';
+                    }
+                    if (document.getElementById('all_header')) {
+                        document.getElementById('all_header').style.backgroundColor = "black";
+                    }
+                    if (document.getElementById('head_one_nav1')) {
+                        document.getElementById('head_one_nav1').style.backgroundColor = "black";
+                    }
+                    if (document.getElementById('head_one_navAdmin')) {
+                        document.getElementById('head_one_navAdmin').style.backgroundColor = "black";
+                    }
+                    if (document.getElementById('head_one_navSuperadmin')) {
+                        document.getElementById('head_one_navSuperadmin').style.backgroundColor = "black";
+                    }
+                    if (document.getElementById('head_one_navMaintainer')) {
+                        document.getElementById('head_one_navMaintainer').style.backgroundColor = "black";
+                    }
+                    document.querySelectorAll('.darkcolorchanger1').forEach(function (element) {
+                        element.style.color = 'darkgray';
+                    });
+                    document.querySelectorAll('.darkcolorchanger2').forEach(function (element) {
+                        element.style.color = 'white';
+                        element.style.backgroundColor = 'gray';
+                    });
+                    document.querySelectorAll('.darkcolorchanger3').forEach(function (element) {
+                        element.style.color = 'white';
+                        element.style.backgroundColor = 'black';
+                    });
+                    document.querySelectorAll('.drop_dop_nav3').forEach(function (element) {
+                        element.style.color = 'white';
+                    });
+                    document.querySelectorAll('.right_color_box').forEach(function (element) {
+                        element.style.background = 'linear-gradient(#fff, #606060)';
+                    });
+                    document.querySelectorAll('.blackName').forEach(function (element) {
+                        element.style.color = '#414A4C';
+                    });
+                    if (document.querySelector('.prof_body')) {
+                        document.querySelector('.prof_body').style.background = 'black';
+                    }
+                    localStorage.setItem('darkModeARCCEC', 'enabled'); // Save dark mode setting
+                } else {
+                    // Disable dark mode and revert to original styles by removing inline styles
+                    if (document.body) {
+                        document.body.style.removeProperty('background-color');
+                    }
+                    if (document.getElementById('all_header')) {
+                        document.getElementById('all_header').style.removeProperty('background-color');
+                    }
+                    if (document.getElementById('head_one_nav1')) {
+                        document.getElementById('head_one_nav1').style.removeProperty('background-color');
+                    }
+                    if (document.getElementById('head_one_navAdmin')) {
+                        document.getElementById('head_one_navAdmin').style.removeProperty('background-color');
+                    }
+                    if (document.getElementById('head_one_navSuperadmin')) {
+                        document.getElementById('head_one_navSuperadmin').style.removeProperty('background-color');
+                    }
+                    if (document.getElementById('head_one_navMaintainer')) {
+                        document.getElementById('head_one_navMaintainer').style.removeProperty('background-color');
+                    }
+                    document.querySelectorAll('.darkcolorchanger1').forEach(function (element) {
+                        element.style.removeProperty('color');
+                    });
+                    document.querySelectorAll('.darkcolorchanger2').forEach(function (element) {
+                        element.style.removeProperty('color');
+                        element.style.removeProperty('background-color');
+                    });
+                    document.querySelectorAll('.darkcolorchanger3').forEach(function (element) {
+                        element.style.removeProperty('color');
+                        element.style.removeProperty('background-color');
+                    });
+                    document.querySelectorAll('.right_color_box').forEach(function (element) {
+                        element.style.removeProperty('background');
+                    });
+                    document.querySelectorAll('.drop_dop_nav3').forEach(function (element) {
+                        element.style.removeProperty('color'); // Fix here: use 'color' as a string
+                    });
+                    document.querySelectorAll('.blackName').forEach(function (element) {
+                        element.style.removeProperty('color'); 
+                    });
+                    if (document.querySelector('.prof_body')) {
+                        document.querySelector('.prof_body').style.removeProperty('background');
+                    }
+                    localStorage.setItem('darkModeARCCEC', 'disabled'); // Save dark mode setting
+                }
+            });
+        });
+
+    </script>
+
+  </body>
+</html>
