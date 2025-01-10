@@ -1,0 +1,247 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    body {
+        background-color: #ffffff;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 80% auto;
+        background-position: center bottom 60%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .showuser2{
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        width: 92%;
+        border-radius: 5px;
+        background-color: aliceblue;
+    }
+
+    .user2_para_head{
+        font-weight: bold;
+        margin-bottom: 0px;
+    }
+
+    .moreAdvanceDD_custom{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 10px;
+        width: 100%;
+        padding: 9px;
+        transition: background-color 0.3s ease;
+    }
+
+    .moreAdvanceDD_custom:hover{
+        background-color: rgb(123, 180, 230);
+        color: white;
+    }
+
+    @media (max-width:539px){
+        .moreAdvanceDD_custom{
+            width: 100%;
+        }
+    }
+
+    .popupform_general {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+        z-index: 101;
+        min-width: 40%;
+        width: auto;
+        max-height: 90vh; /* Ensures the popup does not exceed 90% of the viewport height */
+        overflow: hidden; /* Hides overflow content */
+        border-radius: 20px;
+        box-shadow: 0 4px 30px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #general_popup_form {
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        padding: 50px;
+        padding-top: 20px;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 135% auto;
+        background-position: center bottom 45%;
+        background-repeat: no-repeat;
+        z-index: 101;
+        overflow-y: auto; /* Adds vertical scroll */
+        max-height: 90vh; /* Constrains the popup's height to 80% of the viewport height */
+    }
+
+    .close_pop_up{
+        font-size: 20px;
+    }
+
+    .close_pop_up:hover{
+        color: red;
+    }
+
+    @media (max-width: 1550px) {
+        .popupform_general{
+            min-width: 50%;
+        }
+    }
+
+    @media (max-width: 1250px) {
+        .popupform_general {
+            min-width: 54%;
+        }
+    }
+
+    @media (max-width: 1050px) {
+        .popupform_general {
+            min-width: 58%;
+        }
+    }
+
+    @media (max-width: 850px) {
+        .popupform_general {
+            min-width: 62%;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .popupform_general {
+            min-width: 90%;
+        }
+        #general_popup_form {
+            padding: 30px;
+            padding-top: 10px;
+        }
+    }
+
+    .p_in_popup{
+        margin-bottom: 0px;
+    }
+
+</style>
+
+
+{{#if dataPassed}}
+<section style="padding-top: 130px;">
+    <section class="container showuser2 darkcolorchanger3" style="margin-bottom: 20px;">
+        {{#each dataPassed}}
+            <div style="overflow: auto;word-wrap: break-word;">
+                <p class="user2_para_head" style="margin-top: 10px;">Post ID : </p>
+                <p class="user2_para_content">{{this.postID}}</p>
+            </div>
+            <div>
+                <p class="user2_para_head" style="margin-top: 10px;">Comment ID : </p>
+                <p class="user2_para_content">{{this.commentID}}</p>
+            </div>
+            <div>
+                <p class="user2_para_head" style="margin-top: 10px;">Deleted at : </p>
+                <p class="user2_para_content">{{this.deletedAt}}</p>
+            </div>
+            <div style="margin-bottom: 80px;width:100%;">
+                <a href="javascript:void(0)" onclick="superadminViewComments('{{this.postID}}','{{this.commentID}}')" class="btn moreAdvanceDD_custom darkcolorchanger2">view details</a>
+            </div>
+        {{/each}}
+    </section>
+</section>
+{{/if}}
+
+<div id="general_popup" class="popupform_general " style="display: none;">
+    <div style="width:100%" class="rows">
+        <div id="general_popup_form" class="right_color_box" style="width:100%;">
+            
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    async function superadminViewComments(postID, commentID) {
+        try {
+            const response = await $.ajax({
+                url: '/superadmin/superadmin_view_deleted_post_comment',
+                method: 'post',
+                data: {
+                    postID: postID,
+                    commentID: commentID
+                }
+            });
+            if (response.dataPassed.success) {
+                 // Dynamically insert comment_owner_name and deleted_comment_data into the popup
+                const popupContent = `
+                    <div>
+                        <p class="p_in_popup"><strong>Comment Owner:</strong></p>
+                        <div>
+                            <img class="rounded-circle profileImageAlternate" onclick="superadminViewProfile('${response.dataPassed.comment_owner_id}')" src="/user-images/${response.dataPassed.comment_owner_id}.jpg" alt="Profile Image" style="width: 50px;height: 50px;border-radius: 50%;object-fit: contain;cursor:pointer;">
+                        </div>
+                        <p style="font-weight: bold;cursor:pointer;" onclick="superadminViewProfile('${response.dataPassed.comment_owner_id}')">${response.dataPassed.comment_owner_name}</p>
+                        <p class="p_in_popup"><strong>Deleted Comment:</strong></p>
+                        <p style="font-weight: 500;">${response.dataPassed.deleted_comment_data}</p>
+                    </div>
+                `;
+
+                // Set the popup content
+                document.getElementById('general_popup_form').innerHTML = `
+                    <div style="text-align: right; margin-right: 10px;">
+                        <span class="close_pop_up" style="cursor: pointer;" onclick="closePopup()">&#10006;</span>
+                    </div>
+                    ${popupContent}
+                `;
+
+                // Display the popup and disable scroll
+                document.body.style.overflow = "hidden";
+                document.getElementById('general_popup').style.display = "block";
+            }
+        } catch (error) {
+            console.error('Error in retrieving detailed comment function:', error);
+        }
+    }
+
+
+    function closePopup() {
+        document.getElementById('general_popup').style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+
+
+    function superadminViewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/superadmin/superadmin_view_profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+    
+</script>

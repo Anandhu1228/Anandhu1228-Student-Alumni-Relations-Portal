@@ -1,0 +1,72 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    body {
+        background-color: #ffffff;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 80% auto;
+        background-position: center bottom 60%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .showuser2{
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        width: 92%;
+        border-radius: 5px;
+        background-color: aliceblue;
+    }
+
+    .user2_para_head{
+        font-weight: bold;
+        margin-bottom: 0px;
+    }
+
+</style>
+
+
+{{#if dataPassed}}
+<section style="padding-top: 130px;">
+    <section class="container showuser2 darkcolorchanger3" style="margin-bottom: 20px;">
+        {{#each dataPassed}}
+            <div>
+                <p class="user2_para_head" style="margin-top: 10px;">Name : </p>
+                <p class="user2_para_content">{{this.Name}}</p>
+            </div>
+            <div>
+                <p class="user2_para_head">Status : </p>
+                <p class="user2_para_content">{{this.Status}}</p>
+            </div>
+            <div style="margin-bottom: 80px;">
+                <p class="user2_para_head">Updated : </p>
+                <p class="user2_para_content">{{this.updated_time}}</p>
+            </div>
+        {{/each}}
+    </section>
+</section>
+{{/if}}
+

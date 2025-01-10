@@ -1,0 +1,384 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+    .cartoon-dialogue {
+        display: inline-block;
+        background-color: rgb(234, 240, 246);
+        padding: 15px;
+        border-radius: 40px 0px 40px 40px;
+        border: 4px solid rgb(38, 82, 164);
+        width: 100%;
+        height: auto;
+        overflow-y: auto;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        font-size: 15px;
+        color: rgb(38, 82, 164);
+        margin: auto;
+        text-align: center;
+        word-wrap: break-word; /* Allow long words to wrap onto the next line */
+    }
+
+    .experience_box_div{
+        display: inline-block;
+        width:100%;
+        margin-top:80px;
+    }
+
+    .btn{
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        padding: 10px;
+        margin: 5px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover{
+        background-color:rgb(123, 180, 230);
+    }
+
+    .a_button{
+        text-decoration: none;
+    }
+
+    .profile_view_image{
+        display: inline-block;
+        width: 500px;
+        border-radius: 50%; 
+        object-fit: cover;
+        height: 500px;
+        margin: 20px;
+    }
+
+    .message_button_view{
+        margin-left: 205px;
+    }
+
+    .experience{
+        border-radius: 10px;
+        width: 100%; 
+        border: none;
+        box-shadow: 0 0px 4px rgba(87, 85, 85, 0.9); 
+        background-color:rgb(234, 240, 246);
+        position:relative;
+    }
+
+    .noted_note{
+        margin-top: 50px;
+    }
+
+    .btn_domain{
+        background-color: rgb(84, 121, 189);
+        transition: background-color 0.3s ease;
+    }
+
+    .btn_domain:hover{
+        background-color: rgb(38, 82, 164);
+    }
+
+    .empstatusee{
+        background: linear-gradient(to right, #ffffff, rgb(188, 213, 233));
+        padding:20px;
+        width: 100%;
+        border-radius:10px;
+        box-shadow: 0 0px 4px rgba(87, 85, 85, 0.9);
+        overflow: auto; 
+        word-wrap: break-word;
+        margin-top: 60px;
+    }
+
+    .empstatusee_extra{
+        background: linear-gradient(to right, rgb(188, 213, 233), #ffffff);
+        padding:20px;
+        margin-top: 50px;
+        box-shadow: 0 0px 4px rgba(87, 85, 85, 0.4);
+        border-radius:10px;
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    .detail_div{
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    .empstatusee_head{
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .empstatusee_extra_head{
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .detail_div_head{
+        font-weight: 600px;
+    }
+
+    .empstatusee_text{
+        overflow: auto; 
+        word-wrap: break-word;
+        font-weight: 550;
+        color: black;
+    }
+
+    .empstatusee_extra_text{
+        overflow: auto; 
+        word-wrap: break-word;
+        font-weight: 550;
+        color: black;
+    }
+
+    .detail_div_text{
+        overflow: auto; 
+        word-wrap: break-word;
+        font-weight: 550;
+        color: black;
+    }
+
+     .experience_text{
+        overflow: auto; 
+        word-wrap: break-word;
+        font-weight: 550;
+        color: black;
+    }
+
+    .have_sub_branch{
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    .empstatusee_text_head{
+        color: rgb(30, 61, 120);
+    }
+
+    .empstatusee_extra_text_head{
+        color: rgb(30, 61, 120);
+    }
+    .detail_div_text_head{
+        color: rgb(30, 61, 120);
+    }
+
+    .experience_text_head{
+        color: rgb(30, 61, 120);
+    }
+
+    .container-fluid {
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+    
+    @media (max-width: 600px) {
+        .profile_view_image {
+            max-width: 400px;
+            max-height: 400px;
+            margin: 10px;
+        }
+        .message_button_view{
+            margin-left: 160px;
+        }
+    }
+     @media (max-width: 480px) {
+        .profile_view_image {
+            max-width: 315px;
+            max-height: 315px;
+            margin: auto;
+            margin-left: 15px;
+        } 
+        .message_button_view{
+            margin-left: 120px;
+        }
+        .btn{
+            font-weight: 500;
+            padding: 8px;
+        }  
+    }
+
+    .contain {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 30px;
+    }
+
+    .detail_div{
+        display: inline-block;
+        margin-left: 170px;
+    }
+
+    @media (max-width: 1340px) {
+        .contain {
+            flex-direction: column;
+        } 
+        .detail_div{
+            margin-left: 35px;
+        } 
+         .experience_box_div{
+            margin-top:60px;
+        }
+        .cartoon-dialogue{
+            margin-top: 20px;
+        }
+    }
+
+    @media (max-width: 399px) {
+        .container-fluid {
+            padding-left: 0px;
+        }
+    }
+
+    .prof_body{
+        background: linear-gradient(to right, rgb(223, 238, 250), #ffffff); 
+    }
+
+    .higher_study_desc {
+        border-radius: 6px;
+        width: 98%; 
+        margin-left: 1.5px;
+        font-weight: 500;
+        padding: 15px;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (max-width: 555px) {
+       .higher_study_desc{
+        font-size: 15px;
+       }
+    }
+
+</style>
+
+<section style="padding-top:140px" class="prof_body">
+    <div class="container-fluid">
+        <div class="col-md-12">
+
+            <div class="contain">
+                <div  style="display: inline-block;" >
+                    <div style="display: block;">
+                        <img class="profile_view_image profileImageAlternate" src="/user-images/{{profile._id}}.jpg"  id="profileImageAlternate" draggable="false">
+                    </div>
+                </div>
+                <div class="detail_div" >
+                    <h3 class="card-title mt-3 detail_div_head darkcolorchanger1">{{profile.Name}}</h3>
+                    <p class="card-text detail_div_text_head darkcolorchanger1"><strong>Passout Year : </strong><br><span class="detail_div_text darkcolorchanger1">{{profile.passoutYear}}</span></p>
+                    <p class="card-text detail_div_text_head darkcolorchanger1"><strong>Contact mail : </strong><br><span class="detail_div_text darkcolorchanger1">{{profile.Email}}</span></p>
+                    <p class="card-text detail_div_text_head darkcolorchanger1"><strong>Contact number : </strong><br><span class="detail_div_text darkcolorchanger1">{{profile.Contact}}</span></p>
+                    <p class="card-text detail_div_text_head darkcolorchanger1"><strong>Current Location : </strong><br><span class="detail_div_text darkcolorchanger1">{{profile.currentLocation}}</span></p>
+                    <p class="card-text detail_div_text_head darkcolorchanger1"><strong>Employement status : </strong><br><span class="detail_div_text darkcolorchanger1">{{profile.employmentStatus}}</span></p><br>
+                    <p class="card-title detail_div_text_head mt-3 darkcolorchanger1"><strong>Skills/Domains</strong></p>
+                    {{#each profile.workDomains}}
+                        <button type="button" class="btn btn_domain darkcolorchanger2">{{this}}</button>
+                    {{/each}}<br>
+                </div>
+            </div>
+
+            {{#if profile.Note}}
+                <div class="noted_note">
+                    <div class="cartoon-dialogue darkcolorchanger3">
+                        {{#unless profile.Note}}
+                            Hello, add your experiences or memories with CEC!<br>
+                            click me to edit or add
+                        {{/unless}}
+                        {{#if profile.Note}}
+                            {{profile.Note}}
+                        {{/if}}
+                    </div>
+                </div>
+            {{/if}}
+
+            {{#if profile.employmentStatus}}
+                {{#compare profile.employmentStatus "!==" null}}
+                    <div class="empstatusee right_color_box">
+                        {{#compare profile.employmentStatus "===" "working"}}
+                            <h5 class="empstatusee_head blackName">Currently working company details : </h5><br>   
+                            <p class="card-text empstatusee_text_head blackName"><strong>Name : </strong><br><span class="empstatusee_text">{{profile.working.workingCompanyName}}</span></p><hr>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Joined year : </strong><br><span class="empstatusee_text">{{profile.working.workingCompanyJoinedYear}}</span></p><hr>
+                            {{#if profile.working.WorkingownedPreviousStorage}}
+                                <div class="empstatusee_extra right_color_box">
+                                    <h5 class="empstatusee_extra_head blackName" >Other previously owned companies  : </h5><br>
+                                    {{#each profile.working.WorkingownedPreviousStorage}}  
+                                        <p  class="card-text empstatusee_extra_text_head blackName"><strong>Name : </strong><br><span class="empstatusee_extra_text">{{this.name}}</span></p>
+                                        <p  class="card-text empstatusee_extra_text_head blackName"><strong>Founded year : </strong><br><span class="empstatusee_extra_text">{{this.year}}</span></p><hr><br>
+                                    {{/each}}
+                                </div>
+                            {{/if}}       
+                        {{/compare}}
+                        {{#compare profile.employmentStatus "===" "ownCompany"}}
+                            <h5 class="empstatusee_head blackName">Currently owned company details : </h5><br>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Name : </strong><br><span class="empstatusee_text">{{profile.ownCompany.FoundedCompanyName}}</span></p><hr>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Main location : </strong><br><span class="empstatusee_text">{{profile.ownCompany.mainLocation}}</span></p><hr>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Founded year : </strong><br><span class="empstatusee_text">{{profile.ownCompany.foundedYear}}</span></p><hr>
+                            {{#if profile.ownCompany.subbranches}}
+                                <div class="have_sub_branch">
+                                    <h6 class="card-text empstatusee_text_head blackName"><strong>Subbranches : </strong></h6>
+                                    {{#each profile.ownCompany.subbranches}} 
+                                        <p style="display: inline-block;" class="empstatusee_text " >{{this}} &nbsp;</p>
+                                    {{/each}}
+                                </div> 
+                            {{/if}}
+                            {{#if profile.ownCompany.OwnadditionalFoundedCompanyStorage}}  
+                                <div class="empstatusee_extra right_color_box">
+                                    <h5 class="empstatusee_extra_head blackName">Other previously owned companies  : </h5><br>
+                                    {{#each profile.ownCompany.OwnadditionalFoundedCompanyStorage}} 
+                                        <p  class="card-text empstatusee_extra_text_head blackName"><strong>Name : </strong><br><span class="empstatusee_extra_text">{{this.name}}</span></p>
+                                        <p  class="card-text empstatusee_extra_text_head blackName"><strong>Founded year : </strong><br><span class="empstatusee_extra_text">{{this.year}}</span></p><br> <hr>
+                                    {{/each}}
+                                </div>
+                            {{/if}}
+                        {{/compare}}
+                        {{#compare profile.employmentStatus "===" "higherStudies"}}
+                            <h5 class="empstatusee_head blackName">Opted for higher studies at : </h5><br>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Institution name : </strong><br><span class="empstatusee_text">{{profile.higherStudies.higherstudiesJoinedInstitutionName}}</span></p><hr>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Joined course : </strong><br><span class="empstatusee_text">{{profile.higherStudies.higherstudiesJoinedCoarse}}</span></p><hr>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Joined in : </strong><br><span class="empstatusee_text">{{profile.higherStudies.higherstudiesJoinedYear}}</span></p><hr>
+                            {{#compare profile.higherStudies.higherstudiesJoinedCourseBrief "!==" ""}}
+                                <div class="higher_study_desc" >
+                                    {{profile.higherStudies.higherstudiesJoinedCourseBrief}}
+                                </div>
+                            {{/compare}}
+                            {{#if profile.ownCompany.OwnadditionalFoundedCompanyStorage}}  
+                                <div class="empstatusee_extra right_color_box">
+                                    <h5 class="empstatusee_extra_head blackName">Other previously owned companies  : </h5><br>
+                                    {{#each profile.ownCompany.OwnadditionalFoundedCompanyStorage}} 
+                                        <p  class="card-text empstatusee_extra_text_head blackName"><strong>Name : </strong><br><span class="empstatusee_extra_text">{{this.name}}</span></p>
+                                        <p  class="card-text empstatusee_extra_text_head blackName"><strong>Founded year : </strong><br><span class="empstatusee_extra_text">{{this.year}}</span></p><br> <hr>
+                                    {{/each}}
+                                </div>
+                            {{/if}}
+                        {{/compare}}
+                    </div><br>
+                {{/compare}}
+            {{/if}}
+
+            {{#if profile.experience}}
+                <div class="experience_box_div">
+                    <p class="card-title darkcolorchanger1" style="font-size: 20px;"><strong>Experiences</strong></p>
+                    {{#each profile.experience}}
+                        <div class="card " style="width: 100%; border:none;">
+                            <div class="card-body experience right_color_box" >
+                                <p class="card-text experience_text_head blackName"><strong>Title : </strong><br> <span class="experience_text">{{this.companyName}}</span></p><hr>
+                                <p class="card-text experience_text_head blackName"><strong>Start date : </strong><br><span class="experience_text">{{this.startMonth}} {{this.startYear}}</span></p><hr>
+                                <p class="card-text experience_text_head blackName"><strong>End date : </strong><br> <span class="experience_text">{{this.endMonth}} {{this.endYear}}</span></p><hr>
+                                <p class="card-text experience_text_head blackName"><strong>Description : </strong><br> <span class="experience_text">{{this.description}}</span></p><hr>
+                            </div>
+                        </div><br>
+                    {{/each}}
+                </div>
+            {{/if}}
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,114 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    body {
+        background-color: #ffffff;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 80% auto;
+        background-position: center bottom 60%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .showuser2{
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        width: 92%;
+        border-radius: 5px;
+        background-color: aliceblue;
+    }
+
+    .user2_para_head{
+        font-weight: bold;
+        margin-bottom: 0px;
+    }
+
+    .moreAdvanceDD_custom{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 10px;
+        width: 100%;
+        padding: 9px;
+        transition: background-color 0.3s ease;
+    }
+
+    .moreAdvanceDD_custom:hover{
+        background-color: rgb(123, 180, 230);
+        color: white;
+    }
+
+    @media (max-width:539px){
+        .moreAdvanceDD_custom{
+            width: 100%;
+        }
+    }
+
+</style>
+
+
+{{#if dataPassed}}
+<section style="padding-top: 130px;">
+    <section class="container showuser2 darkcolorchanger3" style="margin-bottom: 20px;">
+        {{#each dataPassed}}
+        <div>
+            <img class="rounded-circle profileImageAlternate" src="/user-images/{{this.profile_id}}.jpg" alt="Profile Image" style="width: 50px;height: 50px;border-radius: 50%;object-fit: contain;">
+        </div>
+            <div>
+                <p class="user2_para_head" style="margin-top: 10px;">Name : </p>
+                <p class="user2_para_content">{{this.profile_name}}</p>
+            </div>
+            <div>
+                <p class="user2_para_head" style="margin-top: 10px;">Viewed : </p>
+                <p class="user2_para_content">{{this.viewedAt}}</p>
+            </div>
+            <div style="margin-bottom: 80px;width:100%;">
+                <a style="color:white;" onclick="superadminViewProfile('{{this.profile_id}}')" class="btn moreAdvanceDD_custom darkcolorchanger2">profile</a>
+            </div>
+        {{/each}}
+    </section>
+</section>
+{{/if}}
+
+
+<script>
+
+    function superadminViewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/superadmin/superadmin_view_profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+    
+</script>

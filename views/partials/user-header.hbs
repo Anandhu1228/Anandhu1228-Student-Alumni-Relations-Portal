@@ -1,0 +1,750 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+
+    .head1{
+        background-color: #ffffff;
+    }
+
+    /*.icon-container-chat {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 50px;
+    }
+
+    .icon-chat {
+      width: 40px;
+      height: 40px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 30px;
+    }
+
+      .badge-chat {
+      position: absolute;
+      height: 25px;
+      width: 25px;
+      top: 0;
+      right: 0;
+      background-color: #e74c3c;
+      color: white;
+      border-radius: 50%;
+      padding: 3px;
+      font-size: 16px;
+    } */
+
+    .all_HEADER{
+        position: fixed;
+        width: 100%;
+        z-index: 2000;
+        margin-bottom: 500px;
+        background-color: #ffffff;
+    }
+
+    .header_title{
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 600;
+        font-size: 22px;
+        margin-bottom: 0px;
+    }
+
+    .header_main{
+        display: flex; align-items: center;
+        margin-left: 30px;
+    }
+
+    .header_image{
+        display: inline-block;
+    }
+
+    .header_title_div{
+        margin-top: 10px;
+        display: inline-block;
+        margin-left: 20px;
+    }
+
+    .header_para{
+        font-size: 16px;
+    }
+
+    .logo{
+        width: 80px;
+    }
+
+    .innav{
+        font-size: 18px;
+        margin-left: 10px;
+        margin-right: 10px;
+        font-weight: 700;
+    }
+
+    .theme_icona_sun, .theme_icona_moon{
+        display: none;
+        color: rgb(38, 82, 164);
+    }
+
+    @media (max-width: 1250px) {
+        .navbar-expand-lg .navbar-collapse {
+            display: none !important;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: block !important;
+        }
+
+        .navbar-expand-lg .collapsing {
+            display: block !important;
+        }
+
+        .navbar-expand-lg .show {
+            display: block !important;
+        }
+
+        .navbar-expand-lg .navbar-toggler-icon {
+            display: block !important;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: inline-block !important;
+        }
+
+        .slide-in-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: auto;
+            padding-bottom: 20px;
+            background-color: #fff;
+            transform: translateX(-100%);
+            transition: transform 0.2s ease;
+            z-index: 1050;
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+            border-radius: 0 500px 500px 0;
+            border: 2px solid rgb(255, 255, 255);
+        }
+
+        .slide-in-sidebar.show {
+            transform: translateX(0);
+        }
+
+        .slide-in-sidebar2 {
+            position: fixed;
+            padding-top: 30px;
+            padding-left: 20px;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: auto;
+            padding-bottom: 20px;
+            background-color: rgb(137, 176, 248);
+            transform: translateX(-100%);
+            transition: transform 0.2s ease;
+            z-index: 1050;
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+            border-radius: 0 500px 500px 0;
+        }
+
+        .slide-in-sidebar2.show {
+            transform: translateX(0);
+        }
+
+        .flex_determiner {
+            flex-direction: column !important; 
+        }
+
+        .theme_icona_sun, .theme_icona_moon{
+            display: block;
+        }
+    }
+
+    @media (max-width: 1350px) {
+        .header_title{
+            font-size: 20px;
+        }
+        .header_para{
+            font-size: 14.5px;
+        }
+        .logo{
+            width: 65px;
+        }
+    }
+
+    @media (max-width: 850px) {
+        .header_main{
+            margin-left: 0px;
+        }
+    }
+
+    @media (max-width: 550px) {
+        .header_title{
+            font-size: 14px;
+        }
+        .header_para{
+            font-size: 10.5px;
+        }
+    }
+
+    .navbar1,.navbar3{
+        background-color: rgb(255, 255, 255);
+        display: ;
+    }
+
+    .navbar2{
+        background-color: rgb(137, 176, 248);
+        color: rgb(38, 82, 164);
+    }
+
+    .head1 {
+        margin-bottom: 2px;
+        background-color: white;
+    }
+
+    .head2{
+        margin-bottom: 1px;
+    }
+
+    .second_nav_style{
+        font-weight: 600; color:white;font-size:18px;
+    }
+
+    .a_inside_header{
+        color: rgb(38, 82, 164);
+    }
+
+    .drop_dop{
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .drop_dop:hover {
+        transform: scale(1.2);
+    }
+
+    .drop_dop_nav1{
+        color: rgb(38, 82, 164);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .drop_dop_nav1:hover {
+        transform: scale(1.05);
+    }
+    
+    .drop_dop_nav3{
+        font-size: 17px;
+        font-weight:bolder;
+        color:rgb(38, 82, 164);
+        text-decoration:none;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .drop_dop_nav3:hover {
+        transform: scale(1.2);
+    }
+
+    @media (max-width: 750px) {
+        .drop_dop_nav3{
+            font-size:14px;
+        }
+    }
+
+        @media (max-width: 430px) {
+        .drop_dop_nav3{
+            font-size:13px;
+        }
+    }
+
+    .badge_chat{
+        top:1px;
+        right:-9px;
+    }
+
+    .profile_button{
+        color: white;
+        background-color:rgb(93, 138, 222);
+    }
+
+    @media (max-width: 450px) {
+        .second_nav_style{
+            font-weight: 600; color:white;font-size:17px;
+        }
+    }
+
+    @media (max-width: 1445px) {
+        .drop_dop_nav1 {
+            font-size:17px;
+        }
+    }
+
+    @media (max-width: 364px) {
+        .header_title_div {
+            margin-left: 0px;
+        }
+    }
+
+    .navbar-light .navbar-nav .nav-link.drop_dop_nav1 {
+        color: rgb(38, 82, 164);
+    }
+
+    .tog_border{
+        /*border: 1px solid rgb(255, 255, 255) !important;*/
+    }
+
+    .darkmode_switch_li{
+        margin-bottom: 10px;
+    }
+
+    .badge_carrier_header{
+        font-weight:1000; 
+        background-color:rgb(93, 138, 222);
+        color:white;padding:6px;
+    }
+
+    .super_overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(59, 57, 57, 0.5);
+        z-index: 999;
+        cursor: not-allowed;
+    }
+
+  </style>
+</head>
+
+
+<section class="all_HEADER darkcolorchanger1" id="all_header">
+
+{{#if showHeader1}}
+<header class="head1">
+    <nav class="navbar navbar1 navbar-expand-lg navbar-light" id="head_one_nav1">
+        <div class="header_main">
+            <div class="header_image">
+                <img class="logo" src="/images/logo.png" alt="Logo">
+            </div>
+            <div class="header_title_div">
+                <p class="header_title darkcolorchanger1">ALUMNI RELATIONS CELL</p>
+                <p class="header_para darkcolorchanger1">College Of Engineering Chengannur</p>
+            </div>
+        </div>
+
+        <!-- Navbar Toggler -->
+        <button class="navbar-toggler ml-auto darkcolorchanger2" onclick="set_body_freeze()" type="button" data-toggle="collapse"
+            data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Slide-in Sidebar for Navbar -->
+        <div class="collapse navbar-collapse slide-in-sidebar darkcolorchanger3" id="navbarTogglerDemo01">
+            <ul class="navbar-nav flex_determiner ml-auto mt-2 mt-lg-0">
+                <li class="nav-item innav">
+                    <a class="nav-link a_inside_header drop_dop_nav1 darkcolorchanger1" href="/">Home</a>
+                </li>
+                {{#if inHome}}
+                    <li class="nav-item innav">
+                        <a class="nav-link a_inside_header drop_dop_nav1 darkcolorchanger1" href="#about">About</a>
+                    </li>
+                    <li class="nav-item innav">
+                        <a class="nav-link a_inside_header drop_dop_nav1 darkcolorchanger1" href="/gallery">Gallery</a>
+                    </li>
+                    <li class="nav-item innav" style="margin-right: 30px;">
+                        <a class="nav-link a_inside_header drop_dop_nav1 darkcolorchanger1" href="#contact">Contact</a>
+                    </li>
+                {{/if}}
+                <li class="nav-item innav darkmode_switch_li">
+                    <div class="darkmode_switch" data-bs-toggle="tooltip" data-bs-placement="top" title="Theme">
+                        <i class="fa-solid fa-sun fa-spin theme_icona_sun darkcolorchanger1"></i>
+                        <input class="darkmode_check_input" type="checkbox" id="darkModeToggle">
+                        <i class="fa-solid fa-moon fa-flip theme_icona_moon darkcolorchanger1"></i>
+                    </div>
+                </li>
+                {{#if uber}}
+                <li class="nav-item innav" style="margin-right: 30px;">
+                    <a class="nav-link a_inside_header drop_dop_nav1 darkcolorchanger1" href="/profile">Profile</a>
+                </li>
+                {{/if}}
+            </ul>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle innav profile_button darkcolorchanger2" type="button" id="Account"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{#if uber}}
+                    {{uber}}
+                    {{else}}
+                    Account
+                    {{/if}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="Account">
+                    {{#if uber}}
+                    <a class="dropdown-item innav" href="/logout">logout</a>
+                    {{else}}
+                    <a class="dropdown-item innav" href="/login">login</a>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+{{/if}}
+
+
+{{#if uber}}
+{{#if showHeader2}}
+<header class="head2">
+    <nav class="navbar navbar2 navbar-expand-lg navbar-light darkcolorchanger2">
+        <button class="navbar-toggler ml-auto tog_border" onclick="set_body_freezee()" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse  slide-in-sidebar2 darkcolorchanger2" id="navbarTogglerDemo02">
+            <ul class="navbar-nav ml-auto mr-auto mt-2 mt-lg-0 flex_determiner" style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+                <li class="nav-item">
+                    <a class="nav-link drop_dop" href="/job_portal" data-bs-toggle="tooltip" data-bs-placement="top" title="Job Portal">
+                        <span class="second_nav_style">Job-Portal</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link drop_dop" href="/mentorshipportal" data-bs-toggle="tooltip" data-bs-placement="top" title="Mentorship Portal">
+                        <span class="second_nav_style">Mentorship-Portal</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link drop_dop" href="/internship_portal" data-bs-toggle="tooltip" data-bs-placement="top" title="Internship Portal">
+                        <span class="second_nav_style">Internship-Portal</span>
+                    </a>
+                </li>
+                <li class="nav-item position-relative">
+                    <a class="nav-link drop_dop" href="/groupchat" data-bs-toggle="tooltip" data-bs-placement="top" title="Group Chat">
+                        <i class="fas fa-users" style="font-size: 27px; color:white"></i>
+                        <span class="badge bg-light rounded-circle position-absolute top-0 start-100 translate-middle" style="font-weight:1000;">
+                            {{groupchatcount}}
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item position-relative">
+                    <a class="nav-link drop_dop" href="/chatwith" data-bs-toggle="tooltip" data-bs-placement="top" title="Chat Box">
+                        <i class="fas fa-comment-dots" style="font-size: 27px; color:white"></i>
+                        <span class="badge badge_chat bg-light rounded-circle position-absolute top-0 start-100 translate-middle" style="font-weight:1000;">
+                            {{total_message}}
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item position-relative">
+                    <a class="nav-link drop_dop" href="/viewNotifications" data-bs-toggle="tooltip" data-bs-placement="top" title="Notifications">
+                        <i class="fas fa-bell" style="font-size: 27px; color:white"></i>
+                        <span class="badge bg-light rounded-circle position-absolute top-0 start-100 translate-middle" style="font-weight:1000;">
+                            {{total_notify_number}}
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link drop_dop" href="/searchfriends" data-bs-toggle="tooltip" data-bs-placement="top" title="Search User">
+                        <i class="fas fa-search" style="font-size: 27px; color:white;"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link drop_dop" href="/settings" data-bs-toggle="tooltip" data-bs-placement="top" title="Settings">
+                        <i class="fas fa-cogs" style="font-size: 27px; color:white;"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+{{/if}}
+{{/if}}
+
+{{#if showHeader3}}
+<nav style="display: flex; justify-content: space-between;margin-top:0px; padding:3px;" class="navbar navbar2 darkcolorchanger3">
+    <div style="margin-left: 20px;"><a class="drop_dop_nav3" style="text-decoration:none;" href="/view-other-post">others's posts</a></div>
+    <div>
+        <div style="margin-right: 20px;display:inline-block;"><a class="drop_dop_nav3" style="text-decoration:none;" href="/view-own-post">your posts</a></div>
+        <a href="/add-post" style="display:inline-block;"><button style="border-radius:10px;" class="button_plus ">+</button></a>
+    </div> 
+</nav>
+{{/if}}
+
+{{#if showAdminHeader1}}
+<header class="head1">
+    <nav class="navbar navbar1 navbar-expand-lg navbar-light" id="head_one_navAdmin">
+        <div class="header_main">
+            <div class="header_image">
+                <img class="logo" src="/images/logo.png"  alt="Logo">
+            </div>
+            <div class="header_title_div" style="display: inline-block; margin-left: 20px;">
+                <p class="header_title">ALUMNI RELATIONS CELL</p>
+                <p class="header_para">College Of Engineering Chengannur</p>
+            </div>
+        </div>
+
+        <button class="navbar-toggler ml-auto darkcolorchanger2" onclick="set_body_freezeee()" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+            aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse slide-in-sidebar darkcolorchanger3" id="navbarTogglerDemo03">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item  innav">
+                    <a class="nav-link a_inside_header_admin drop_dop_nav1 darkcolorchanger1 " href="/admin/admin-view-page">Home</a>
+                </li>
+                <li class="nav-item innav darkmode_switch_li">
+                    <!-- Dark Mode Toggle -->
+                    <div class="darkmode_switch" data-bs-toggle="tooltip" data-bs-placement="top" title="Theme">
+                        <i class="fa-solid fa-sun fa-spin theme_icona_sun darkcolorchanger1"></i>
+                        <input class="darkmode_check_input" type="checkbox" id="darkModeToggle">
+                        <i class="fa-solid fa-moon fa-flip theme_icona_moon darkcolorchanger1"></i>
+                    </div>
+                </li>
+                <li class="nav-item  innav" style="margin-right: 25px;">
+                    <a class="nav-link a_inside_header_admin drop_dop_nav1 darkcolorchanger1" href="/admin/admin_view_notification">Notifications
+                        <span class="badge rounded-circle position-absolute top-0 start-100 translate-middle badge_carrier_header darkcolorchanger2">
+                            {{totalNotification}}
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle innav profile_button darkcolorchanger2" type="button" id="Account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{#if aber}}
+                        {{aber}}
+                    {{else}}
+                        Account
+                    {{/if}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="Account">
+                    <a class="dropdown-item" href="/admin/adminlogout" style="font-weight: bold;">logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+{{/if}}
+
+{{#if showSuperAdminHeader1}}
+<header class="head1">
+    <nav class="navbar navbar1 navbar-expand-lg navbar-light" id="head_one_navSuperadmin">
+        <div class="header_main">
+            <div class="header_image">
+                <img class="logo" src="/images/logo.png"  alt="Logo">
+            </div>
+            <div class="header_title_div" style="display: inline-block; margin-left: 20px;">
+                <p class="header_title">ALUMNI RELATIONS CELL</p>
+                <p class="header_para">College Of Engineering Chengannur</p>
+            </div>
+        </div>
+
+        <button class="navbar-toggler ml-auto darkcolorchanger2" onclick="set_body_freezeeee()" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo04"
+            aria-controls="navbarTogglerDemo04" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse slide-in-sidebar darkcolorchanger3" id="navbarTogglerDemo04">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item  innav">
+                    <a class="nav-link a_inside_header_admin drop_dop_nav1 darkcolorchanger1" href="/superadmin/superadmin-view-page">Home</a>
+                </li>
+                <li class="nav-item innav darkmode_switch_li">
+                    <!-- Dark Mode Toggle -->
+                    <div class="darkmode_switch" data-bs-toggle="tooltip" data-bs-placement="top" title="Theme">
+                        <i class="fa-solid fa-sun fa-spin theme_icona_sun darkcolorchanger1"></i>
+                        <input class="darkmode_check_input" type="checkbox" id="darkModeToggle">
+                        <i class="fa-solid fa-moon fa-flip theme_icona_moon darkcolorchanger1"></i>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle profile_button innav darkcolorchanger2" type="button" id="Account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{#if saber}}
+                    {{saber}}
+                    {{else}}
+                        Account
+                    {{/if}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="Account">
+                    <a class="dropdown-item" href="/superadmin/superadminlogout">logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+{{/if}}
+
+
+{{#if showMaintainerHeader1}}
+<header class="head1">
+    <nav class="navbar navbar1 navbar-expand-lg navbar-light" id="head_one_navMaintainer">
+        <div class="header_main">
+            <div class="header_image">
+                <img class="logo" src="/images/logo.png"  alt="Logo">
+            </div>
+            <div class="header_title_div" style="display: inline-block; margin-left: 20px;">
+                <p class="header_title">ALUMNI RELATIONS CELL</p>
+                <p class="header_para">College Of Engineering Chengannur</p>
+            </div>
+        </div>
+
+        <button class="navbar-toggler ml-auto darkcolorchanger2" onclick="set_body_freezeeeee()" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo05"
+            aria-controls="navbarTogglerDemo05" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse slide-in-sidebar darkcolorchanger3" id="navbarTogglerDemo05">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item  innav">
+                    <a class="nav-link a_inside_header_admin drop_dop_nav1 darkcolorchanger1" href="/maintainer/maintainer_view_page">Home</a>
+                </li>
+                <li class="nav-item innav darkmode_switch_li">
+                    <!-- Dark Mode Toggle -->
+                    <div class="darkmode_switch" data-bs-toggle="tooltip" data-bs-placement="top" title="Theme">
+                        <i class="fa-solid fa-sun fa-spin theme_icona_sun darkcolorchanger1"></i>
+                        <input class="darkmode_check_input" type="checkbox" id="darkModeToggle">
+                        <i class="fa-solid fa-moon fa-flip theme_icona_moon darkcolorchanger1"></i>
+                    </div>
+                </li>
+                <li class="nav-item  innav">
+                    <a class="nav-link a_inside_header drop_dop_nav1 darkcolorchanger1" href="/gallery">Gallery</a>
+                </li>
+            </ul>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle innav profile_button darkcolorchanger2" type="button" id="Account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{#if maber}}
+                    {{maber}}
+                    {{else}}
+                        Account
+                    {{/if}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="Account">
+                    <a class="dropdown-item" href="/maintainer/maintainerlogout">logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+{{/if}}
+
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+
+
+    function set_body_freeze() {
+        var navExpander = document.getElementById('navbarTogglerDemo01');
+        var overlay = document.querySelector('.super_overlay');
+        
+        if (navExpander.classList.contains("show")) {
+            if (overlay) overlay.remove();
+            document.body.style.overflow = "auto";
+        } else {
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'super_overlay';
+                document.body.appendChild(overlay);
+            }
+            document.body.style.overflow = "hidden";
+        }
+    }
+
+    function set_body_freezee() {
+        var navExpandeer = document.getElementById('navbarTogglerDemo02');
+        var overlay = document.querySelector('.super_overlay');
+        
+        if (navExpandeer.classList.contains("show")) {
+            if (overlay) overlay.remove();
+            document.body.style.overflow = "auto";
+        } else {
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'super_overlay';
+                document.body.appendChild(overlay);
+            }
+            document.body.style.overflow = "hidden";
+        }
+    }
+
+    function set_body_freezeee() {
+        var navExpandeeer = document.getElementById('navbarTogglerDemo03');
+        var overlay = document.querySelector('.super_overlay');
+        
+        if (navExpandeeer.classList.contains("show")) {
+            if (overlay) overlay.remove();
+            document.body.style.overflow = "auto";
+        } else {
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'super_overlay';
+                document.body.appendChild(overlay);
+            }
+            document.body.style.overflow = "hidden";
+        }
+    }
+
+    function set_body_freezeeee() {
+        var navExpandeeeer = document.getElementById('navbarTogglerDemo04');
+        var overlay = document.querySelector('.super_overlay');
+        
+        if (navExpandeeeer.classList.contains("show")) {
+            if (overlay) overlay.remove();
+            document.body.style.overflow = "auto";
+        } else {
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'super_overlay';
+                document.body.appendChild(overlay);
+            }
+            document.body.style.overflow = "hidden";
+        }
+    }
+
+    function set_body_freezeeeee() {
+        var navExpandeeeeer = document.getElementById('navbarTogglerDemo05');
+        var overlay = document.querySelector('.super_overlay');
+        
+        if (navExpandeeeeer.classList.contains("show")) {
+            if (overlay) overlay.remove();
+            document.body.style.overflow = "auto";
+        } else {
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'super_overlay';
+                document.body.appendChild(overlay);
+            }
+            document.body.style.overflow = "hidden";
+        }
+    }
+
+</script>
+    

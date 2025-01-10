@@ -1,0 +1,280 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+  body{
+    background-image: url('/images/logo_transparent1.png');
+    background-size: 70% auto;
+    background-position: center bottom 55%;
+    background-repeat: no-repeat;
+    background-color: rgb(255, 255, 255);
+    background-attachment: fixed;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      background-image: url('/images/logo1.png');
+      background-position: center bottom 40%;
+    }
+  }
+
+  .admin-section {
+    margin-bottom: 10px;
+    background-color: rgb(38, 82, 164);
+    border-radius: 10px;
+    border: none;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+
+  .admin-section:hover{
+    background-color: rgb(123, 180, 230);
+  }
+
+  .admin_button{
+    color: rgb(38, 82, 164);
+    font-weight: bold;
+    margin-right: 20px;
+  }
+
+  .admin_title{
+    color: white;
+    font-weight: 600;
+    margin-left: 20px;
+    margin-bottom: 0px;
+  }
+
+  @media (max-width: 620px) {
+    .admin_title{
+      font-size: 15px;
+    }
+    .admin_title{
+      margin-left: 10px;
+      margin-bottom: 2px;
+    }
+    .admin_button{
+      margin-right: 0px;
+    }
+  }
+
+  @media (max-width: 490px) {
+    .inside_div_view_page{
+      padding: 8px;
+    }
+    .admin_button{
+      padding: 7px;
+      margin-right: 0px;
+    }
+    .admin_title{
+      margin-left: 10px;
+      margin-bottom: 2px;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .inside_div_view_page{
+      padding: 5px;
+      padding-left: 4px;
+    }
+    .admin_title{
+      font-size: 14px;
+    }
+    .admin_button{
+      padding: 4px;
+      font-size: 14px;
+      margin-right: 0px;
+    }
+    .admin_title{
+      margin-left: 10px;
+      margin-bottom: 2px;
+    }
+  }
+  
+</style>
+
+<section style="padding-top:140px">
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">Search user</h5>
+    <a href="/superadmin/superadmin_search_user" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin added new users</h5>
+    <a href="/superadmin/view_admin_addednew_users" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin deleted users</h5>
+    <a href="/superadmin/view_admin_deleted_candidate" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin cleared user records</h5>
+    <a href="/superadmin/view_admin_cleared_user_records" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin updated user status</h5>
+    <a href="/superadmin/view_admin_updated_user_status" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin logged time</h5>
+    <a href="/superadmin/view_admin_logged_time" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin edited profile</h5>
+    <a href="/superadmin/view_admin_edited_profile" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin updated profile</h5>
+    <a href="/superadmin/view_admin_updated_profile" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin edited user password</h5>
+    <a href="/superadmin/view_admin_edited_user_password" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">Admin view user password update log</h5>
+    <a href="/superadmin/admin_view_user_password_update_log" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">Admin view user logged log</h5>
+    <a href="/superadmin/admin_view_user_logged_log" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin deleted jobs</h5>
+    <a href="/superadmin/view_admin_deleted_jobs" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin deleted internship requests</h5>
+    <a href="/superadmin/view_admin_deleted_internship_requests" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin deleted mentor questions</h5>
+    <a href="/superadmin/view_admin_deleted_mentor_questions" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin deleted mentor replies</h5>
+    <a href="/superadmin/view_admin_deleted_mentor_replies" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin deleted posts</h5>
+    <a href="/superadmin/admin_deleted_posts" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin deleted post comments</h5>
+    <a href="/superadmin/view_admin_deleted_post_comments" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin deleted post comment replies</h5>
+    <a href="/superadmin/view_admin_deleted_post_comment_replies" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin restricted groupchat</h5>
+    <a href="/superadmin/view_admin_restricted_groupchat" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">View admin restricted user</h5>
+    <a href="/superadmin/view_admin_restricted_user" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">Admin viewed deleted groupchat log</h5>
+    <a href="/superadmin/admin_viewed_deleted_groupchat_log" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">Admin viewed deleted private chat log</h5>
+    <a href="/superadmin/admin_viewed_deleted_private_chat_log" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">Superadmin special power</h5>
+    <a href="/superadmin/superadmin_special_force" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+
+<div class="card text-center admin-section darkcolorchanger2" style="margin-bottom: 30px;">
+  <div class="card-body d-flex justify-content-between align-items-center inside_div_view_page">
+    <h5 class="card-title admin_title text-left">Superadmin guidelines</h5>
+    <a href="/superadmin/superadmin_guideline" class="btn admin_button btn-light blackName">select</a>
+  </div>
+</div>
+</section>
