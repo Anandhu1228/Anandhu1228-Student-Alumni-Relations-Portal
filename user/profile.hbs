@@ -1,0 +1,742 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    .cartoon-dialogue {
+        display: inline-block;
+        background-color: rgb(234, 240, 246);
+        padding: 15px;
+        border-radius: 40px 0px 40px 40px;
+        border: 4px solid rgb(38, 82, 164);
+        width: 100%;
+        height: auto;
+        overflow-y: auto;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        font-size: 15px;
+        color: rgb(38, 82, 164);
+        margin: auto;
+        text-align: center;
+        word-wrap: break-word; /* Allow long words to wrap onto the next line */
+    }
+
+    .btn{
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        padding: 10px;
+        margin: 5px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover{
+        background-color:rgb(123, 180, 230);
+    }
+
+    .experience_box_div{
+        margin-top:60px;
+    }
+
+    .a_button{
+        text-decoration: none;
+    }
+
+    .profile_view_image{
+        display: inline-block;
+        width: 500px;
+        border-radius: 50%; 
+        height: 500px;
+        object-fit: cover;
+        margin: 20px;
+    }
+
+    .experience{
+        border-radius: 10px;
+        width: 100%; 
+        border: none;
+        box-shadow: 0 0px 4px rgba(87, 85, 85, 0.9); 
+        background-color:rgb(234, 240, 246);
+        position:relative;
+    }
+
+    .btn_domain{
+        background-color: rgb(84, 121, 189);
+        transition: background-color 0.3s ease;
+    }
+
+    .btn_domain:hover{
+        background-color: rgb(38, 82, 164);
+    }
+
+    .plus-button_domain_edit{
+        padding: 6px;
+        font-weight: 600;
+        font-size: 13px;
+        transition: background-color 0.3s ease;
+    }
+
+    .plus-button_domain_edit:hover{
+        background-color: rgb(194, 225, 22);
+    }
+
+    .plus-button_domain_add{
+        padding: 6px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+        font-size: 13px;
+    }
+
+    .plus-button_domain_add:hover{
+        background-color: rgb(26, 214, 92);
+    }
+
+    .btn_edit_experience{
+        padding: 7px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn_edit_experience:hover{
+        background-color: rgb(194, 225, 22);
+    }
+
+    .btn_delete_experience{
+        padding: 7px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn_delete_experience:hover{
+        background-color: rgb(202, 26, 10);
+        color: #ffffff;
+    }
+
+    .btn_add_experience{
+        padding: 7px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn_add_experience:hover{
+        background-color: rgb(26, 214, 92);
+        color: #ffffff;
+    }
+
+    .detail_div{
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+    
+    .detail_div_head{
+        font-weight: 600px;
+    }
+
+    .detail_div_text{
+        overflow: auto; 
+        word-wrap: break-word;
+        font-weight: 550;
+        color: black;
+    }
+
+    .detail_div_text_head{
+        color: rgb(30, 61, 120);
+    }
+
+    .experience_text_head{
+        color: rgb(30, 61, 120);
+    }
+
+    .experience_text{
+        overflow: auto; 
+        word-wrap: break-word;
+        font-weight: 550;
+        color: black;
+    }
+
+    .container-fluid {
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    .noted_note{
+        margin-top: 50px;
+    }
+
+    .other_view{
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .btn_other_view{
+        background-color: rgb(137, 176, 248);
+        font-size: 15px;
+        padding: 9px;
+        color: #ffffff;
+        width: 100%;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+    .btn_other_view:hover{
+        background-color: rgb(88, 95, 106);
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+        .profile_view_image {
+            max-width: 400px;
+            max-height: 400px;
+            margin: 10px;
+        }
+        .btn_other_view{
+           font-size: 14px;
+        }
+        
+    }
+
+     @media (max-width: 480px) {
+        .profile_view_image {
+            max-width: 315px;
+            max-height: 315px;
+            margin: auto;
+            margin-left: 15px;
+        } 
+        .btn_profile_esp{
+            font-weight: 600;
+            padding: 8px;
+            font-size: 14px;
+        }  
+        .btn_other_view{
+            font-size: 13px;
+            font-weight: bold;
+        }
+    }
+
+    .contain {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 30px;
+    }
+
+    .detail_div{
+        display: inline-block;
+        margin-left: 170px;
+    }
+
+    @media (max-width: 1340px) {
+        .contain {
+            flex-direction: column;
+        } 
+        .detail_div{
+            margin-left: 35px;
+        } 
+        .experience_box_div{
+            margin-top:60px;
+        }
+        .cartoon-dialogue{
+            margin-top: 20px;
+        }
+        .btn_other_view{
+            
+        }
+    }
+
+    @media (max-width: 399px) {
+        .container-fluid {
+            padding-left: 0px;
+        }
+        .contain{
+            margin-bottom: 0px;
+        }
+        .cartoon-dialogue{
+            margin-top: 10px;
+        }
+    }
+
+    .modal {
+        display: none;
+        position: absolute;
+        z-index: 2001;
+        left: 0;
+        top: 200;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 20px;
+        width: 360px;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .pro_btn_pro{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        border-radius: 8px;
+        border: none;
+        margin-bottom: 10px;
+        padding: 8px;
+        font-weight: bold;
+    }
+
+    @media (max-width: 380px) {
+       .modal-content{
+        width: 350px;
+       }
+    }
+    .pro_btn_pro{
+       font-size: 14px;
+    }
+
+    img {
+        -webkit-user-drag: none;
+        user-drag: none;
+    }
+
+    .prof_body{
+        background: linear-gradient(to right, rgb(223, 238, 250), #ffffff); 
+    }
+
+    .higher_study_desc {
+        border-radius: 6px;
+        width: 98%; 
+        margin-left: 1.5px;
+        font-weight: 500;
+        padding: 15px;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        border: 2px solid rgba(192, 187, 187, 0.4); 
+    }
+
+    @media (max-width: 555px) {
+       .higher_study_desc{
+        font-size: 15px;
+       }
+    }
+
+    .empstatusee{
+        background: linear-gradient(to right, #ffffff, rgb(188, 213, 233));
+        padding:20px;
+        width: 100%;
+        border-radius:10px;
+        box-shadow: 0 0px 4px rgba(87, 85, 85, 0.9);
+        overflow: auto; 
+        word-wrap: break-word;
+        margin-top: 60px;
+    }
+
+    .empstatusee_extra{
+        background: linear-gradient(to right, rgb(188, 213, 233), #ffffff);
+        padding:20px;
+        margin-top: 50px;
+        box-shadow: 0 0px 4px rgba(87, 85, 85, 0.4);
+        border-radius:10px;
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    .empstatusee_head{
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .empstatusee_extra_head{
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .empstatusee_text{
+        overflow: auto; 
+        word-wrap: break-word;
+        font-weight: 550;
+        color: black;
+    }
+
+    .empstatusee_extra_text{
+        overflow: auto; 
+        word-wrap: break-word;
+        font-weight: 550;
+        color: black;
+    }
+
+    .experience_text{
+        overflow: auto; 
+        word-wrap: break-word;
+        font-weight: 550;
+        color: black;
+    }
+
+    .have_sub_branch{
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    .empstatusee_text_head{
+        color: rgb(30, 61, 120);
+    }
+
+    .empstatusee_extra_text_head{
+        color: rgb(30, 61, 120);
+    }
+
+    .empstatusee_non_emp{
+        padding:9px;
+        width: 100%;
+        border-radius:10px;
+        box-shadow: 0 0px 4px rgba(87, 85, 85, 0.9);
+        overflow: auto; 
+        word-wrap: break-word;
+        margin-top: 30px;
+        font-size: 15px;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        border: 2px solid rgb(137, 176, 248);
+        background-color: rgb(137, 176, 248);
+        color: #ffffff;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+    @media (max-width: 555px) {
+       .empstatusee_non_emp{
+            font-size: 14px;
+       }
+    }
+
+    .p_non_emp{
+        margin-bottom: 0px;
+    }
+
+    .popup_overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        z-index: 999;  /* Layer above the main content */
+        cursor: not-allowed;  /* Optional: Change cursor to indicate no interaction */
+    }
+
+</style>
+
+
+<section class="prof_body" style="padding-top: 240px;">
+    <div class="container-fluid" >
+        <div class="col-md-12">
+            
+            <div class="contain">
+                <div  style="display: inline-block;" >
+                    <div  style="display: block;">
+                        <img style="cursor: pointer;" src="/user-images/{{profile._id}}.jpg" class="profile_view_image" onclick="openModal()"  id="profileImageAlternate"  draggable="false">
+                    </div>
+                </div>
+
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <p>Do you want to:</p>
+                        <button class="pro_btn_pro darkcolorchanger2" onclick="changeProfilePicture()">Change Profile Picture</button>
+                        <button class="pro_btn_pro darkcolorchanger2" onclick="removeProfilePicture()">Remove Profile Picture</button>
+                    </div>
+                </div>
+
+                <div class="detail_div" >
+                    <h3 class="card-title mt-3 detail_div_head darkcolorchanger1">{{profile.Name}}</h3>
+                    <p class="card-text detail_div_text darkcolorchanger1">{{profile.Email}}</p>
+                    <p class="card-text detail_div_text darkcolorchanger1">{{profile.Contact}}</p>
+                    <a href="/edit-profile" class="a_button" >
+                        <button type="button" class="btn btn_profile_esp darkcolorchanger2">Edit Profile</button>
+                    </a>
+                    
+                    <a href="/update-profile" class="a_button">
+                        <button type="button" class="btn btn_profile_esp darkcolorchanger2">Update Profile</button>
+                    </a>
+
+                    {{#compare profile.Status '===' 'Alumni'}}
+                    <a href="/addjob">
+                        <button type="button" class="btn btn_profile_esp darkcolorchanger2">Add Job</button>
+                    </a>
+                    {{/compare}}
+
+                    {{#compare profile.Status '===' 'Alumni'}}
+                        {{#compare jobs '>' 0}}
+                        <a href="/view-edit-delete-jobs" class="a_button">
+                            <button type="button" class="btn btn_profile_esp darkcolorchanger2">View posted jobs</button>
+                        </a>
+                        {{/compare}}
+                    {{/compare}}
+
+                    <a href="/addintern" class="a_button">
+                        <button type="button" class="btn btn_profile_esp darkcolorchanger2">Apply for internship</button>
+                    </a>
+
+                    {{#compare interns '>' 0}}
+                        <a href="/review-apply-internship" class="a_button">
+                            <button type="button" class="btn btn_profile_esp darkcolorchanger2">Edit applied internship</button>
+                        </a>
+                    {{/compare}}
+
+                    <a href="/profile_viewers" class="a_button">
+                        <button type="button" class="btn btn_profile_esp darkcolorchanger2">Your profile visitors</button>
+                    </a>
+
+                    <p class="card-text detail_div_text_head darkcolorchanger1" style="margin-top: 30px;"><strong>Admission Year : </strong><br><span class="detail_div_text darkcolorchanger1">{{profile.AdmissionYear}}</span></p>
+                    <p class="card-text detail_div_text_head darkcolorchanger1" style="margin-top: 30px;"><strong>Passout Year : </strong><br><span class="detail_div_text darkcolorchanger1">{{profile.passoutYear}}</span></p>
+                    <p class="card-text detail_div_text_head darkcolorchanger1"><strong>Current Location : </strong><br><span class="detail_div_text darkcolorchanger1">{{profile.currentLocation}}</span></p>
+                    <p class="card-text detail_div_text_head darkcolorchanger1"><strong>Employement status : </strong><br><span class="detail_div_text darkcolorchanger1">{{profile.employmentStatus}}</span></p><br>
+
+                    <p class="card-title detail_div_text_head mt-3 darkcolorchanger1" style="font-size: 20px;"><strong>Skills/Domains</strong></p>
+                        {{#each profile.workDomains}}
+                            <button type="button" class="btn btn_domain darkcolorchanger2">{{this}}</button>
+                        {{/each}}<br>
+
+                    <a href="/add-skills"><button style="margin-top: 5px;" class=" btn btn-info plus-button_domain_add darkcolorchanger3">+ Add</button></a>
+                    {{#if profile.workDomains}}
+                        <a href="/edit-skills"><button style="margin-top: 5px;" class=" btn btn-info plus-button_domain_edit darkcolorchanger3">Edit</button></a><br>
+                    {{/if}}
+                </div>
+            </div>
+
+
+            <div class="noted_note">
+                <a href="/add-note" class="a_button">
+                    <div class="cartoon-dialogue darkcolorchanger3">
+                        {{#unless profile.Note}}
+                            Hello, add your experiences or memories with CEC!<br>
+                            click me to edit or add
+                        {{/unless}}
+                        {{#if profile.Note}}
+                            {{profile.Note}}
+                        {{/if}}
+                    </div>
+                </a>
+            </div>
+
+            {{#if profile.employmentStatus}}
+                {{#compare profile.employmentStatus "!==" null}}
+                    <div class="empstatusee right_color_box">
+                        {{#compare profile.employmentStatus "===" "working"}}
+                            <h5 class="empstatusee_head blackName">Currently working company details : </h5><br>   
+                            <p class="card-text empstatusee_text_head blackName"><strong>Name : </strong><br><span class="empstatusee_text">{{profile.working.workingCompanyName}}</span></p><hr>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Joined year : </strong><br><span class="empstatusee_text">{{profile.working.workingCompanyJoinedYear}}</span></p><hr>
+                            {{#if profile.working.WorkingownedPreviousStorage}}
+                                <div class="empstatusee_extra right_color_box">
+                                    <h5 class="empstatusee_extra_head blackName" >Other previously owned companies  : </h5><br>
+                                    {{#each profile.working.WorkingownedPreviousStorage}}  
+                                        <p  class="card-text empstatusee_extra_text_head blackName"><strong>Name : </strong><br><span class="empstatusee_extra_text">{{this.name}}</span></p>
+                                        <p  class="card-text empstatusee_extra_text_head blackName"><strong>Founded year : </strong><br><span class="empstatusee_extra_text">{{this.year}}</span></p><hr><br>
+                                    {{/each}}
+                                </div>
+                            {{/if}}       
+                        {{/compare}}
+                        {{#compare profile.employmentStatus "===" "ownCompany"}}
+                            <h5 class="empstatusee_head blackName">Currently owned company details : </h5><br>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Name : </strong><br><span class="empstatusee_text">{{profile.ownCompany.FoundedCompanyName}}</span></p><hr>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Main location : </strong><br><span class="empstatusee_text">{{profile.ownCompany.mainLocation}}</span></p><hr>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Founded year : </strong><br><span class="empstatusee_text">{{profile.ownCompany.foundedYear}}</span></p><hr>
+                            {{#if profile.ownCompany.subbranches}}
+                                <div class="have_sub_branch">
+                                    <h6 class="card-text empstatusee_text_head blackName"><strong>Subbranches : </strong></h6>
+                                    {{#each profile.ownCompany.subbranches}} 
+                                        <p style="display: inline-block;" class="empstatusee_text " >{{this}} &nbsp;</p>
+                                    {{/each}}
+                                </div> 
+                            {{/if}}
+                            {{#if profile.ownCompany.OwnadditionalFoundedCompanyStorage}}  
+                                <div class="empstatusee_extra right_color_box">
+                                    <h5 class="empstatusee_extra_head blackName">Other previously owned companies  : </h5><br>
+                                    {{#each profile.ownCompany.OwnadditionalFoundedCompanyStorage}} 
+                                        <p  class="card-text empstatusee_extra_text_head blackName"><strong>Name : </strong><br><span class="empstatusee_extra_text">{{this.name}}</span></p>
+                                        <p  class="card-text empstatusee_extra_text_head blackName"><strong>Founded year : </strong><br><span class="empstatusee_extra_text">{{this.year}}</span></p><br> <hr>
+                                    {{/each}}
+                                </div>
+                            {{/if}}
+                        {{/compare}}
+                        {{#compare profile.employmentStatus "===" "higherStudies"}}
+                            <h5 class="empstatusee_head blackName">Opted for higher studies at : </h5><br>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Institution name : </strong><br><span class="empstatusee_text">{{profile.higherStudies.higherstudiesJoinedInstitutionName}}</span></p><hr>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Joined course : </strong><br><span class="empstatusee_text">{{profile.higherStudies.higherstudiesJoinedCoarse}}</span></p><hr>
+                            <p class="card-text empstatusee_text_head blackName"><strong>Joined in : </strong><br><span class="empstatusee_text">{{profile.higherStudies.higherstudiesJoinedYear}}</span></p><hr>
+                            {{#compare profile.higherStudies.higherstudiesJoinedCourseBrief "!==" ""}}
+                                <div class="higher_study_desc" >
+                                    {{profile.higherStudies.higherstudiesJoinedCourseBrief}}
+                                </div>
+                            {{/compare}}
+                            {{#if profile.ownCompany.OwnadditionalFoundedCompanyStorage}}  
+                                <div class="empstatusee_extra right_color_box">
+                                    <h5 class="empstatusee_extra_head blackName">Other previously owned companies  : </h5><br>
+                                    {{#each profile.ownCompany.OwnadditionalFoundedCompanyStorage}} 
+                                        <p  class="card-text empstatusee_extra_text_head blackName"><strong>Name : </strong><br><span class="empstatusee_extra_text">{{this.name}}</span></p>
+                                        <p  class="card-text empstatusee_extra_text_head blackName"><strong>Founded year : </strong><br><span class="empstatusee_extra_text">{{this.year}}</span></p><br> <hr>
+                                    {{/each}}
+                                </div>
+                            {{/if}}
+                        {{/compare}}
+                    </div><br>
+                {{else}}
+                    <a href="/update-profile" style="text-decoration: none;">
+                        <div class="empstatusee_non_emp darkcolorchanger3">
+                                <p class="p_non_emp">You hadnt updated your employement status. Update it</p>
+                        </div>
+                    </a>
+                {{/compare}}
+            {{else}}
+                <a href="/update-profile" style="text-decoration: none;">
+                    <div class="empstatusee_non_emp darkcolorchanger3">
+                            <p class="p_non_emp">You hadn't updated your employement status. Update it</p>
+                    </div>
+                </a>
+            {{/if}}
+
+
+            <div class="experience_box_div">
+                <p class="card-title darkcolorchanger1" style="font-size: 20px;"><strong>Experiences</strong></p>
+                {{#each profile.experience}}
+                    <div class="card" style="width: 100%; border:none;" id="experience_{{this._id}}">
+                        <div class="card-body experience right_color_box" >
+                            <p class="card-text experience_text_head blackName"><strong>Title : </strong><br><span class="experience_text">{{this.companyName}}</span></p><hr>
+                            <p class="card-text experience_text_head blackName"><strong>Start date : </strong><br><span class="experience_text">{{this.startMonth}} {{this.startYear}}</span></p><hr>
+                            <p class="card-text experience_text_head blackName"><strong>End date : </strong><br><span class="experience_text">{{this.endMonth}} {{this.endYear}}</span></p><hr>
+                            <p class="card-text experience_text_head blackName"><strong>Description : </strong><br><span class="experience_text">{{this.description}}</span></p><hr>
+                            <button type="button" onclick="passExpID('{{this._id}}')" class="btn btn_edit_experience darkcolorchanger2">Edit</button>
+                            <a href="javascript:void(0)" style="position: absolute; bottom: 21px; right: 20px;" class="btn btn_delete_experience darkcolorchanger2" onclick="deleteJob('{{this._id}}')">Delete</a>
+                        </div>
+                    </div><br>
+                {{/each}} 
+                <a href="/add-experience"><button class=" btn btn_add_experience darkcolorchanger2">+ Add</button></a><br><br>
+            </div>
+        </div>
+    </div>
+     <div class="other_view" >
+        <a href="javascript:void(0)" class="btn btn_other_view darkcolorchanger2" onclick="postToProfile('{{profile._id}}')">See how others see your profile</a>
+    </div>
+</section>
+
+
+<script>
+    function postToProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/view-profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+    function passExpID(Expid) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/edit_experience';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'Expid';
+        input.value = Expid;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+    function deleteJob(experienceId) {
+        if (confirm("Do you want to delete this experience from your profile?")) {
+            $.ajax({
+            url: '/delete-experience-form-profile',
+            method: 'post',
+            data: {
+                ExperiencE: experienceId,
+            },
+            success: function (response) {
+                if (response.deleteJob) {
+                const experienceToRemove = document.getElementById(`experience_${experienceId}`);
+                if(experienceToRemove){
+                    experienceToRemove.remove()
+                }
+                }
+            },
+            });
+        }
+    }
+
+
+    function openModal() {
+        var overlay = document.createElement('div');
+        overlay.id = 'general_popup_overlay';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay); 
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+        document.body.style.overflow = "hidden";
+        document.getElementById("myModal").style.display = "block";
+    }
+
+
+    function closeModal() {
+        var overlay = document.getElementById('general_popup_overlay')
+        if (overlay) {
+            overlay.remove();
+        }
+        document.body.style.overflow = "auto";
+        document.getElementById("myModal").style.display = "none";
+    }
+
+
+    function changeProfilePicture() {
+        closeModal();
+        window.location.href = "/edit-profile";
+    }
+
+
+    async function removeProfilePicture() {
+        if(confirm("Are you sure to remove your profile picture ?")){
+            const response = await $.ajax({
+                url: '/remove_profile_picture',
+                method: 'post',
+            });
+            if(response.removedProfiePic){
+                closeModal();
+                location.reload()
+            }
+        }
+    }
+    
+</script>

@@ -1,0 +1,137 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+/* Style the toggle switch container */
+  .toggle-switch {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    width: 120px;
+    height: 68px;
+  }
+
+  /* Hide default checkbox */
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* Style the slider */
+  .toggle-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 68px;
+    transition: .4s;
+  }
+
+  /* Style the slider in on state */
+  .toggle-switch .slider:before {
+    position: absolute;
+    content: "";
+    height: 52px;
+    width: 52px;
+    left: 8px;
+    bottom: 8px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .4s;
+  }
+
+  /* Style the slider when the toggle is in the on state */
+  .toggle-switch input:checked + .slider {
+    background-color: rgb(93, 138, 222);
+  }
+
+  /* Style the slider's circle in on state */
+  .toggle-switch input:checked + .slider:before {
+    transform: translateX(52px);
+  }
+
+  /* Style the text label for the toggle */
+  .toggle-switch .toggle-label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    font-size: 18px;
+    color: #333;
+  }
+
+  /* Style the text label for the on state */
+  .toggle-switch .toggle-label.on {
+    left: 35px;
+    color: rgb(93, 138, 222);
+  }
+
+  /* Style the text label for the off state */
+  .toggle-switch .toggle-label.off {
+    right: 90px;
+    color: #ccc;
+  }
+
+</style>
+
+
+<section class="container" style="padding-top: 200px;">
+    <p class="info_text darkcolorchanger1">Toggle this switch on to allow admin to view your deleted private chat with any user. 
+        You will also get a detail about which user was chosen and the time admin entered in deleted private chat messages.
+        Only make sure to turn on this only when needed.
+        This won't allow admin to access your private chat details, can only view deleted private chat.
+        This request will be turned off automatically after 24 hours.
+    </p>
+</section>
+
+<section style="position: relative; height: 60vh;">
+  <label class="toggle-switch">
+    <input type="checkbox" onchange="toggleGrantAllowVisitingTransferSwitch()" {{#if toggle_status.viewEnabledForAdmin}} checked {{/if}}>
+    <span class="slider"></span>
+    <span class="toggle-label on">On</span>
+    <span class="toggle-label off">Off</span>
+  </label>
+</section>
+
+
+<script>
+
+  function toggleGrantAllowVisitingTransferSwitch() {
+    fetch('/enable_admin_deleted_one_on_one_chat_visitor', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify()
+    }).then(response => {
+      if (response.ok) {
+        // Reload the page
+        window.location.reload();
+      } else {
+        console.error('Failed to toggle switch');
+      }
+    })
+    .catch(error => {
+      console.error('Error toggling switch:', error);
+    });
+  }
+
+</script>

@@ -1,0 +1,153 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-color: aliceblue;
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .input_box{
+        border-radius: 20px;
+        width: 100%;
+        padding: 15px;
+        font-weight: bold;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .input_box:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .prof_lab{
+        margin-top: 15px;
+        font-size: 18px;
+        margin-bottom: 0px;
+        font-weight: bold;
+    }
+
+    .head_header_edit{
+        font-weight: 600;
+    }
+
+    .btn{
+        width: 250px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 10px;
+        transition: background-color 0.3s ease;
+        margin-left: 5px;
+    }
+
+    .btn:hover{
+        background-color:  rgb(123, 180, 230);
+        color: rgb(38, 82, 164);
+    }
+
+    .update_pass_btn{
+        background-color: rgb(123, 180, 230);
+        margin-top: 5px;
+    }
+
+    .update_pass_btn:hover{
+        background-color: rgb(38, 82, 164);
+        color: white;
+    }
+
+    @media (max-width: 1200px) {
+        .btn{
+            width: 100px;
+        }
+    }
+
+</style>
+
+<section style="margin-bottom: 30px;">
+    <div class="row">
+        <div class="col-md-6 m-auto">
+            <div class="container mt-5 pl-5">
+                <h2 class="text-center head_header_edit darkcolorchanger1">EDIT PROFILE</h2>
+                <form action="/edit-profile" method="POST" enctype="multipart/form-data">
+                    <label class="prof_lab darkcolorchanger1" for="">Name</label>
+                    <input type="text" oninput="limitCharacters(this, 100);" name="Name" class="form-control input_box" required value="{{user.Name}}" readonly>
+
+                    <label class="prof_lab darkcolorchanger1" for="gender">Gender</label>
+                    <select name="gender" class="form-control input_box" style="height: 55px;" required>
+                        <option value="Male" {{#compare user.Gender '===' "Male"}}selected{{/compare}}>Male</option>
+                        <option value="Female" {{#compare user.Gender '===' "Female"}}selected{{/compare}}>Female</option>
+                        <option value="Custom" {{#compare user.Gender '===' "Custom"}}selected{{/compare}}>Custom</option>
+                    </select>
+
+                    <label class="prof_lab darkcolorchanger1" for="">Email</label>
+                    <input type="email" name="Email" class="form-control input_box" required oninput="limitCharacters(this, 60);" value="{{user.Email}}">
+
+                    <label class="prof_lab darkcolorchanger1" for="">Contact No</label>
+                    <input type="text" name="Contact" class="form-control input_box" oninput="limitCharacters(this, 25);" value="{{user.Contact}}">
+
+                    <label style="display: block;" class="prof_lab darkcolorchanger1"  for="">Image</label>
+                    <img style="width:120px;margin-bottom: 10px;" src="/user-images/{{user._id}}.jpg" alt="" style="width:100px;" id="userView">
+                    <input  type="file" name="Image" class="form-control input_box" onchange="viewpImage(event)"><br>
+
+                    <a style="width:100%" href="/updatepass">
+                        <button style="width:100%" type="button" class="btn update_pass_btn darkcolorchanger2">Update password</button>
+                    </a><br>
+
+                    <div class="button-container">
+                        <button type="submit" class="btn  mt-4 darkcolorchanger2">Submit</button>
+                        <button type="reset" class="btn  mt-4 darkcolorchanger2">Reset</button>
+                        <a href="/profile" class="btn  mt-4 darkcolorchanger2">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    
+    function viewpImage(event){
+        document.getElementById('userView').src = URL.createObjectURL(event.target.files[0])
+    }
+ 
+    function limitCharacters(input, maxChars) {
+        if (input.value.length > maxChars) {
+            alert("You have reached the maximum allowed characters.");
+            input.value = input.value.substring(0, maxChars);
+        }
+    }
+
+</script>

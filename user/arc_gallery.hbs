@@ -1,0 +1,201 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+    body {
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-color: rgb(247, 248, 250);
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .custom_cont {
+        padding: 20px;
+        padding-top: 140px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh; /* Ensures full height for vertical centering */
+    }
+
+    .gal_entry_div {
+        margin-bottom: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 650px; /* Adjust based on your image/video max-width */
+    }
+
+    .image_card_gallery,
+    .video_card_gallery {
+        object-fit: contain;
+        max-height: 650px;
+        max-width: 100%;
+        height: auto;
+        width: auto;
+        margin: auto;
+    }
+
+    .custom_p_div {
+        margin-top: 10px;
+        text-align: center;
+        width: 100%; /* Make it the same width as its parent */
+        box-sizing: border-box; /* Ensure padding/margin does not affect width */
+        word-wrap: break-word; /* Wrap text to the next line */
+        font-style: italic;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+        .custom_p_div {
+            font-size: 13px;
+        }
+    }
+    @media (max-width: 500px) {
+        .gal_entry_div {
+            margin-bottom: 50px;
+        }
+        .custom_p_div {
+            font-size: 11px;
+        }
+    }
+
+</style>
+
+<section class="container custom_cont">
+    {{#each contents}}
+    <div class="gal_entry_div image-item" data-src="/gallery/{{this.fileName}}">
+        {{#compare mediaType "===" "image"}}
+            <img class="card-img-top image_card_gallery" alt="{{this.messageContent}}">
+        {{/compare}}
+        {{#compare mediaType "===" "video"}}
+            <div class="video-item" data-src="/gallery/{{this.fileName}}">
+                <video class="card-img-top video_card_gallery" controls loop muted autoplay>
+                    <source src="" type="video/mp4">
+                </video>
+            </div>
+        {{/compare}}
+        <p class="card-text custom_p_div darkcolorchanger1">{{this.messageContent}}</p>
+    </div>
+    {{/each}}
+</section>
+
+<script>
+
+    // ADDING OBSERVER TO ALL RENDERED POSTS AT BEGINNING
+    document.addEventListener("DOMContentLoaded", function() {
+        initializeObserver();
+    });
+
+    // FUNCTION TO ADD OBSERVER TO EVERY IMAGE AND VIDEO TO ONLY CALL THE SOURCE WHEN REACHED
+    const initializeObserver = () => {
+        //console.log("INITIALIZE OBSERVER CALLED");
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const image = entry.target.querySelector('.image_card_gallery');
+                    if (image) {
+                        //console.log("IMAGE SOURCE CALLED");
+                        image.src = entry.target.dataset.src;
+                        observer.unobserve(entry.target); // Unobserve once loaded
+                    }
+
+                    const video = entry.target.querySelector('.video_card_gallery');
+                    if (video) {
+                        //console.log("VIDEO SOURCE CALLED");
+                        const source = video.querySelector('source');
+                        source.src = entry.target.dataset.src;
+                        video.load();
+                        observer.unobserve(entry.target); // Unobserve once loaded
+                    }
+                }
+            });
+        }, {
+            rootMargin: '0px 0px 50px 0px', // Adds a slight offset before images/videos load
+            threshold: 0.1 // Load when 10% of the element is visible
+        });
+
+        // Observe image items
+        const imageItems = document.querySelectorAll('.image-item');
+        imageItems.forEach(item => {
+            //console.log("IMAGE OBSERVED");
+            observer.observe(item);
+        });
+
+        // Observe video items
+        const videoItems = document.querySelectorAll('.video-item');
+        videoItems.forEach(item => {
+            //console.log("VIDEO OBSERVED");
+            observer.observe(item);
+        });
+    };
+
+
+    function createGalleryItem(content) {
+        // Create the main div
+        const galEntryDiv = document.createElement('div');
+        galEntryDiv.className = 'gal_entry_div image-item';
+        galEntryDiv.setAttribute('data-src', `/gallery/${content.fileName}`);
+
+        // Create elements based on media type
+        if (content.mediaType === 'image') {
+            const img = document.createElement('img');
+            img.className = 'card-img-top image_card_gallery';
+            img.setAttribute('alt', content.messageContent);
+            galEntryDiv.appendChild(img);
+        } else if (content.mediaType === 'video') {
+            const videoDiv = document.createElement('div');
+            videoDiv.className = 'video-item';
+            videoDiv.setAttribute('data-src', `/gallery/${content.fileName}`);
+
+            const video = document.createElement('video');
+            video.className = 'card-img-top video_card_gallery';
+            video.setAttribute('controls', '');
+            video.setAttribute('loop', '');
+            video.setAttribute('muted', '');
+            video.setAttribute('autoplay', '');
+
+            const source = document.createElement('source');
+            source.setAttribute('src', `/gallery/${content.fileName}`);
+            source.setAttribute('type', 'video/mp4');
+
+            video.appendChild(source);
+            videoDiv.appendChild(video);
+            galEntryDiv.appendChild(videoDiv);
+        }
+
+        // Add the text paragraph
+        const p = document.createElement('p');
+        p.className = 'card-text custom_p_div';
+        p.textContent = content.messageContent;
+
+        galEntryDiv.appendChild(p);
+
+        return galEntryDiv;
+    }
+
+</script>

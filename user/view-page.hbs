@@ -1,0 +1,881 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    .top_row{
+        display:flex;
+        flex-direction: row;
+        padding-top: 220px;
+    }
+
+    .col_top_left{
+        width: 50%;
+        position: relative;
+        margin-left: 100px;
+        margin-top: 150px;
+        margin-right: auto;
+    }
+
+    .col_top_left h2{
+        font-size: 35px;
+    }
+
+    .col_top_left h3{
+        font-size: 25px;
+        color:rgb(93, 138, 222);
+        margin-top: 30px;
+        font-weight: 300;
+    }
+
+    .col_top_left ::after{
+        content: '';
+        margin-top: -30px;
+        width: 10px;
+        height: 120%;
+        background: linear-gradient(#fff,rgb(93, 138, 222));
+        position: absolute;
+        left: -40px;
+        top: -3px;
+    }
+
+    .col_top_right{
+        position: relative;
+        width: 50%;
+        margin-left: auto;
+    }
+
+    .top_image{
+        width: 85%;
+    }
+
+    .right_color_box{
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: linear-gradient(#fff,rgb(93, 138, 222));
+        border-radius: 80px 0px 0px 400px;
+        height: 100%;
+        width: 85%;
+        z-index : -1;  
+    }
+
+    .logo_image_div{
+        display: none;
+    }
+
+    .about1{
+        width: 100%;
+        margin-top: 230px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 25px; 
+    }
+
+    .about2{
+        width: 100%;
+        margin-top: 230px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 25px; 
+        display: none;
+    }
+
+    .image_about{
+        width: 50%;
+    }
+
+    .image_about img{
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+    }
+
+    .content_about{
+        width:50%;
+        padding: 50px;
+        padding-top: 0px;
+    }
+
+    .content_about h1{
+        letter-spacing: 2.5px;
+        margin-top: 40px;
+        color: #222;
+        font-weight: 500;
+    }
+
+    .content_about p{
+        font-size: 22px;
+        margin-top: 45px;
+        line-height: 1.5;
+    }
+
+    .bold-line {
+        border: none;
+        border-top: 5px solid rgb(93, 138, 222);
+        margin: 20px 0;
+        margin-top: 5px;
+        width: 30%;
+    }
+
+    .activities{
+        background-color:rgb(93, 138, 222);
+        width:97%;
+        margin: auto;
+        margin-top: 170px;
+        padding: 50px;
+    }
+
+    .activity_heading_div{
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .activity_heading{
+        font-size: 40px;
+        letter-spacing: 2.5px;
+        color:#fff;
+        font-weight: 550;
+    }
+
+    .activity_box{
+        flex-wrap: wrap;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .activity_box_entry{
+        width:300px;
+        height: 370px;
+        background: radial-gradient(circle at top left,transparent 340px,rgba(255,255,255,.3)),radial-gradient(circle at bottom right,transparent 340px, rgba(255,255,255,.3));
+        margin:15px;
+        padding:5px;
+        text-align: center;
+        transition: .3s ease-in-out;
+        color:#fff;
+        margin-top: 45px;
+    }
+
+    .activity_box_entry i{
+        font-size: 40px;
+        margin-top: 25px;
+    }
+
+    .activity_box_entry h2{
+        margin-top: 30px;
+        line-height: 1.5;
+        font-size: 28px; 
+    }
+
+    .activity_box_entry p{
+        margin-top: 20px;
+        font-size: 20px;
+    }
+
+    .contributions{
+        background-color:rgb(93, 138, 222);
+        width:97%;
+        margin: auto;
+        margin-top: 270px;
+        padding: 50px;
+    }
+
+    .contributions_heading_div{
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .contributions_heading{
+        font-size: 40px;
+        letter-spacing: 2.5px;
+        color:#fff;
+        font-weight: 550;
+    }
+
+    .contributions_box{
+        flex-wrap: wrap;
+        padding-left: 300px;
+        padding-right: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .contributions_box_entry{
+        width:300px;
+        height: 370px;
+        background: radial-gradient(circle at top left,transparent 340px,rgba(255,255,255,.3)),radial-gradient(circle at bottom right,transparent 340px, rgba(255,255,255,.3));
+        margin:15px;
+        padding:20px;
+        text-align: center;
+        transition: .3s ease-in-out;
+        color:#fff;
+        margin-top: 45px;
+    }
+
+    .contributions_box_entry i{
+        font-size: 40px;
+        margin-top: 25px;
+    }
+
+    .contributions_box_entry h2{
+        margin-top: 30px;
+        line-height: 1.5;
+        font-size: 28px; 
+    }
+
+    .contributions_box_entry p{
+        margin-top: 20px;
+        font-size: 18px;
+    }
+
+    .contact{
+        background-color:rgb(93, 138, 222);
+        width:97%;
+        margin: auto;
+        margin-top: 270px;
+        padding: 50px;
+    }
+
+    .contact_heading_div{
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .contact_heading{
+        font-size: 40px;
+        letter-spacing: 2.5px;
+        color:#fff;
+        font-weight: 550;
+    }
+
+    .contact-info{
+        margin-left: 40px;
+        font-size: 25px;
+        margin-top: 100px;
+        border-radius: 15px 15px 15px 15px;
+        color:white;
+    }
+
+    .contact-info-content h2{
+        margin-bottom:30px;
+        margin-left: 20px;
+    }
+
+    .contact-info-content p{
+        margin-bottom:30px;
+        margin-left: 10px;
+        font-size: 20px;
+    }
+
+    .contact-info-item{
+        display: flex;
+        margin-bottom:30px;
+    }
+
+    .contact-info-icon{
+        height: 70px;
+        width:70px;
+        text-align: center;
+    }
+
+    .popup_update_push {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        z-index: 9999;
+    }
+    
+    .btn_react_update_push,.btn_close_update_push{
+        border-radius: 6px;
+        color: white;
+        padding: 7px;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        font-weight: bold;
+        background-color: rgb(93, 138, 222);
+        transition: background-color 0.3s ease;
+    }
+
+    .btn_react_update_push:hover,.btn_close_update_push:hover{
+        background-color: rgb(153, 153, 201);
+        color: #fff;
+    }
+
+    .button_container_update_push{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px;
+    }
+
+    .p_update_push{
+        font-weight: 600;
+    }
+
+    .bold_line{
+        border: none;
+        margin-top: 3px;
+        border-top: 5px solid rgb(93, 138, 222);
+        width: 90%;
+    }
+
+    @media (max-width: 1810px) {
+        .top_row{
+            padding-top: 170px;
+        }
+        .col_top_left{
+            margin-top: 70px;
+        }
+        .content_about{
+            padding: 30px;
+        }
+        .content_about p{
+            font-size: 20px;
+            margin-top: 40px;
+        }
+        .about{
+            margin-top: 110px;
+        }
+        .activities{
+            margin-top: 100px;
+        }
+        .activity_box{
+            padding: 50px;
+            padding-left: 190px;
+            padding-right: 190px;
+        }
+        .contributions{
+            margin-top: 100px;
+        }
+        .contributions_box{
+            padding: 50px;
+            padding-left: 190px;
+            padding-right: 190px;
+        }
+        .contact{
+            margin-top: 100px;
+        }
+        .bold-line {
+            width: 33%;
+        }
+    }
+
+    @media (max-width: 1560px) {
+        .about1{
+            margin-top: 50px;
+        }
+        .image_about{
+            width: 40%;
+        }
+        .col_top_left ::after{
+            height: 100%;
+        }
+        .content_about{
+            width:60%;
+        }
+        .content_about h1{
+            margin-top: 26px;
+            font-size: 24px;
+        }
+        .content_about p{
+            font-size: 18px;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+        .bold-line {
+            margin-top: 3px;
+            width: 20%;
+        }
+        .activities{
+            margin-top: 70px;
+        }
+        .contributions{
+            margin-top: 90px;
+        }
+        .contact{
+            margin-top: 90px;
+        }
+    }
+
+    @media (max-width: 1382px) {
+        .col_top_left{
+            margin-top: 100px;
+        }
+        .col_top_left h2{
+            font-size: 30px;
+        }
+        .col_top_left h3{
+            font-size: 20px;
+        }
+        .about2{
+            display: flex;
+            margin-top: 200px;
+            padding: 0px; 
+            flex-direction: column;
+        }
+        .about1{
+            display: none;
+        }
+        .image_about{
+            width: 70%;
+            margin-bottom: 20px;
+        }
+        .content_about{
+            width:70%;
+            padding: 10px;
+        }
+        .content_about_h1{
+            font-size: 28px;
+        }
+        .content_about p{
+            font-size: 20px;
+            margin-top: 18px;
+        }
+        .bold-line {
+            width: 100%;
+        } 
+    }
+
+    @media (max-width: 889px) {
+        .top_row{
+            padding-top: 190px;
+        }
+        .col_top_left{
+            width: 60%;
+            margin-top: 50px;
+        }
+        .col_top_left h3{
+            font-size: 19px;
+            margin-top: 25px;
+            font-weight: 500;
+        }
+        .col_top_right{
+            width: 40%;
+        }
+        .top_image{
+            width: 100%;
+        }
+        .right_color_box{
+            border-radius: 80px 0px 0px 185px;
+            width: 100%;
+        }
+        .about2{
+            margin-top: 120px;
+        }
+        .image_about{
+            width: 85%;
+        }
+        .col_top_left ::after{
+            height: 110%;
+        }
+        .content_about{
+            width:85%;
+        }
+        .content_about_h1{
+            font-weight: 600;
+        }
+        .activity_box{
+            padding: 0px;
+        }
+        .activity_box_entry{
+            width:270px;
+            height: 400px;
+            padding:10px;
+        }
+        .activity_box_entry i{
+            font-size: 40px;
+            margin-top: 25px;
+        }
+        .activity_box_entry h2{
+            margin-top: 30px;
+            line-height: 1.5;
+            font-size: 26px; 
+        }
+        .activity_box_entry p{
+            margin: 10px;
+            margin-top: 20px;
+        }
+
+        .contributions{
+            margin-top: 90px;
+        }
+        .contributions_box{
+            padding: 0px;
+        }
+        .contributions_box_entry{
+            width:270px;
+            height: 410px;
+            padding:10px;
+        }
+        .contributions_box_entry h2{
+            font-size: 26px;
+        }
+        .contributions_box_entry p{
+            margin: 10px;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    }
+
+    @media (max-width: 746px) {
+        .col_top_left{
+            margin-left: 60px;
+        }
+        .col_top_left h2{
+            font-size: 27px;
+        }
+        .col_top_left ::after{
+            height: 130%;
+        }  
+        .col_top_left h3{
+            font-size: 16px;
+        }
+    }
+
+    @media (max-width: 604px) {
+        .top_row{
+            padding-top: 150px;
+        }
+        .col_top_left{
+            width: 95%;
+            margin-left: 50px;
+        }
+        .col_top_left h2{
+            font-size: 22px;
+        }
+        .col_top_left ::after{
+            margin-top: -45px;
+            height: 140%;
+            left: -45px;
+        }
+        .col_top_left h3{
+            font-size: 14px;
+        }
+        .col_top_right{
+            width: 3%;
+            margin-right: 5px;
+        }
+        .top_image{
+            display: none;
+        }
+        .right_color_box{
+            border-radius: 0px 0px 0px 0px;
+        }
+        .logo_image_div{
+            display: flex;
+            margin-top: 30px;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+        .logo_image{
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .about2{
+            margin-top: 50px;
+        }
+        .content_about_h1{
+            margin-top: 26px;
+            font-size: 22px;
+            margin-bottom: 0px;
+        }
+        .content_about p{
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 18px;
+        }
+        .bold-line {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .activities{
+            margin-top: 70px;
+        }
+        .activity_box{
+            padding: 0px;
+        }
+        .activity_heading{
+            font-size: 23px;
+            font-weight: 500;
+        }
+        .activity_box_entry{
+            width:270px;
+            height: 380px;
+            padding:10px;
+        }
+        .activity_box_entry h2{
+            font-size: 23px; 
+        }
+        .activity_box_entry p{
+            margin: 15px;
+            margin-top: 20px;
+            font-size: 17px;
+        }
+        .contributions{
+            margin-top: 90px;
+        }
+        .contributions_box{
+            padding: 0px;
+        }
+        .contributions_heading{
+            font-size: 23px;
+            font-weight: 500;
+        }
+        .contributions_box_entry{
+            width:270px;
+            height: 380px;
+            padding:10px;
+        }
+        .contributions_box_entry h2{
+            font-size: 23px; 
+        }
+        .contributions_box_entry p{
+            margin: 15px;
+            margin-top: 20px;
+            font-size: 17px;
+        }
+        .contact{
+            margin-top: 90px;
+        }
+        .contact_heading{
+            font-size: 23px;
+            font-weight: 500;
+        }
+        .contact-info{
+            margin-left: 0px;
+            margin-top: 40px;
+        }
+        .contact-info-content h2{
+            margin-left: 18px;
+        }
+        .contact-info-content p{
+            font-size: 15px;
+        }
+    }
+
+    @media (max-width: 471px) {
+        .col_top_left ::after{
+            margin-top: -47px;
+            height: 135%;
+        }
+    }
+
+</style>
+
+<section class="top">
+    <div class="top_row">
+        <div class="col_top_left"> 
+            <h2 class="darkcolorchanger1">ALUMNI RELATION CELL<br>College of Engineering Chengannur</h2>
+            <h3 class="darkcolorchanger1">Official website of Alumni Relations Cell,<br> College of Engineering Chengannur</h3>
+        </div>
+        <div class="col_top_right">
+                <img src="https://arc.ceconline.edu/static/media/arc-logo.84bca8bc.png" class="top_image">
+                <div class=" right_color_box "></div>
+        </div>
+    </div>
+</section>
+
+<section class="logo_image_div">
+    <img class="logo_image" src="/images/logo.png" >
+</section>
+
+<section id="about">
+    <section class="about1">
+        <div class="image_about">
+            <img src="https://ceconline.edu/wp-content/uploads/2022/07/pic1-01-scaled.jpeg">  
+        </div>
+        <div class="content_about">
+            <h1 class="darkcolorchanger1">ABOUT  US</h1>
+            <hr class="bold-line">
+            <p class="darkcolorchanger1">Alumni Relation Cell of the College of Engineering Chengannur was established on July 2011. It mainly focuses on the development of Alumni support to do the continuing development of the institution's academics, research, placements, expansion and renewal of its faculties and providing scholarship and financial support to students.</p>
+            <p class="darkcolorchanger1">Alumni Relation Cell works towards ensuring the mutual benefit of the alumni as well as the students. ARC helps the alumni in staying connected to their campus. ARC has been instrumental in organizing the Alumni Meets, Mentorship programme, regular guest lectures by distinguished alumni in the campus.</p>
+        </div>
+    </section>
+
+    <section class="about2">
+        <div class="content_about_h1_div">
+            <h1 class="content_about_h1 darkcolorchanger1">ABOUT  US</h1>
+            <hr class="bold-line">
+        </div>
+        <div class="image_about">
+            <img style="border-radius: 5px;" src="https://ceconline.edu/wp-content/uploads/2022/07/pic1-01-scaled.jpeg">  
+        </div>
+        <div class="content_about">
+            <p class="darkcolorchanger1">Alumni Relation Cell of the College of Engineering Chengannur was established on July 2011. It mainly focuses on the development of Alumni support to do the continuing development of the institution's academics, research, placements, expansion and renewal of its faculties and providing scholarship and financial support to students.</p>
+            <p class="darkcolorchanger1">Alumni Relation Cell works towards ensuring the mutual benefit of the alumni as well as the students. ARC helps the alumni in staying connected to their campus. ARC has been instrumental in organizing the Alumni Meets, Mentorship programme, regular guest lectures by distinguished alumni in the campus.</p>
+        </div>
+    </section>
+</section>
+
+<section class="activities darkcolorchanger3" id="activities">
+    <div class="activity_heading_div">
+        <h1 class="activity_heading">ACTIVITIES</h1>
+        <hr class="bold_line">
+    </div>
+    <div class="activity_box">
+        <div class="activity_box_entry">
+            <i class="fas fa-handshake"></i>
+            <h2>Alumni Meet</h2>
+            <p>The Alumni Relation Cell organizes alumni meet once in every 3 year to enhance alumni relation with college.</p>
+        </div>
+        <div class="activity_box_entry">
+            <i class="fa fa-graduation-cap"></i>
+            <h2>Scolarship Distribution</h2>
+            <p>Scholarships are given to 10 students of our college annually by our alumni members.</p>
+        </div>
+        <div class="activity_box_entry">
+            <i class="fas fa-database"></i>
+            <h2>Data Collection of Alumini Members</h2>
+            <p>Continuous collection of data regarding Alumni Members organized according to their batch.</p>
+        </div>
+    </div>
+</section>
+
+<section class="contributions darkcolorchanger3" id="contributions">
+    <div class="contributions_heading_div">
+        <h1 class="contributions_heading">CONTRIBUTIONS</h1>
+        <hr class="bold_line">
+    </div>
+    <div class="contributions_box">
+        <div class="contributions_box_entry">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <h2>Seminar Hall</h2>
+            <p>The Alumni Relation Cell organizes alumni meet once in every 3 year to enhance alumni relation with college.</p>
+        </div>
+        <div class="contributions_box_entry">
+            <i class="fa fa-graduation-cap"></i>
+            <h2>Scholarship for 10 students annually</h2>
+            <p>The Alumni Relation Cell organizes alumni meet once in every 3 year to enhance alumni relation with college.</p>
+        </div>
+        <div class="contributions_box_entry">
+            <i class="fas fa-desktop"></i>
+            <h2>Advanced computer lab</h2>
+            <p>The Alumni Relation Cell organizes alumni meet once in every 3 year to enhance alumni relation with college.</p>
+        </div>
+        <div class="contributions_box_entry">
+            <i class="fas fa-home"></i>
+            <h2>Sahapadikkoru veed</h2>
+            <p>Scholarships are given to 10 students of our college annually by our alumni members.</p>
+        </div>
+        <div class="contributions_box_entry">
+            <i class="fas fa-laptop-code"></i>
+            <h2>Computer lab</h2>
+            <p>Continuous collection of data regarding Alumni Members organized according to their batch.</p>
+        </div>
+    </div>
+</section>
+
+<section class="contact darkcolorchanger3" id="contact">
+    <div class="contact_heading_div">
+        <h2 class="contact_heading">GET IN TOUCH</h2>
+        <hr class="bold_line">
+    </div>
+    <div class="contact-info">
+        <div class="contact-info-item">
+            <div class="contact-info-icon">
+                <i class="fas fa-university"></i>
+            </div>
+            <div class="contact-info-content">
+                <h4 class="contact-info-h">Address</h4>
+                <p class="contact-info-p">College of Engineering Chengannur, <br>
+                    Kerala 689121</p>
+            </div>
+        </div>
+        <div class="contact-info-item">
+        <div class="contact-info-icon">
+            <i class="fas fa-phone"></i>
+        </div>
+        <div class="contact-info-content">
+            <h4 class="contact-info-h">Phone</h4>
+            <p class="contact-info-p">+91 9447324845</p>
+        </div>
+        </div> 
+        <div class="contact-info-item">
+        <div class="contact-info-icon">
+            <i class="fas fa-envelope"></i>
+        </div>
+        <div class="contact-info-content">
+            <h4 class="contact-info-h">Email</h4>
+            <p class="contact-info-p">alumnicell@ceconline.edu</p>
+        </div>
+        </div>
+    </div>
+</section>
+
+{{#if showUpdateLocPassEmpPop}}
+    <div class="popup_update_push" id="popup_update_prof">
+        <p class="p_update_push">Your profile is not updated.</p>
+        <div class="button_container_update_push">
+            <a class="btn btn_react_update_push darkcolorchanger2" href="/update-profile">Update</a>
+            <a href="javascript:void(0)" onclick="confirmCloseUpdatePushProf()" class="btn btn_close_update_push darkcolorchanger2">maybe later</a>
+        </div>
+    </div>
+{{/if}}
+
+{{#if showExperiencePop}}
+    <div class="popup_update_push" id="popup_update_exp">
+        <p class="p_update_push">The experience field in your profile is empty. Please update it through your profile.</p>
+        <div class="button_container_update_push">
+            <a class="btn btn_react_update_push darkcolorchanger2" href="/profile">Update</a>
+            <a href="javascript:void(0)" onclick="confirmCloseUpdatePushExp()" class="btn btn_close_update_push darkcolorchanger2">maybe later</a>
+        </div>
+    </div>
+{{/if}}
+
+{{#if showDomainPop}}
+    <div class="popup_update_push" id="popup_update_dom">
+        <p class="p_update_push">The skills field in your profile is empty. Please update it through your profile.</p>
+        <div class="button_container_update_push">
+            <a class="btn btn_react_update_push darkcolorchanger2" href="/profile">Update</a>
+            <a href="javascript:void(0)" onclick="confirmCloseUpdatePushDom()" class="btn btn_close_update_push darkcolorchanger2">maybe later</a>
+        </div>
+    </div>
+{{/if}}
+
+<script>
+
+  window.addEventListener('pageshow', function(event) {
+    // Check if the page was loaded from the cache (e.g., back button used)
+    if (event.persisted) {
+      // Reload the page
+      window.location.reload();
+    }
+  });
+
+  function confirmCloseUpdatePushProf(){
+    const popuppush = document.getElementById('popup_update_prof')
+    popuppush.style.display = "none"
+  }
+
+  function confirmCloseUpdatePushExp(){
+    const popuppush = document.getElementById('popup_update_exp')
+    popuppush.style.display = "none"
+  }
+
+  function confirmCloseUpdatePushDom(){
+    const popuppush = document.getElementById('popup_update_dom')
+    popuppush.style.display = "none"
+  }
+  
+</script>

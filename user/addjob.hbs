@@ -1,0 +1,143 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .input_box{
+        border-radius: 20px;
+        width: 100%;
+        padding: 15px;
+        font-weight: bold;
+        margin-bottom: 25px;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .input_box:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .btn_addjob{
+        width: 250px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: bold;
+        border-radius: 20px;
+        padding: 10px;
+        width: 45%;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn_addjob:hover{
+        background-color:  rgb(123, 180, 230);
+        color: rgb(38, 82, 164);
+    }
+
+    .header_head_add_job{
+        font-weight: 600;
+        margin-bottom: 30px;
+    }
+
+</style>
+
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <div class="container mt-5 pl-5">
+            <h2 class="text-center header_head_add_job darkcolorchanger1">ADD A NEW JOB</h2>
+            <form action="/addjob" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <input type="text" class="form-control input_box" name="CompanyName" oninput="limitCharacters(this, 100);"  placeholder="Enter the company name" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control input_box" name="CompanyDescription" oninput="resizeTextarea(this); limitCharacters(this, 2000);" placeholder="Enter company description" rows="4" ></textarea>
+                </div>
+
+
+                <div class="form-group">
+                    <input type="text" name="Jobrole" oninput="limitCharacters(this, 50);" class="form-control input_box" placeholder="Enter the job role" required>
+                </div>
+
+                <div class="form-group">
+                    <textarea class="form-control input_box" name="Eligibility" oninput="resizeTextarea(this); limitCharacters(this, 2000);" placeholder="Enter eligibility for the job" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <textarea class="form-control input_box" name="jobDescription" oninput="resizeTextarea(this); limitCharacters(this, 2000);" placeholder="Enter Description about the job" rows="4" ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold;display:block" class="darkcolorchanger1" >Add image if any</label>
+                    <img style="width:120px;margin-bottom: 10px;" alt="" style="width:100px;" id="userView">
+                    <input type="file" name="JobImage" class="form-control input_box" placeholder="Add image if any" accept="image/*" onchange="viewpImage(event)">
+                </div>
+
+                <div class="form-group">
+                    <input  name="JobLink" oninput="limitCharacters(this, 100);"  class="form-control input_box" placeholder="Paste any direct link to apply if any">
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" class="btn float-left btn_addjob darkcolorchanger2">Submit</button>
+                    <button type="reset" class="btn float-right btn_addjob darkcolorchanger2" style="margin-left: 8px;">Reset</button>
+                    <a href="/profile" style="margin-left: 8px;" class="btn float-right btn_addjob darkcolorchanger2">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function viewpImage(event){
+        document.getElementById('userView').src = URL.createObjectURL(event.target.files[0])
+    }
+
+    function resizeTextarea(textarea) {
+        textarea.style.height = "auto";
+        textarea.style.height = (textarea.scrollHeight) + "px";
+    }
+
+    function limitCharacters(input, maxChars) {
+        if (input.value.length > maxChars) {
+            alert("You have reached the maximum allowed characters.");
+            input.value = input.value.substring(0, maxChars);
+        }
+    }
+
+</script>
