@@ -1,0 +1,2268 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        /*overflow: hidden; /* Keep the body from scrolling */
+    }
+
+    #chat-container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh; /* Ensure chat-container takes full viewport height */
+        padding: 20px;
+        padding-top: 102px;
+        padding-bottom: 0px;
+        border: none;
+        overflow: hidden; /* Prevent scrolling on chat-container itself */
+    }
+
+    #chat-messages {
+        flex-grow: 1; /* Let this section take up the available space */
+        overflow-y: auto; /* Allow scrolling inside this section */
+        height: auto;
+    }
+
+    #chat-form {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0; /* Prevent it from shrinking */
+        padding: 10px 0; /* Add padding for some space */
+        padding-top: 4px;
+    }
+
+    body {
+        background-image: url('/images/logo2.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    @media (max-width: 1350px) {
+        #chat-container {
+            padding-top: 107px;
+        }
+    }
+
+    @media (max-width: 1250px) {
+        #chat-container {
+            padding-top: 97px;
+        }
+    }
+
+    @media (max-width: 550px) {
+        #chat-container {
+            padding-top: 87px;
+        }
+    }
+
+    .message {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 10px;
+        position: relative;
+        border: none;
+        width: 80%;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: background-color 0.5s ease, box-shadow 0.3s ease;
+        background-color: #e8e6e6;
+        max-width: 900px;
+        margin-right: 10px;
+        border-radius: 0px 20px 20px 20px;
+    }
+    .message:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .option_div {
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    .emoji-popup {
+        display: none;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        z-index: 997;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .emoji-popup span {
+        font-size: 24px;
+        margin: 5px;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    @media (max-width: 900px) {
+        .emoji-popup span {
+            font-size: 18px;
+        }
+    }
+
+    @media (max-width: 620px) {
+        .emoji-popup span {
+            font-size: 16px;
+        }
+    }
+
+    .emoji-popup span:hover {
+        background-color: #ffffff;
+        border-radius: 50%;
+    }
+
+    #send-icon {
+        font-size: 24px;
+        cursor: pointer;
+        margin-left: 10px;
+        color: #2196f3;
+    }
+
+    #send-button {
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: 10px;
+        background-color: #2196f3;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 12px;
+    }
+
+    .reply_link {
+        padding: 0px;
+        color: #0868b7;
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-weight: 600;
+        font-size: 12px;
+        margin: 0px;
+    }
+
+    .reply_del_div{
+        position: absolute;
+        left: 0px;
+        bottom: 5px;
+        display: flex;
+        margin-bottom:0px;
+        margin-left: 20px;
+    }
+
+    .reply {
+        background-color: #e0f7fa;
+        padding: 5px;
+        margin-left: 90px;
+        margin-bottom: 0px;
+        margin-top: 3px;
+        font-size: 0.9em;
+        border-radius: 5px;
+        flex-grow: 1;
+        cursor: pointer;
+        max-height: 50px;
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    .replytext{
+        overflow: auto; 
+        word-wrap: break-word;
+        display: inline;
+        font-size: 13px;
+    }
+
+    .repliedTO{
+        display: inline;
+        font-weight: 600;
+    }
+
+    .actual-message {
+        margin-top: 5px;
+        margin-bottom: 6px;
+        margin-left: 70px;
+        max-width: 80%;
+        word-wrap: break-word;
+        font-weight: 600;
+    }
+
+    .message_content_class {
+        overflow: hidden;
+        max-height: calc(1.5em * 6); /* Limit to 6 lines */
+        transition: max-height 0.3s ease; /* Smooth transition for expanding/collapsing */
+        width: 109%;
+    }
+
+    .message_content_class.expanded {
+        max-height: none; /* Allow full expansion */
+    }
+
+    .show_more {
+        color: #5e6063;
+        cursor: pointer;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .show_more.active {
+        display: inline;
+    }
+
+    #message-input {
+        width: 80%;
+        min-height: 60px;
+        height: auto;
+        resize: vertical;
+        border: 2px solid #ffffff;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 0px;
+        background-color: #ddd;
+        box-shadow: 2px 2px 4px #dcdcdc;
+        font-size: 16px;
+        max-height: 500px;
+    }
+
+    .popup-form {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+        z-index: 2001;
+        min-width: 40%;
+        width: auto;
+        height: auto;
+    }
+
+     #uploadForm {
+        background-color: rgb(178, 206, 234);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        padding: 50px;
+        padding-top: 30px;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 135% auto;
+        background-position: center bottom 45%;
+        background-repeat: no-repeat;
+        z-index: 101;
+    }
+
+    .formpostgroup {
+        display: flex;
+        flex-direction: column;
+        margin-top: 0px;
+    }
+
+    .labelpostgroup {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .textareapostgroup,
+    .inputpostgroup {
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .custom_text_area_postgroup{
+        margin-bottom: 15px;
+        margin-top:15px;
+        max-height: 250px;
+        min-height: 60px;
+    }
+
+    .inputpostgroup{
+        border-radius: 20px;
+        width: 100%;
+        padding: 15px;
+        font-weight: bold;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .buttonpostgroup {
+        color: #fff;
+        padding: 10px;
+        border: none;
+        color: black;
+        font-weight: bold;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 0px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .buttonpostgroup:hover {
+        background-color: #d5dade;
+    }
+
+    .custom-file-upload {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        display: inline-block;
+        padding: 10px;
+        cursor: pointer;
+        background-color: white;
+        margin-top: 0px;
+        border-radius: 15px;
+    }
+
+    .custom-file-upload i {
+        margin-right: 5px;
+    }
+
+    #imageCarousel {
+        text-align: center;
+        margin: auto;
+    }
+
+    .grid-container {
+        margin-top: 5px;
+        margin-left: 30px;
+        margin-right: 1px;
+        margin-bottom: 1px;
+        display: grid;
+        background-color: none;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        max-width: 400px;
+        max-height: 400px;
+        overflow: hidden;
+        padding: 8px;
+        border-radius: 10px;
+        position: relative;
+    }
+
+    .grid-item {
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .preview {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .see-more-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        opacity: 0.7; /* Updated opacity value */
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .see-more-button {
+        background: none;
+        border: none;
+        color: blue;
+        cursor: pointer;
+        color: black;
+        font-weight: 600;
+    }
+
+
+    .new_notification_group{
+        background-color: rgb(93, 138, 222);
+        padding:5px; 
+        margin-bottom:30px;
+        border-radius:7px; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+    }
+
+    .p_new_notification{
+        font-weight:bold;
+        margin-bottom:0px;
+        color:white;
+    }
+
+    .highlight {
+        background-color: rgb(255, 230, 0) !important; /* Change this color as needed */
+        transition: background-color 0.5s ease;
+    }
+
+    .popupform_seemore {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+        z-index: 2001;
+        min-width: 40%;
+        width: auto;
+        max-height: 90vh; /* Ensures the popup does not exceed 90% of the viewport height */
+        overflow: hidden; /* Hides overflow content */
+        border-radius: 20px;
+        box-shadow: 0 4px 30px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #seemore_popup_form {
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        padding: 50px;
+        padding-top: 20px;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 135% auto;
+        background-position: center bottom 45%;
+        background-repeat: no-repeat;
+        z-index: 2001;
+        overflow-y: auto; /* Adds vertical scroll */
+        max-height: 90vh; /* Constrains the popup's height to 80% of the viewport height */
+    }
+
+    .grid-item:hover .see-more-overlay {
+      opacity: 1;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .extra-items .grid-item:nth-child(n+4) {
+      display: none;
+    }
+
+    .extra-items .grid-item.see-more-item {
+      display: block;
+    }
+
+    .close_pop_up:hover{
+        color: red;
+    }
+
+    .close_pop_up{
+        font-size: 20px;
+    }
+
+    .post_time,.no_delete_time{
+        color:rgb(78, 74, 74);
+        font-size: 10px; 
+        position:absolute;
+        right: 15px;
+        bottom:0px;
+        font-weight: bold;
+         margin-bottom: 5px;
+    }
+
+    .button_plus{
+        margin-left: 10px;
+    }
+
+    .carousel-inner{
+        max-height: 250px;
+        width: 100%;
+    }
+
+    .video-preview_popup{
+        width: 100%;
+        height: 88%;
+    }
+    .image-preview_popup{
+        width: 100%;
+        max-height: 250px;
+    }
+
+    @media (max-width: 750px) {
+        .actual-message {
+            margin-right: 50px;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .actual-message {
+            margin-right: 40px;
+            font-size: 15px;
+        }
+    }
+
+    @media (max-width: 550px) {
+        .actual-message {
+            margin-right: 30px;
+        }
+    }
+
+    @media (max-width: 460px) {
+        .actual-message {
+            margin-right: 20px;
+            font-size: 14px;
+            margin-left: 45px;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .actual-message {
+            margin-right: 15px;
+        }
+    }
+
+    @media (max-width: 1550px) {
+        .popup-form {
+            min-width: 50%;
+        }
+        .popupform_seemore{
+            min-width: 50%;
+        }
+    }
+
+    @media (max-width: 1250px) {
+        .popup-form {
+            min-width: 54%;
+        }
+        .popupform_seemore {
+            min-width: 54%;
+        }
+    }
+
+    @media (max-width: 1050px) {
+        .popup-form {
+            min-width: 58%;
+        }
+        .popupform_seemore {
+            min-width: 58%;
+        }
+    }
+
+    @media (max-width: 850px) {
+        .popup-form {
+            min-width: 62%;
+        }
+        .popupform_seemore {
+            min-width: 62%;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .popup-form {
+            min-width: 90%;
+        }
+        #uploadForm {
+            padding: 30px;
+        }
+        .popupform_seemore {
+            min-width: 90%;
+        }
+        #seemore_popup_form {
+            padding: 30px;
+            padding-top: 10px;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .button_plus{
+            width: 40px;
+        }
+        #send-button{
+            width: 60px;
+            font-size: 14px;
+        }
+        .no_delete_time,.post_time{
+            font-size: 9px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .button_plus{
+            width: 30px;
+            padding: 2px;
+            margin-left: 4px;
+            font-size: 18px;
+            height: 30px;
+        }
+        .see-more-button {
+            font-size: 14px;
+        }
+        #send-button{
+            width: 50px;
+            font-size: 13px;
+            padding: 5px;
+            font-weight: 500;
+            margin-left: 4px;
+        }
+        .reply{
+            margin-left: 50px;
+        }
+    }
+
+    @media (max-width: 391px) {
+        .inputpostgroup{
+            font-size: 14px;
+        }
+        .see-more-button {
+            font-size: 12px;
+        }
+    }
+
+    @media (max-width: 363px) {
+        .inputpostgroup{
+            font-size: 12px;
+        }
+    }
+
+    @media (max-height: 960px) {
+       .custom_text_area_postgroup{
+            font-size: 15px;
+            max-height: 310px;
+        }
+    }
+    
+    @media (max-height: 931px) {
+       .custom_text_area_postgroup{
+            max-height: 240px;
+            font-size: 14.5px;
+        }
+    }
+    
+    @media (max-height: 828px) {
+       .custom_text_area_postgroup{
+            max-height: 220px;
+            font-size: 14px;
+        }
+    }
+
+    @media (max-height: 800px) {
+       .custom_text_area_postgroup{
+            max-height: 170px;
+            font-size: 14px;
+        }
+    }
+
+    @media (max-height: 942px) and (max-width: 942px) {
+       .carousel-inner{
+            max-height: 200px;
+            width: 100%;
+        }
+        .video-preview_popup{
+            width: 100%;
+            max-height: 200px;
+        }
+        .image-preview_popup{
+            width: 100%;
+            max-height: 200px;
+        }
+    }
+
+    @media (max-height: 744px) and (max-width: 744px) {
+       .carousel-inner{
+            max-height: 170px;
+            width: 100%;
+        }
+        .video-preview_popup{
+            width: 100%;
+            max-height: 170px;
+        }
+        .image-preview_popup{
+            width: 100%;
+            max-height: 170px;
+        }
+    }
+
+    @media (max-height: 480px) and (max-width: 480px) {
+       .carousel-inner{
+            max-height: 140px;
+            width: 100%;
+        }
+        .video-preview_popup{
+            width: 100%;
+            max-height: 140px;
+        }
+        .image-preview_popup{
+            width: 100%;
+            max-height: 140px;
+        }
+    }
+
+    @media (max-height: 458px) and  (max-width: 458px) {
+       .carousel-inner{
+            max-height: 130px;
+            width: 100%;
+        }
+        .video-preview_popup{
+            width: 100%;
+            max-height: 100%;
+        }
+        .image-preview_popup{
+            width: 100%;
+            max-height: 100%;
+        }
+    }
+
+    @media (max-height: 500px) {
+        .message{
+            margin-right: 2px;
+        }
+        .replytext{
+            font-size: 12px;
+            font-weight: bold;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .replytext{
+            font-size: 12px;
+            font-weight: 600;
+        }
+    }
+
+    .inside_nav{
+        text-align: center;
+        font-size: 16px;
+        padding: 0px;
+        font-weight: bold;
+    }
+
+    .nav_specific_lasttime{
+        background-color: rgb(137, 176, 248);
+        color: rgb(38, 82, 164);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0px;
+        padding: 1px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        border: 2px solid rgb(123, 180, 230);
+    }
+
+    @media (max-width: 650px) {
+        .inside_nav{
+            font-size: 15px;
+        }
+        .reply{
+            margin-left: 70px;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .inside_nav{
+            font-size: 13px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .inside_nav{
+            font-size: 11px;
+        }
+    }
+
+    @media (max-width: 391px) {
+        .inside_nav{
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .reply{
+            margin-left: 40px;
+        }
+        .actual-message{
+            margin-left: 40px;
+        }
+        #message-input {
+            height: 25px;
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 450px) {
+        .reply{
+            margin-left: 40px;
+        }
+        .actual-message{
+            margin-left: 22px;
+            margin-right: 0px;
+            font-size: 13px;
+        }
+        .replytext{
+            font-size: 10px;
+        }
+        #message-input {
+            height: 15px;
+            font-size: 13px;
+        }
+    }
+
+    .reaction_div{
+        position:absolute;
+        right: 30px;
+        cursor: pointer;
+        bottom: -19px;
+        border-radius: 20px;
+    }
+
+    .reaction_thumb{
+        margin-bottom: 0px;
+        font-size: 18px;
+        margin-right: 10px;
+    }
+
+    @media (max-width: 500px){
+        .repliedTO{
+            font-size: 12px;
+        }
+    }
+
+    video.preview {
+        pointer-events: none;
+    }
+    
+    .dropdownND {
+        display: none;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        border-radius: 5px;
+        z-index: 997;
+    }
+
+    .dropdownND ul {
+        list-style-type: none;
+        padding: 3px;
+        margin: 0;
+    }
+
+    .dropdownND ul li {
+        padding-left: 5px;
+        padding-right: 5px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    @media (max-width: 500px) {
+        .dropdownND ul li {
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    }
+
+    .dropdownND ul li:hover {
+        background-color: #ffffff;
+        border-radius: 8px;
+    }
+
+    #loading-indicator {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        z-index: 1000;
+    }
+
+    #loading-indicator p {
+        margin: 10px 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    #loading-indicator .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .message_me{
+        background-color:rgb(123, 180, 230); 
+        margin-left:auto;
+        /*border: 2px solid rgb(123, 180, 230);*/
+        border-radius: 20px 20px 0px 20px;
+    }
+
+    .popup_overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        z-index: 999;  /* Layer above the main content */
+        cursor: not-allowed;  /* Optional: Change cursor to indicate no interaction */
+    }
+
+</style>
+</head>
+
+<div id="chat-container"  >
+    <nav class="navbar nav_specific_lasttime darkcolorchanger3">
+        <div class="inside_nav" >messages in this chat cannot be deleted</div>
+    </nav>
+    <div id="chat-messages">
+         {{#each messages}}
+            {{#if this.last_notification}}
+                <div class="new_notification_group darkcolorchanger2" id="last_message_scroll" data-message-id="{{this.MessageId}}">
+                    <p class="p_new_notification">New  Notifications</p>
+                </div>
+            {{/if}}
+            <div class="message {{#if this.Send}} message_me {{/if}}"
+            id="{{this.MessageId}}" {{#if this.Recieve}}onmousedown="startPressTimer('{{this.MessageId}}')" onmouseup="handlePressRelease()" onmouseleave="handlePressRelease()"
+            ontouchstart="startPressTimer('{{this.MessageId}}')" ontouchend="handlePressRelease()"{{/if}}>
+                
+                {{#if this.Recieve}}
+                <div class="option_div" onclick="view_mess_options('{{this.MessageId}}',event)">
+                    <i class="fa-solid fa-ellipsis" style="font-size: 22px;"></i>
+                    <div class="dropdownND" id="dropdown-{{this.MessageId}}">
+                        <ul>
+                            <li onclick="showEmojiPopup('{{this.MessageId}}',event)">React</li>
+                        </ul>
+                    </div>
+                </div>
+                {{/if}}
+
+
+                <div class="emoji-popup right_color_box" id="emoji-popup-{{this.MessageId}}">
+                    <span onclick="selectEmoji('{{this.MessageId}}', '😀')">😀</span>
+                    <span onclick="selectEmoji('{{this.MessageId}}', '😂')">😂</span>
+                    <span onclick="selectEmoji('{{this.MessageId}}', '😍')">😍</span>
+                    <span onclick="selectEmoji('{{this.MessageId}}', '👍')">👍</span>
+                    <span onclick="selectEmoji('{{this.MessageId}}', '❤️')">❤️</span>
+                    <span onclick="selectEmoji('{{this.MessageId}}', '😢')">😢</span>
+                    <span class="close-btn" onclick="closeEmojiPopup('{{this.MessageId}}',event)">✖</span>
+                </div>
+
+                <div style="display: flex; flex-direction: column; width: 100%;">
+                    {{#compare this.status "===" "textmessage"}}
+                        {{#compare this.actualMessageId "!=" ""}}
+                            <div class="reply darkcolorchanger3" {{#if this.Recieve}}style = "margin-top:10px;"{{/if}} onclick="scrollToMessage('{{this.actualMessageId}}')"><span class="repliedTO">replied to : </span><p class="replytext">{{this.actualMessageContent}}</p></div>
+                        {{/compare}}
+                    {{/compare}}
+
+                    {{#compare this.status "===" "multimedia"}}
+                        <div class="grid-container extra-items" {{#if this.Recieve}}style = "margin-top:10px;"{{/if}}>
+                            {{#if this.ImageNames}}
+                                {{#each this.ImageNames}}
+                                    {{#if ../Send}}
+                                        <div class="grid-item image-item" data-src="/one_on_admin_one_chat/{{../../sender._id}}/{{../../reciever._id}}/{{../MessageId}}/{{this}}" onclick="SEEMOREPOPUP_Specific('{{this}}','{{../this.MessageId}}','IMAGE','{{../../sender._id}}','{{../../reciever._id}}')">
+                                            <img class="preview"  alt="Image {{@index}}">
+                                        </div>
+                                    {{/if}}
+                                    {{#if ../Recieve}}
+                                        <div class="grid-item image-item" data-src="/one_on_admin_one_chat/{{../../reciever._id}}/{{../../sender._id}}/{{../MessageId}}/{{this}}" onclick="SEEMOREPOPUP_Specific('{{this}}','{{../this.MessageId}}','IMAGE','{{../../reciever._id}}','{{../../sender._id}}')">
+                                            <img class="preview"  alt="Image {{@index}}">
+                                        </div>
+                                    {{/if}}
+                                {{/each}}
+                            {{/if}}
+
+                            {{#if this.VideoNames}}
+                                {{#each this.VideoNames}}
+                                    {{#if ../Send}}
+                                        <div class="grid-item video-item" data-src="/one_on_admin_one_chat/{{../../sender._id}}/{{../../reciever._id}}/{{../MessageId}}/{{this}}" onclick="SEEMOREPOPUP_Specific('{{this}}','{{../this.MessageId}}','VIDEO','{{../../sender._id}}','{{../../reciever._id}}')">
+                                            <video class="preview" controls>
+                                                <source src="" type="video/mp4">
+                                            </video>
+                                        </div>
+                                    {{/if}}
+                                    {{#if ../Recieve}}
+                                        <div class="grid-item video-item" data-src="/one_on_admin_one_chat/{{../../reciever._id}}/{{../../sender._id}}/{{../MessageId}}/{{this}}" onclick="SEEMOREPOPUP_Specific('{{this}}','{{../this.MessageId}}','VIDEO','{{../../reciever._id}}','{{../../sender._id}}')">
+                                            <video class="preview" controls>
+                                                <source src="" type="video/mp4">
+                                            </video>
+                                        </div>
+                                    {{/if}}
+                                {{/each}}
+                            {{/if}}
+
+                            <!-- Display "See more" only if there are more than three items -->
+                            {{#if (gt (add (length this.ImageNames) (length this.VideoNames)) 3)}}
+                                <div class="grid-item see-more-item hidden">
+                                    <div class="see-more-overlay">
+                                        <button class="see-more-button" 
+                                            {{#if this.Send}}
+                                            onclick="SEEMOREPOPUP('{{ImageNames}}', '{{VideoNames}}','{{this.MessageId}}','{{../sender._id}}','{{../reciever._id}}')"
+                                        {{/if}}
+                                        {{#if this.Recieve}}
+                                            onclick="SEEMOREPOPUP('{{ImageNames}}', '{{VideoNames}}','{{this.MessageId}}','{{../reciever._id}}','{{../sender._id}}')"
+                                        {{/if}}>See more
+                                        </button>
+                                    </div>
+                                </div>
+                            {{/if}}
+                        </div>
+                    {{/compare}}
+
+                    <div class="actual-message" id="message_content_{{this.MessageId}}">
+                        <div class="message_content_class" id="Message_Content_ID_{{this.MessageId}}">
+                            {{{this.messageContent}}}
+                        </div>
+                        <a href="javascript:void(0)" class="show_more" id="show_more_{{this.MessageId}}" onclick="toggleMessageContent('{{this.MessageId}}')">Show More</a>
+                    </div>
+
+                    <div class="reply_del_div">
+                        <button class="reply_link" onclick="replyToMessage('{{this.MessageId}}','{{this.messageContent}}')"><i class="fa-solid fa-reply" style="padding: 0px;"></i></button>
+                    </div>
+                        <p class="no_delete_time">{{this.ReadableTime}}</p>
+                </div>
+                <div class="reaction_div">
+                    <div class="reaction_thumb">{{this.emoji}}</div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+
+    <div id="loading-indicator">
+        <div class="spinner"></div>
+        <p>Sending...</p>
+    </div>
+
+    <div id="chat-form">
+        <input type="hidden" id="actualMessageId" name="actualMessageId" value="">
+        <textarea style="display: none;" type="hidden" id="actualMessageContent" name="actualMessageContent" value=""></textarea>
+        <textarea id="message-input" name="messageContent" required rows="2" placeholder="Type your message" oninput="limitCharacters(this, 3000);"></textarea>
+        <button id="send-button" class="darkcolorchanger2"  type="submit" onclick="sendMessage()">Send</button>
+        <a href="javascript:void(0)" onclick="togglePostGroupChat()"> 
+            <button class="button_plus btn" type="button">+</button>
+        </a>
+    </div>
+
+    <div id="post-groupchat-container" class="popup-form" style="display: none;">
+        <div style="width:100%" class="rows">
+                <div id="uploadForm" class="darkcolorchanger2" style="width:100%;">
+                    <p class="close_pop_up" style="cursor: pointer;margin-bottom:0px;position:absolute;top:2px;right:10px;" onclick="closePopup()">&#10006;</p>
+                    <form class="formpostgroup" id="postForm" enctype="multipart/form-data">
+
+                        <div id="imageCarousel" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner" id="previewContainer"></div>
+
+                            <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+
+                         <div class="custom-file-upload" style="margin-top: 20px;">
+                            <div>
+                                <i class="fas fa-cloud-upload-alt"></i> <span style="font-weight: 500;font-size:13px;"> Image/Video</span>
+                                <img src="" alt="" style="width:100px;" id="userView">
+                                <input class="inputpostgroup" style="color: black;" type="file" id="postImage" required name="postImage" accept="image/*,video/*" multiple onchange="viewpImage(event)">
+                            </div>
+                        </div>
+
+                        <textarea class="textareapostgroup custom_text_area_postgroup" id="message-input-group-post"name="messageContent" rows="3" placeholder="type you message....." oninput="resizeTextarea(); limitCharacters(this, 3000);"></textarea>
+                        <button class="buttonpostgroup" type="submit" onclick="sendMessageGroupPost(event)">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="seemore_popup" class="popupform_seemore" style="display: none;">
+        <div style="width:100%" class="rows">
+            <div id="seemore_popup_form" class="right_color_box" style="width:100%;">
+                <div style="text-align: right; margin-right: 10px;">
+                    <span class="close_pop_up" style="cursor: pointer;" onclick="closePopupSeeMore()">&#10006;</span>
+                </div>
+                <div id="media_content" style="text-align: center;"></div>
+                    <!-- Container for images and videos -->
+            </div>
+        </div>
+    </div>
+
+    </div>
+ 
+ <script src="http://localhost:3001/socket.io/socket.io.js"></script>
+ <script>
+    const messageInput = document.getElementById('message-input');
+    const actualMessageId = document.getElementById('actualMessageId');
+    const actualMessageContent = document.getElementById('actualMessageContent');
+    const Room_Id = '{{Room_Id}}';
+    const rEcIeVeRiD = '{{reciever._id}}';
+    const seNder_Id = '{{sender._id}}';
+    const rEcIeVeRnAmE = '{{reciever.Name}}';
+    const seNderNaMe = '{{sender.Name}}';
+    const chatContainer = document.getElementById("chat-messages");
+    
+
+    const socket = io('http://localhost:3001'); 
+    socket.emit('joinRoom', Room_Id);
+    //socket.emit('leaveRoom', Room_Id);
+
+
+    socket.on('chatOneAdminMessage', (data) => {
+        //console.log("chatOneMessage event received at client:", data);
+        displayMessage(data);
+    });
+
+
+    socket.on('chatOneMultimediaAdminMessage', (data) => {
+        //console.log("chatOneMultimediaAdminMessage event received at client:", data);
+        displayMultiMessage(data);
+    });
+
+
+    socket.on('chatMessageEmojiAdminOne', (data) => {
+        //console.log("chatMessageEmojiAdminOne event received at client:", data);
+        updateMessageContentInDOM(data.message);
+    });
+
+
+    /*socket.on('deleteOneMessage', (data) => {
+        //console.log("deleteOneMessage event received at client:", data);
+        const messageId = data.deleteEventData.messageId;
+        const deletedMessage = document.getElementById(data.messageId);
+        if (deletedMessage) {
+            deletedMessage.remove();
+        }
+    });*/
+
+
+    function displayMessage(data) {
+        //console.log("DATA IS :",data)
+        const  darkEnabler = localStorage.getItem('darkModeARCCEC') === 'enabled';
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('message');
+        if (data.REC_senderId === seNder_Id) {
+            messageContainer.style.backgroundColor = 'rgb(123, 180, 230)';
+            messageContainer.style.marginLeft = 'auto';
+            messageContainer.style.borderRadius = '20px 20px 0px 20px';
+        }
+        messageContainer.id = data.Message_ID;
+        if (data.REC_recieverId === seNder_Id) {
+            messageContainer.setAttribute('onmousedown', `startPressTimer('${data.Message_ID}')`);
+            messageContainer.setAttribute('onmouseup', 'handlePressRelease()');
+            messageContainer.setAttribute('onmouseleave', 'handlePressRelease()');
+            messageContainer.setAttribute('ontouchstart', `startPressTimer('${data.Message_ID}')`);
+            messageContainer.setAttribute('ontouchend', 'handlePressRelease()');
+        }
+        const timestampPara = document.createElement('p');
+        timestampPara.classList.add('no_delete_time');
+        timestampPara.textContent = data.timestamp;
+
+        if (data.REC_recieverId === seNder_Id) {
+
+            const optionDiv = document.createElement('div');
+            optionDiv.classList.add('option_div');
+            optionDiv.setAttribute('onclick', `view_mess_options('${data.Message_ID}', event)`);
+
+            const ellipsisIcon = document.createElement('i');
+            ellipsisIcon.classList.add('fa-solid', 'fa-ellipsis');
+            ellipsisIcon.style.fontSize = '22px';
+
+            const dropdown = document.createElement('div');
+            dropdown.classList.add('dropdownND');
+            dropdown.id = `dropdown-${data.Message_ID}`;
+
+            const ul = document.createElement('ul');
+
+            const reactLi = document.createElement('li');
+            reactLi.setAttribute('onclick', `showEmojiPopup('${data.Message_ID}', event)`);
+            reactLi.textContent = 'React';
+            ul.appendChild(reactLi);
+
+            dropdown.appendChild(ul);
+            optionDiv.appendChild(ellipsisIcon);
+            optionDiv.appendChild(dropdown);
+            messageContainer.appendChild(optionDiv);
+        }
+
+
+        const emojiPopup = document.createElement('div');
+        emojiPopup.classList.add('emoji-popup','right_color_box');
+        if(darkEnabler){
+            emojiPopup.style.background = 'linear-gradient(#fff, #606060)';
+        }
+        emojiPopup.id = `emoji-popup-${data.Message_ID}`;
+
+        const emojis = ['😀', '😂', '😍', '👍', '❤️', '😢'];
+        emojis.forEach(emoji => {
+            const span = document.createElement('span');
+            span.setAttribute('onclick', `selectEmoji('${data.Message_ID}', '${emoji}')`);
+            span.textContent = emoji;
+            emojiPopup.appendChild(span);
+        });
+
+        const closeBtn = document.createElement('span');
+        closeBtn.classList.add('close-btn');
+        closeBtn.setAttribute('onclick', `closeEmojiPopup('${data.Message_ID}', event)`);
+        closeBtn.textContent = '✖';
+        emojiPopup.appendChild(closeBtn);
+
+        messageContainer.appendChild(emojiPopup);
+
+        const messageContentContainer = document.createElement('div');
+        messageContentContainer.style.display = 'flex';
+        messageContentContainer.style.flexDirection = 'column';
+        messageContentContainer.style.width = '100%';
+
+        if (data.RE_messageId || data.RE_messageContent) {
+            const replyDiv = document.createElement('div');
+            replyDiv.classList.add('reply');
+
+            if (data.REC_recieverId === seNder_Id) {
+                replyDiv.style.marginTop = '10px';
+            }
+            if(darkEnabler){
+                replyDiv.style.backgroundColor = 'black';
+                replyDiv.style.color = 'white';
+            }
+            replyDiv.setAttribute('onclick', `scrollToMessage('${data.RE_messageId}')`);
+
+            const repliedToSpan = document.createElement('span');
+            repliedToSpan.classList.add('repliedTO');
+            repliedToSpan.textContent = 'replied to : ';
+
+            const replyTextP = document.createElement('p');
+            replyTextP.classList.add('replytext');
+            replyTextP.textContent = data.RE_messageContent; // Set the reply message content
+
+            replyDiv.appendChild(repliedToSpan);
+            replyDiv.appendChild(replyTextP);
+            messageContentContainer.appendChild(replyDiv);
+        }
+
+        const actualMessage = document.createElement('div');
+        actualMessage.classList.add('actual-message');
+        
+        actualMessage.id = `message_content_${data.Message_ID}`;
+        const messageContentDiv = document.createElement('div');
+        messageContentDiv.classList.add('message_content_class');
+        messageContentDiv.id = `Message_Content_ID_${data.Message_ID}`;
+        messageContentDiv.innerHTML = data.message;
+        actualMessage.appendChild(messageContentDiv);
+
+        // Create the "Show More" link
+        const showMoreLink = document.createElement('a');
+        showMoreLink.href = 'javascript:void(0)';
+        showMoreLink.classList.add('show_more');
+        showMoreLink.id = `show_more_${data.Message_ID}`;
+        showMoreLink.textContent = 'Show More';
+        showMoreLink.onclick = function() { toggleMessageContent(data.Message_ID); };
+
+        actualMessage.appendChild(showMoreLink);
+
+        const replyDelDiv = document.createElement('div');
+        replyDelDiv.classList.add('reply_del_div');
+
+        const replyButton = document.createElement('button');
+        replyButton.classList.add('reply_link');
+        replyButton.setAttribute('onclick', `replyToMessage('${data.Message_ID}', '${data.message}')`);
+        replyButton.innerHTML = '<i class="fa-solid fa-reply" style="padding: 0px;"></i>';
+        replyDelDiv.appendChild(replyButton);
+
+        messageContentContainer.appendChild(actualMessage);
+        messageContentContainer.appendChild(timestampPara);
+        messageContentContainer.appendChild(replyDelDiv);
+        messageContainer.appendChild(messageContentContainer);
+        chatContainer.appendChild(messageContainer);
+        checkContentOverflow(data.Message_ID);
+
+        const isNearBottom = chatContainer.scrollHeight - chatContainer.scrollTop <= chatContainer.clientHeight + 380;
+
+        if (data.REC_senderId === seNder_Id){  
+            scrollToBottom();
+        } else{
+            // Alert the user about new messages if not near the bottom
+            if (!isNearBottom) {
+                alert('You have new groupchat messages.');
+            }
+
+            // Scroll to bottom only if the current scroll position is near the bottom
+            if (isNearBottom) {
+                scrollToBottom();
+            }
+        }
+    }
+
+
+    function displayMultiMessage(data) {
+
+        const  darkEnabler = localStorage.getItem('darkModeARCCEC') === 'enabled';
+
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('message');
+        if (data.message.Sender_Id === seNder_Id) {
+           messageContainer.style.backgroundColor = 'rgb(123, 180, 230)';
+           messageContainer.style.marginLeft = 'auto';
+           messageContainer.style.borderRadius = '20px 20px 0px 20px';
+        }
+
+        messageContainer.id = data.message.MessageId; // Accessing MessageId from data.message
+        
+        if (data.message.Reciever_Id === seNder_Id) {
+            messageContainer.setAttribute('onmousedown', `startPressTimer('${data.message.MessageId}')`);
+            messageContainer.setAttribute('onmouseup', 'handlePressRelease()');
+            messageContainer.setAttribute('onmouseleave', 'handlePressRelease()');
+            messageContainer.setAttribute('ontouchstart', `startPressTimer('${data.message.MessageId}')`);
+            messageContainer.setAttribute('ontouchend', 'handlePressRelease()');
+        }
+
+        const timestampPara = document.createElement('p');
+        timestampPara.classList.add('no_delete_time');
+        timestampPara.textContent = data.message.ReadableTime;
+
+        if (data.message.Reciever_Id === seNder_Id) {
+
+            const optionDiv = document.createElement('div');
+            optionDiv.classList.add('option_div');
+            optionDiv.setAttribute('onclick', `view_mess_options('${data.message.MessageId}', event)`);
+
+            const ellipsisIcon = document.createElement('i');
+            ellipsisIcon.classList.add('fa-solid', 'fa-ellipsis');
+            ellipsisIcon.style.fontSize = '22px';
+
+            const dropdown = document.createElement('div');
+            dropdown.classList.add('dropdownND');
+            dropdown.id = `dropdown-${data.message.MessageId}`;
+
+            const ul = document.createElement('ul');
+
+            if (data.message.Reciever_Id === seNder_Id){
+                const reactLi = document.createElement('li');
+                reactLi.setAttribute('onclick', `showEmojiPopup('${data.message.MessageId}', event)`);
+                reactLi.textContent = 'React';
+                ul.appendChild(reactLi);
+            }
+
+            dropdown.appendChild(ul);
+            optionDiv.appendChild(ellipsisIcon);
+            optionDiv.appendChild(dropdown);
+            messageContainer.appendChild(optionDiv);
+        }
+
+        const emojiPopup = document.createElement('div');
+        emojiPopup.classList.add('emoji-popup','right_color_box');
+        if(darkEnabler){
+            emojiPopup.style.background = 'linear-gradient(#fff, #606060)';
+        }
+        emojiPopup.id = `emoji-popup-${data.message.MessageId}`;
+
+        const emojis = ['😀', '😂', '😍', '👍', '❤️', '😢'];
+        emojis.forEach(emoji => {
+            const span = document.createElement('span');
+            span.setAttribute('onclick', `selectEmoji('${data.message.MessageId}','${emoji}')`);
+            span.textContent = emoji;
+            emojiPopup.appendChild(span);
+        });
+
+        const closeBtn = document.createElement('span');
+        closeBtn.classList.add('close-btn');
+        closeBtn.setAttribute('onclick', `closeEmojiPopup('${data.message.MessageId}', event)`);
+        closeBtn.textContent = '✖';
+        emojiPopup.appendChild(closeBtn);
+
+        messageContainer.appendChild(emojiPopup);
+
+        const messageContentContainer = document.createElement('div');
+        messageContentContainer.style.display = 'flex';
+        messageContentContainer.style.flexDirection = 'column';
+        messageContentContainer.style.width = '100%';
+
+        if (data.message.actualMessageId && data.message.actualMessageId !== "") {
+            const replyDiv = document.createElement('div');
+            replyDiv.classList.add('reply');
+            replyDiv.style.marginBottom = '-20px';
+            replyDiv.textContent = `replied to: ${data.message.actualMessageContent}`;
+            replyDiv.setAttribute('onclick', `scrollToMessage('${data.message.actualMessageId}')`);
+            messageContentContainer.appendChild(replyDiv);
+        }
+
+        const actualMessage = document.createElement('div');
+        actualMessage.classList.add('actual-message');
+        
+        actualMessage.id = `message_content_${data.message.MessageId}`;
+        const messageContentDiv = document.createElement('div');
+        messageContentDiv.classList.add('message_content_class');
+        messageContentDiv.id = `Message_Content_ID_${data.message.MessageId}`;
+        messageContentDiv.innerHTML = data.message.messageContent;
+        actualMessage.appendChild(messageContentDiv);
+
+        // Create the "Show More" link
+        const showMoreLink = document.createElement('a');
+        showMoreLink.href = 'javascript:void(0)';
+        showMoreLink.classList.add('show_more');
+        showMoreLink.id = `show_more_${data.message.MessageId}`;
+        showMoreLink.textContent = 'Show More';
+        showMoreLink.onclick = function() { toggleMessageContent(data.message.MessageId); };
+
+        actualMessage.appendChild(showMoreLink);
+
+        // Adding multimedia content
+        if (data.message.status === "multimedia") {
+            const gridContainer = document.createElement('div');
+            gridContainer.classList.add('grid-container', 'extra-items');
+
+            if (data.message.ImageNames && data.message.ImageNames.length > 0) {
+                data.message.ImageNames.forEach(image => {
+                    const imageItem = document.createElement('div');
+                    imageItem.classList.add('grid-item', 'image-item');
+                    const img = document.createElement('img');
+                    img.classList.add('preview');
+                    imageItem.dataset.src = `/one_on_admin_one_chat/${data.message.Sender_Id}/${rEcIeVeRiD}/${data.message.MessageId}/${image}`;
+                    imageItem.setAttribute('onclick', `SEEMOREPOPUP_Specific('${image}', '${data.message.MessageId}', 'IMAGE','${data.message.Sender_Id}','${data.message.Reciever_Id}')`);
+                    img.src = `/one_on_admin_one_chat/${data.message.Sender_Id}/${data.message.Reciever_Id}/${data.message.MessageId}/${image}`;
+                    img.alt = 'Image';
+                    imageItem.appendChild(img);
+                    gridContainer.appendChild(imageItem);
+                });
+            }
+
+            if (data.message.VideoNames && data.message.VideoNames.length > 0) {
+                data.message.VideoNames.forEach(video => {
+                    const videoItem = document.createElement('div');
+                    videoItem.classList.add('grid-item', 'video-item');
+                    videoItem.dataset.src = `/one_on_admin_one_chat/${data.message.Sender_Id}/${data.message.Reciever_Id}/${data.message.MessageId}/${video}`;
+                    videoItem.setAttribute('onclick', `SEEMOREPOPUP_Specific('${video}', '${data.message.MessageId}', 'VIDEO', '${data.message.Sender_Id}','${data.message.Reciever_Id}')`);
+                    const videoElement = document.createElement('video');
+                    videoElement.classList.add('preview');
+                    videoElement.controls = true;
+                    const source = document.createElement('source');
+                    source.src = `/one_on_admin_one_chat/${data.message.Sender_Id}/${data.message.Reciever_Id}/${data.message.MessageId}/${video}`;
+                    source.type = 'video/mp4';
+                    videoElement.appendChild(source);
+                    videoItem.appendChild(videoElement);
+                    gridContainer.appendChild(videoItem);
+                });
+            }
+
+            if (data.message.ImageNames && data.message.VideoNames && (data.message.ImageNames.length + data.message.VideoNames.length > 3)) {
+                const seeMoreItem = document.createElement('div');
+                seeMoreItem.classList.add('grid-item', 'see-more-item', 'hidden');
+
+                const seeMoreOverlay = document.createElement('div');
+                seeMoreOverlay.classList.add('see-more-overlay');
+
+                const seeMoreButton = document.createElement('button');
+                seeMoreButton.classList.add('see-more-button');
+                if (data.message.Sender_Id === seNder_Id) {
+                    seeMoreButton.setAttribute('onclick', `SEEMOREPOPUP('${data.message.ImageNames}', '${data.message.VideoNames}', '${data.message.MessageId}', '${data.message.Sender_Id}','${data.message.Reciever_Id}')`);
+                }
+                if (data.message.Reciever_Id === seNder_Id) {
+                    seeMoreButton.setAttribute('onclick', `SEEMOREPOPUP('${data.message.ImageNames}', '${data.message.VideoNames}', '${data.message.MessageId}', '${data.message.Sender_Id}','${data.message.Reciever_Id}')`);
+                }
+                seeMoreButton.textContent = 'See more';
+
+                seeMoreOverlay.appendChild(seeMoreButton);
+                seeMoreItem.appendChild(seeMoreOverlay);
+                gridContainer.appendChild(seeMoreItem);
+            }
+
+            messageContentContainer.appendChild(gridContainer);
+        }
+
+        const replyDelDiv = document.createElement('div');
+        replyDelDiv.classList.add('reply_del_div');
+
+        const replyButton = document.createElement('button');
+        replyButton.classList.add('reply_link');
+        replyButton.setAttribute('onclick', `replyToMessage('${data.message.MessageId}', '${data.message.messageContent}')`);
+        replyButton.innerHTML = '<i class="fa-solid fa-reply" style="padding: 0px;"></i>';
+        replyDelDiv.appendChild(replyButton);
+
+        messageContentContainer.appendChild(actualMessage);
+        messageContentContainer.appendChild(replyDelDiv);
+        messageContentContainer.appendChild(timestampPara);
+        messageContainer.appendChild(messageContentContainer);
+        chatContainer.appendChild(messageContainer);
+        checkContentOverflow(data.message.MessageId);
+
+        const isNearBottom = chatContainer.scrollHeight - chatContainer.scrollTop <= chatContainer.clientHeight + 380;
+        
+        if (data.message.Sender_Id === seNder_Id){  
+            scrollToBottom();
+        } else{
+            // Alert the user about new messages if not near the bottom
+            if (!isNearBottom) {
+                alert('You have new groupchat messages.');
+            }
+
+            // Scroll to bottom only if the current scroll position is near the bottom
+            if (isNearBottom) {
+                scrollToBottom();
+            }
+        }
+    }
+
+
+    async function sendMessage() {
+        const Message_ID = generateUniqueId();
+        var message = messageInput.value.trim();
+        const RE_messageId = actualMessageId.value;
+        const RE_messageContent = actualMessageContent.value;
+        const REC_recieverName = rEcIeVeRnAmE;
+        const REC_recieverId = rEcIeVeRiD;
+        const REC_senderName = seNderNaMe;
+        const REC_senderId = seNder_Id;
+        const timestamp = new Date()
+        const formattedTimestamp = new Date(timestamp).toLocaleTimeString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
+        let ReadableTime = formattedTimestamp;
+        replyToMessageId = null;
+        replytoMessage = null;
+        actualMessageId.value = '';
+        actualMessageContent.value = '';
+        updateundoPlaceholder('Type your message');
+
+        if (message !== '') {
+            message = message.replace(/[\r\n]+/g, " ").replace(/\s+/g, ' ').trim();
+            document.getElementById('message-input').value = '';
+            document.getElementById('message-input').style.height = '10px';
+
+            try {
+                const response = await $.ajax({
+                    url: `/admin/send_one_admin_message`,
+                    method: 'post',
+                    data: {
+                        MessageId: Message_ID,
+                        actualMessageId: RE_messageId,
+                        actualMessageContent: RE_messageContent,
+                        messageContent: message,
+                        recieverUserId: rEcIeVeRiD,
+                        Room_Id: Room_Id,
+                        ReadableTime: ReadableTime,
+                        Reciever_name: rEcIeVeRnAmE
+                    }
+                });
+                
+                if (response.addedoneAdminmessage) {
+                    // Fetch the updated message data
+                    const updatedMessageResponse = await $.ajax({
+                        url: '/admin/get_message_by_id_admin_one_text',
+                        method: 'POST',
+                        data: {
+                            MeSsAgEiD: Message_ID,
+                            rEcIeVeRiD: rEcIeVeRiD
+                        }
+                    });
+
+                        if (updatedMessageResponse.message.has_message) {
+                            socket.emit('chatOneAdminMessage', {Room_Id, Message_ID,message, RE_messageId, RE_messageContent,REC_recieverId,REC_senderId,timestamp:formattedTimestamp});
+                            await scrollToBottom()
+                        }
+                    }
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
+        }
+    }
+
+
+    async function sendMessageGroupPost(event) {   
+        event.preventDefault();
+
+       const popup_form = document.getElementById('post-groupchat-container');
+        popup_form.style.display = "none";
+        const formattedTimestamp = new Date().toLocaleTimeString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
+        let ReadableTime = formattedTimestamp;
+       
+        const form = document.getElementById('postForm');
+        const formData = new FormData(form);
+
+        const postImageInput = document.getElementById('postImage');
+        if (postImageInput.files.length === 0) {
+            alert('Please select an image or video.');
+            var overlay = document.getElementById('post_one_on_one_overlay');
+            if (overlay) {
+                overlay.remove();
+            }
+            chatContainer.style.overflow = 'auto';
+            return;
+        }
+
+         // Show the loading indicator
+        const loadingIndicator = document.getElementById('loading-indicator');
+        loadingIndicator.style.display = 'block';
+
+        const newMessageId = generateUniqueId();
+        formData.append('MessageId', newMessageId);
+        formData.append('ReadableTime', ReadableTime);
+        formData.append('Reciever_name', rEcIeVeRnAmE);
+        formData.append('Room_Id', Room_Id);
+        formData.append('Reciever_Id', rEcIeVeRiD);
+
+        const url = `/admin/add_one_post_admin_tochat`;
+        const method = 'POST';
+
+        try {
+
+            const response = await $.ajax({
+                url: url,
+                method: method,
+                data: formData,
+                processData: false,
+                contentType: false,
+            });
+
+            if (response.addedOnePostAdminMessage) {
+                const updatedMessageResponse = await $.ajax({
+                    url: '/admin/get_message_by_id_admin_one',
+                    method: 'POST',
+                    data: {
+                        MeSsAgEiD: newMessageId,
+                        rEcIeVeRiD: rEcIeVeRiD
+                    }
+                });
+
+                if (updatedMessageResponse.message) {
+                    updatedMessageResponse.message.Sender_Id = seNder_Id;
+                    updatedMessageResponse.message.Reciever_Id = rEcIeVeRiD;
+                    await socket.emit('chatOneMultimediaAdminMessage', { message: updatedMessageResponse.message,Room_Id: Room_Id});
+                    await scrollToBottom()
+                }
+            } else {
+                // Handle failure response
+                console.error('Failed to upload post:', response.message);
+            }
+
+        } catch (error) {
+            console.error('Error uploading post:', error);
+        } finally {
+            // Hide the loading indicator
+            loadingIndicator.style.display = 'none';
+            form.reset();
+            document.getElementById('previewContainer').innerHTML = '';
+            document.getElementById('userView').src = '';
+            var overlay = document.getElementById('post_one_on_one_overlay');
+            if (overlay) {
+                overlay.remove();
+            }
+            chatContainer.style.overflow = 'auto';
+        }
+    }
+
+
+    function updateundoPlaceholder(placeholderText) {
+        // Assuming 'message-input' is the ID of your message input field
+        document.getElementById('message-input').placeholder = placeholderText;
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+         scrollToBottom();
+        document.getElementById("message-input").focus();
+    });
+    messageInput.addEventListener('input', autoResize);
+
+
+    function updatePlaceholder() {
+        var ActualQuestion = `${replytoMessage}`
+        var firstLine = ActualQuestion.split('\n')[0];
+        var maxLength = 50; // Set a maximum length for the placeholder text
+        if (firstLine.length > maxLength) {
+            firstLine = firstLine.substring(0, maxLength) + "..."; // Truncate and add ellipsis if it's too long
+        }
+        messageInput.placeholder = "Reply to: " + firstLine;
+        messageInput.focus();
+    }
+
+
+    function replyToMessage(messageId, messageText) {
+        replyToMessageId = messageId;
+        replytoMessage = messageText;
+        actualMessageId.value = messageId;
+        actualMessageContent.value = messageText;
+        updatePlaceholder();
+    }
+
+
+    function autoResize() {
+        messageInput.style.height = 'auto';
+        messageInput.style.height = (messageInput.scrollHeight) + 'px';
+    }
+
+
+    function SEEMOREPOPUP(imageNames, videoNames, messageID, userId1, userId2) {
+        const mediaContent = document.getElementById('media_content');
+        
+        // Clear previous content
+        mediaContent.innerHTML = '';
+        
+        // Append images if imageNames is not empty
+        if (imageNames) {
+            const images = imageNames.split(',');
+            images.forEach(image => {
+                const imgElement = document.createElement('img');
+                imgElement.src = `/one_on_admin_one_chat/${userId1}/${userId2}/${messageID}/${image}`;
+                imgElement.style.maxWidth = '100%'; // Adjust this as needed
+                imgElement.style.margin = '10px 0'; // Adjust spacing as needed
+                mediaContent.appendChild(imgElement);
+            });
+        }
+        
+        // Append videos if videoNames is not empty
+        if (videoNames) {
+            const videos = videoNames.split(',');
+            videos.forEach(video => {
+                const videoElement = document.createElement('video');
+                const sourceElement = document.createElement('source');
+                sourceElement.src = `/one_on_admin_one_chat/${userId1}/${userId2}/${messageID}/${video}`;
+                sourceElement.type = 'video/mp4';
+                videoElement.controls = true;
+                videoElement.style.maxWidth = '100%'; // Adjust this as needed
+                videoElement.style.margin = '10px 0'; // Adjust spacing as needed
+                videoElement.appendChild(sourceElement);
+                mediaContent.appendChild(videoElement);
+            });
+        }
+        
+        var Seemore_PopUp = document.getElementById('seemore_popup');
+        var overlay = document.createElement('div');
+        overlay.id = 'see_more_popup_overlay';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay); 
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+        chatContainer.style.overflow = "hidden";
+        Seemore_PopUp.style.display =  'block';
+    }
+
+
+    function SEEMOREPOPUP_Specific(multiContent, messageID, type, userId1, userId2) {
+        const mediaContent = document.getElementById('media_content');
+        mediaContent.innerHTML = '';
+
+        if (type === "IMAGE") {
+            const imgElement = document.createElement('img');
+            imgElement.src = `/one_on_admin_one_chat/${userId1}/${userId2}/${messageID}/${multiContent}`;
+            imgElement.style.maxWidth = '100%'; // Adjust this as needed
+            imgElement.style.margin = '10px 0'; // Adjust spacing as needed
+            mediaContent.appendChild(imgElement);
+        } else if (type === "VIDEO") {
+            const videoElement = document.createElement('video');
+            const sourceElement = document.createElement('source');
+            sourceElement.src = `/one_on_admin_one_chat/${userId1}/${userId2}/${messageID}/${multiContent}`;
+            sourceElement.type = 'video/mp4';
+            videoElement.controls = true;
+            videoElement.style.maxWidth = '100%'; // Adjust this as needed
+            videoElement.style.margin = '10px 0'; // Adjust spacing as needed
+            videoElement.appendChild(sourceElement);
+            mediaContent.appendChild(videoElement);
+        }
+        var Seemore_PopUp = document.getElementById('seemore_popup');
+        var overlay = document.createElement('div');
+        overlay.id = 'see_more_popup_overlay';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay); 
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+        chatContainer.style.overflow = "hidden";
+        Seemore_PopUp.style.display =  'block';
+    }
+
+
+    function scrollToBottom() {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+
+    function generateUniqueId() {
+        const timestamp = Math.floor(new Date().getTime() / 1000).toString(16); // Using seconds and converting to hex
+        const randomPart = Math.floor(Math.random() * 1679616).toString(16); // Adjusted to generate a 3-character hex
+        const uniqueId = timestamp + '0'.repeat(9 - randomPart.length) + randomPart;
+
+        if (uniqueId.length < 24) {
+            const remainingChars = 24 - uniqueId.length;
+            const additionalRandom = Math.floor(Math.random() * Math.pow(16, remainingChars)).toString(16);
+            return uniqueId + '0'.repeat(remainingChars - additionalRandom.length) + additionalRandom;
+        }
+
+        return uniqueId;
+    }   
+
+
+    function togglePostGroupChat() {
+        var postGroupChatContainer = document.getElementById('post-groupchat-container');
+        postGroupChatContainer.style.display = 'block';
+        var overlay = document.createElement('div');
+        overlay.id = 'post_one_on_one_overlay';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay); 
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    }
+
+
+    function viewpImage(event) {
+        var input = event.target;
+        videoCount = 0;
+
+        // Clear previous previews
+        document.getElementById('previewContainer').innerHTML = "";
+        document.getElementById('userView').src = "";
+
+        if (input.files.length > 30) {
+            alert("You can only select up to 30 files at once.");
+            input.value = "";
+            return;
+        }
+
+        var carouselInner = document.createElement("div");
+        carouselInner.className = "carousel-inner";
+
+        for (var i = 0; i < input.files.length; i++) {
+            var carouselItem = document.createElement("div");
+            carouselItem.className = i === 0 ? "carousel-item active" : "carousel-item";
+
+            // Set a fixed height for carousel items
+            carouselItem.style.height = "300px"; // Adjust the height as needed
+
+            if (input.files[i].type.includes("video")) {
+                videoCount++;
+                var videoPreview = document.createElement("video");
+                videoPreview.controls = true;
+                videoPreview.style.width = "100%"; // Adjust the width as needed
+                videoPreview.style.height = "100%"; // Adjust the height as needed
+
+                var source = document.createElement("source");
+                source.src = URL.createObjectURL(input.files[i]);
+                source.type = input.files[i].type;
+
+                videoPreview.appendChild(source);
+                carouselItem.appendChild(videoPreview);
+            } else {
+                var imgPreview = document.createElement("img");
+                imgPreview.style.width = "100%"; // Adjust the width as needed
+                imgPreview.style.height = "100%"; // Adjust the height as needed
+                imgPreview.src = URL.createObjectURL(input.files[i]);
+                carouselItem.appendChild(imgPreview);
+            }
+
+            carouselInner.appendChild(carouselItem);
+        }
+
+        document.getElementById('previewContainer').appendChild(carouselInner);
+    }
+
+
+    function resizeTextarea() {
+        var textarea = document.getElementById("message-input-group-post");
+        textarea.style.height = "auto";
+        textarea.style.height = (textarea.scrollHeight) + "px";
+    }
+
+
+    function closePopup() {
+        document.getElementById("post-groupchat-container").style.display = "none";
+        var overlay = document.getElementById('post_one_on_one_overlay');
+        if (overlay) {
+            overlay.remove();
+        }
+        chatContainer.style.overflow = 'auto';
+    }
+
+
+    function closePopupSeeMore() {
+        document.getElementById("seemore_popup").style.display = "none";
+        var overlay = document.getElementById('see_more_popup_overlay')
+        if (overlay) {
+            overlay.remove();
+        }
+        chatContainer.style.overflow = "auto";
+    }
+
+
+    // Define variables to keep track of loaded messages and total messages
+    var loadedMessages = 20; // Number of messages initially loaded
+    var totalMessages = document.getElementsByClassName("message").length;
+    var lastDisplayedBatchIndex = 0;
+    
+
+    // Function to load more messages
+     function loadMoreMessages() {
+        var messages = document.getElementsByClassName("message");
+        var startIndex = totalMessages - loadedMessages;
+        var endIndex = Math.max(startIndex - 20, 0); // Ensure endIndex is not negative
+        var prevScrollHeight = chatContainer.scrollHeight; // Store current scroll height
+        for (var i = startIndex - 1; i >= endIndex; i--) {
+            messages[i].style.display = "block"; // Show the next 20 messages
+        }
+        loadedMessages += (startIndex - endIndex); // Update the count of loaded messages
+        var scrollDifference = chatContainer.scrollHeight - prevScrollHeight;
+        chatContainer.scrollTop += scrollDifference; // Adjust scroll position
+        lastDisplayedBatchIndex = Math.ceil(loadedMessages / 20); // Save the index of the last displayed batch
+        localStorage.setItem(`lastDisplayedBatchIndexOneChatAdmin${Room_Id}${seNder_Id}`, lastDisplayedBatchIndex); // Save the last displayed batch index
+    }
+
+
+    function restoreLastDisplayedBatch() {
+        var startIndex = Math.max(totalMessages - lastDisplayedBatchIndex * 20, 0);
+        var messages = document.getElementsByClassName("message");
+        for (var i = startIndex; i < totalMessages; i++) {
+            messages[i].style.display = "block"; // Show the messages belonging to the last displayed batch
+        }
+        loadedMessages = totalMessages - startIndex; // Update the count of loaded messages
+    }
+
+
+    chatContainer.onscroll = function() {
+        if (chatContainer.scrollTop === 0) {
+            if (loadedMessages < totalMessages) {
+                loadMoreMessages(); // Load more messages if available
+            }
+        }
+    };
+
+
+    // Hide all messages except the last 20 initially
+    var messages = document.getElementsByClassName("message");
+    for (var i = 0; i < totalMessages - loadedMessages; i++) {
+        messages[i].style.display = "none";
+    }
+
+
+    function saveScrollPosition() {
+        localStorage.setItem(`chatScrollPositionOneChatAdmin${Room_Id}${seNder_Id}`, chatContainer.scrollTop);
+    }
+
+
+    // Function to restore scroll position from local storage
+    function restoreScrollPosition() {
+        const scrollPosition =  localStorage.getItem(`chatScrollPositionOneChatAdmin${Room_Id}${seNder_Id}`);
+        if (scrollPosition) {
+            chatContainer.scrollTop = scrollPosition;
+        }
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const image = entry.target.querySelector('.preview');
+                    if (image) {
+                        //console.log("IMAGE SOURCE CALLED")
+                        image.src = image.parentElement.dataset.src;
+                        observer.unobserve(entry.target);
+                    }
+                    const video = entry.target.querySelector('video');
+                    if (video) {
+                        const source = video.querySelector('source');
+                        //console.log("VIDEO SOURCE CALLED")
+                        source.src = entry.target.dataset.src;
+                        video.load();
+                        observer.unobserve(entry.target);
+                    }
+                }
+            });
+        });
+
+        var storedLastDisplayedBatchIndex = localStorage.getItem(`lastDisplayedBatchIndexOneChatAdmin${Room_Id}${seNder_Id}`);
+        if (storedLastDisplayedBatchIndex !== null) {
+            lastDisplayedBatchIndex = parseInt(storedLastDisplayedBatchIndex);
+            restoreLastDisplayedBatch();
+        }
+
+        // Restore scroll position when the DOM is loaded
+         restoreScrollPosition();
+
+        // Add event listener to save scroll position when scrolling
+        chatContainer.addEventListener("scroll", saveScrollPosition);
+
+        const imageItems = document.querySelectorAll('.image-item');
+        imageItems.forEach(item => {
+            //console.log("IMAGE CALLED")
+            observer.observe(item);
+        });
+
+        const videoItems = document.querySelectorAll('.video-item');
+        videoItems.forEach(item => {
+            //console.log("VIDEO CALLED")
+            observer.observe(item);
+        });
+
+        const lastMessageScroll = document.getElementById("last_message_scroll");
+        if (lastMessageScroll) {
+            const messageId = lastMessageScroll.getAttribute('data-message-id');
+            scrollToFirstMessage(messageId);
+        } else {
+            // If not found, scroll to bottom
+            scrollToBottom();
+        }
+    });
+
+
+    function scrollToMessage(messageId) {
+        const messageElement = document.getElementById(messageId);
+        if (messageElement) {
+            messageElement.scrollIntoView({ behavior: 'smooth' });
+            messageElement.classList.add('highlight');
+            setTimeout(() => {
+                messageElement.classList.remove('highlight');
+            }, 2000);
+        }
+    }
+
+
+    function view_mess_options(messageId, event) {
+        event.stopPropagation(); // Prevents the event from bubbling up
+        var dropdown = document.getElementById('dropdown-' + messageId);
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = "block";
+        }
+    }
+
+
+    function showEmojiPopup(messageId, event) {
+        event.stopPropagation(); // Prevents the event from bubbling up
+        var dropdown = document.getElementById('dropdown-' + messageId);
+        dropdown.style.display = "none";
+
+        var emojiPopup = document.getElementById('emoji-popup-' + messageId);
+        emojiPopup.style.display = "block";
+    }
+
+
+    function showEmojiwithouteventPopup(messageId) {
+        var dropdown = document.getElementById('dropdown-' + messageId);
+        dropdown.style.display = "none";
+
+        var emojiPopup = document.getElementById('emoji-popup-' + messageId);
+        emojiPopup.style.display = "block";
+    }
+
+
+    function closeEmojiPopup(messageId, event) {
+        event.stopPropagation(); // Prevents the event from bubbling up
+        var emojiPopup = document.getElementById('emoji-popup-' + messageId);
+        emojiPopup.style.display = "none";
+    }
+
+
+    async function selectEmoji(messageId, emoji) {
+        try {
+            var emojiPopup = document.getElementById('emoji-popup-' + messageId);
+            emojiPopup.style.display = "none";
+            const response = await $.ajax({
+                url: '/admin/add_reaction_Admin_onechatchat',
+                method: 'post',
+                data: {
+                    MeSsAgEiD : messageId,
+                    EmOjIcOnTeNt : emoji,
+                    ReCiEvErId : rEcIeVeRiD
+                }
+            });
+
+            if (response.addONEADMINreaction) {
+
+                const updatedMessageResponse = await $.ajax({
+                        url: '/admin/get_message_by_id_Admin_one_Emoji',
+                        method: 'POST',
+                        data: {
+                            MeSsAgEiD: messageId,
+                            rEcIeVeRiD: rEcIeVeRiD
+                        }
+                    });
+
+                if (updatedMessageResponse.message) {
+                    //console.log("MESSAGE VALID : ", updatedMessageResponse.message);
+
+                    // Update the message content in the DOM
+                    //await updateMessageContentInDOM(updatedMessageResponse.message);
+                
+                    let message = updatedMessageResponse.message
+                    await socket.emit('chatMessageEmojiAdminOne',  
+                        {message,Room_Id}
+                    );
+
+                }
+            }
+        } catch (error) {
+            console.error('Error in selectEmoji function:', error);
+        }
+    }
+
+
+    function updateMessageContentInDOM(updatedMessage) {
+        const messageElement = document.getElementById(updatedMessage.MessageId);
+        if (messageElement) {
+
+            // Update reactions
+            let reactionDiv = messageElement.querySelector('.reaction_div');
+        
+            if (!reactionDiv) {
+                // Create reaction div if it doesn't exist
+                reactionDiv = document.createElement('div');
+                reactionDiv.className = 'reaction_div';
+                messageElement.appendChild(reactionDiv);
+            }
+        
+            if (updatedMessage.emoji && updatedMessage.emoji !== "") {
+                reactionDiv.innerHTML = `<div class="reaction_thumb">${updatedMessage.emoji}</div>`;
+            } else {
+                reactionDiv.innerHTML = '';
+            }
+        }
+    }
+
+
+    function sendTimestampOnUnload() {
+        const timestamp = new Date().toISOString();
+        const Reciever_ID = rEcIeVeRiD;
+        const url = '/admin/send_timestamp_leave_adminchat';
+        const body = JSON.stringify({ timestamp, Reciever_ID });
+        const blob = new Blob([body], { type: 'application/json' });
+
+        navigator.sendBeacon(url, blob);
+    }
+    window.addEventListener('beforeunload', sendTimestampOnUnload);
+
+
+    let pressTimer;
+    let longPressActivated = false;
+    let currentDivId = null;
+
+
+    function startPressTimer(divId) {
+        currentDivId = divId;
+        pressTimer = setTimeout(() => handleLongPress(divId), 700); // 1000ms for a 1-second long press
+    }
+
+
+    function handlePressRelease() {
+        clearTimeout(pressTimer);
+        if (!longPressActivated) {
+            currentDivId = null;
+        }
+    }
+
+
+    function handleLongPress(divId) {
+        longPressActivated = true;
+        //console.log(`Long press detected on div with id: ${divId}`);
+        // Perform any action required for long press
+        showEmojiwithouteventPopup(divId)
+    }
+
+
+    // Add an event listener for clicks anywhere on the document
+    document.addEventListener('click', (event) => {
+        if (longPressActivated && event.target.id !== currentDivId) {
+            longPressActivated = false;
+            currentDivId = null;
+            //console.log('Long press deactivated');
+            // Perform any cleanup or action required when long press is deactivated
+        }
+    }, true);
+
+    
+    // Prevent scrolling during touch to prevent unintended behavior
+    /*document.addEventListener('touchmove', (event) => {
+        if (longPressActivated) {
+            event.preventDefault();
+        }
+    }, { passive: false });*/
+
+
+    function toggleMessageContent(messageId) {
+        const content = document.getElementById(`Message_Content_ID_${messageId}`);
+        const showMoreLink = document.getElementById(`show_more_${messageId}`);
+
+        // Check if the content is currently expanded or not
+        if (content.classList.contains('expanded')) {
+            // Collapse the content
+            content.classList.remove('expanded');
+            content.style.maxHeight = 'calc(1.5em * 6)'; // Limit to 6 lines
+            showMoreLink.innerText = 'Show More';
+        } else {
+            // Expand the content
+            content.classList.add('expanded');
+            content.style.maxHeight = content.scrollHeight + 'px'; // Expand to fit the entire content
+            showMoreLink.innerText = 'Show Less';
+        }
+    }
+
+
+    // Function to check if the content exceeds 6 lines and enable the "Show More" link
+    function checkContentOverflow(messageId) {
+        const content = document.getElementById(`Message_Content_ID_${messageId}`);
+        const showMoreLink = document.getElementById(`show_more_${messageId}`);
+        
+        // If the content's scrollHeight exceeds the set max-height (i.e. 6 lines), show the "Show More" link
+        if (content.scrollHeight > content.clientHeight) {
+            showMoreLink.classList.add('active');
+        }
+    }
+
+
+    // After the page loads, check each mentor's content to see if it exceeds 6 lines
+    document.querySelectorAll('.actual-message').forEach((mentorElement) => {
+        const messageId = mentorElement.id.replace('message_content_', '');
+        checkContentOverflow(messageId);
+    });
+
+
+    function limitCharacters(textarea, maxChars) {
+        if (textarea.value.length > maxChars) {
+            alert("You have reached the maximum allowed characters.");
+            textarea.value = textarea.value.substring(0, maxChars);
+        }
+    }
+
+
+    function scrollToFirstMessage(messageId) {
+        const messageElement = document.getElementById(messageId);
+        if (messageElement) {
+            messageElement.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+</script>

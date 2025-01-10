@@ -1,0 +1,332 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    .moreAdvanceDD{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 500;
+        border-radius: 6px;
+        padding: 9px;
+        transition: background-color 0.3s ease;
+    }
+
+    .moreAdvanceDD:hover{
+        background-color: rgb(123, 180, 230);
+        color: white;
+    }
+
+    .moreAdvanceDD_custom{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 600;
+        width: 100%;
+        border-radius: 10px;
+        padding: 9px;
+        transition: background-color 0.3s ease;
+    }
+
+    .moreAdvanceDD_custom:hover{
+        background-color: rgb(123, 180, 230);
+        color: white;
+    }
+
+    .table_grid_border_system{
+        padding: 10px;
+        border: 2px solid rgb(10, 59, 221);
+    }
+
+    .table_grid_border_system:hover{
+        border: 2px solid rgb(222, 17, 17);
+    }
+
+    .change_view_btn{
+        color: white;
+        background-color: rgb(93, 138, 222);
+        padding: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        width: 100%;
+    }
+
+    .change_view_btn_div{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: none;
+    }
+
+    .showuser2{
+        display: none;
+    }
+
+    .showuser2{
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        width: 92%;
+        border-radius: 5px;
+        background-color: aliceblue;
+    }
+
+    .user2_para_head{
+        font-weight: bold;
+        margin-bottom: 0px;
+    }
+
+    @media (max-width:539px){
+        .change_view_btn_div{
+            display: block;
+        }
+        .moreAdvanceDD_custom{
+            width: 100%;
+        }
+    }
+
+    .profileImageAlternate {
+        -webkit-user-drag: none;
+        user-drag: none;
+    }
+
+    .inSearch{
+        color: aliceblue;
+    }
+
+    .showuser1{
+        margin-bottom: 20px;
+    }
+
+</style> 
+
+<section style="padding-top:140px">
+{{#if usersAll}}
+    <div class="container change_view_btn_div">
+        <button class="btn change_view_btn darkcolorchanger2">change view</button>
+    </div>
+    <section class="container showuser1">
+        <table style="width:100%;border-collapse: collapse;">
+            <tr>
+                <th class="table_grid_border_system darkcolorchanger1">Profile Image</th>
+                <th class="table_grid_border_system darkcolorchanger1">Name</th>
+                <th class="table_grid_border_system darkcolorchanger1">Company Name</th>
+                <th class="table_grid_border_system darkcolorchanger1">Founded Year</th>
+                <th class="table_grid_border_system darkcolorchanger1">Employment Status</th>
+                <th class="table_grid_border_system darkcolorchanger1">Status</th>
+                <th class="table_grid_border_system darkcolorchanger1">Current Status</th>
+                <th class="table_grid_border_system darkcolorchanger1">Action</th>
+            </tr>
+            {{#each usersAll}}
+                {{#compare this.employmentStatus '===' "ownCompany"}}
+                    <tr>
+                        <td class="table_grid_border_system">
+                            <img class="rounded-circle profileImageAlternate" src="/user-images/{{this._id}}.jpg" alt="Profile Image" style="width: 50px;height: 50px;border-radius: 50%;object-fit: contain;">
+                        </td>
+                        <td class="table_grid_border_system darkcolorchanger1">{{this.Name}}</td>
+                        <td class="table_grid_border_system darkcolorchanger1">{{this.ownCompany.FoundedCompanyName}}</td>
+                        <td class="table_grid_border_system darkcolorchanger1">{{this.ownCompany.foundedYear}}</td>
+                        <td class="table_grid_border_system darkcolorchanger1">{{this.employmentStatus}}</td>
+                        <td class="table_grid_border_system darkcolorchanger1">{{this.Status}}</td>
+                        <td class="table_grid_border_system darkcolorchanger1">Current Owning company</td>
+                        <td class="table_grid_border_system">
+                            <a href="javascript:void(0)" onclick="adminViewProfile('{{this._id}}')" class="btn moreAdvanceDD darkcolorchanger2">View Profile</a>
+                        </td>
+                    </tr>
+                {{/compare}}
+                {{#if ownCompany.OwnadditionalFoundedCompanyStorage}}
+                    {{#each ownCompany.OwnadditionalFoundedCompanyStorage}}
+                        <tr>
+                            <td class="table_grid_border_system">
+                                <img class="rounded-circle profileImageAlternate" src="/user-images/{{../_id}}.jpg" alt="Profile Image" style="width: 50px;height: 50px;border-radius: 50%;object-fit: contain;">
+                            </td>
+                            <td class="table_grid_border_system darkcolorchanger1">{{../Name}}</td>
+                            <td class="table_grid_border_system darkcolorchanger1">{{this.name}}</td>
+                            <td class="table_grid_border_system darkcolorchanger1">{{this.year}}</td>
+                            <td class="table_grid_border_system darkcolorchanger1">{{../employmentStatus}}</td>
+                            <td class="table_grid_border_system darkcolorchanger1">{{../Status}}</td>
+                            <td class="table_grid_border_system darkcolorchanger1">Other Owning/owned companies</td>
+                            <td class="table_grid_border_system">
+                                <a href="javascript:void(0)" onclick="adminViewProfile('{{../_id}}')" class="btn moreAdvanceDD darkcolorchanger2">View Profile</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                {{/if}}
+                {{#if working.WorkingownedPreviousStorage}}
+                    {{#each working.WorkingownedPreviousStorage}}
+                        <tr>
+                            <td class="table_grid_border_system">
+                                <img class="rounded-circle profileImageAlternate" src="/user-images/{{../_id}}.jpg" alt="Profile Image" style="width: 50px;height: 50px;border-radius: 50%;object-fit: contain;">
+                            </td>
+                            <td class="table_grid_border_system darkcolorchanger1">{{../Name}}</td>
+                            <td class="table_grid_border_system darkcolorchanger1">{{this.name}}</td>
+                            <td class="table_grid_border_system darkcolorchanger1">{{this.year}}</td>
+                            <td class="table_grid_border_system darkcolorchanger1">{{../employmentStatus}}</td>
+                            <td class="table_grid_border_system darkcolorchanger1">{{../Status}}</td>
+                            <td class="table_grid_border_system darkcolorchanger1">Other Owning/owned companies</td>
+                            <td class="table_grid_border_system">
+                                <a href="javascript:void(0)" onclick="adminViewProfile('{{../_id}}')" class="btn moreAdvanceDD darkcolorchanger2">View Profile</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                {{/if}}
+            {{/each}}
+        </table>
+    </section>
+{{/if}}
+
+{{#if usersAll}}
+    <section class="container showuser2 darkcolorchanger3">
+        {{#each usersAll}}
+            {{#compare this.employmentStatus '===' "ownCompany"}}
+                <div>
+                    <img class="rounded-circle profileImageAlternate" src="/user-images/{{this._id}}.jpg" alt="Profile Image" style="width: 50px;height: 50px;border-radius: 50%;object-fit: contain;">
+                </div>
+                <div>
+                    <p class="user2_para_head" style="margin-top: 10px;">Name : </p>
+                    <p class="user2_para_content">{{this.Name}}</p>
+                </div>
+                <div>
+                    <p class="user2_para_head">Company Name: </p>
+                    <p class="user2_para_content">{{this.ownCompany.FoundedCompanyName}}</p>
+                </div>
+                <div>
+                    <p class="user2_para_head">Founded Year: </p>
+                    <p class="user2_para_content">{{this.ownCompany.foundedYear}}</p>
+                </div>
+                <div>
+                    <p class="user2_para_head">Employement status: </p>
+                    <p class="user2_para_content">{{this.employmentStatus}}</p>
+                </div>
+                <div>
+                    <p class="user2_para_head">Status: </p>
+                    <p class="user2_para_content">{{this.Status}}</p>
+                </div>
+                <div>
+                    <p class="user2_para_head">Current status: </p>
+                    <p class="user2_para_content">Current Owning company</p>
+                </div>
+                <div style="margin-bottom: 80px;width:100%;">
+                    <a href="javascript:void(0)" onclick="adminViewProfile('{{this._id}}')" class="btn moreAdvanceDD_custom darkcolorchanger2">profile</a>
+                </div>
+            {{/compare}}
+            {{#if ownCompany.OwnadditionalFoundedCompanyStorage}}
+                {{#each ownCompany.OwnadditionalFoundedCompanyStorage}}
+                    <div>
+                        <img class="rounded-circle profileImageAlternate" src="/user-images/{{../_id}}.jpg" alt="Profile Image" style="width: 50px;height: 50px;border-radius: 50%;object-fit: contain;">
+                    </div>
+                    <div>
+                        <p class="user2_para_head" style="margin-top: 10px;">Name : </p>
+                        <p class="user2_para_content">{{../Name}}</p>
+                    </div>
+                    <div>
+                        <p class="user2_para_head">Company Name: </p>
+                        <p class="user2_para_content">{{this.ownCompany.FoundedCompanyName}}</p>
+                    </div>
+                    <div>
+                        <p class="user2_para_head">Founded Year: </p>
+                        <p class="user2_para_content">{{this.ownCompany.foundedYear}}</p>
+                    </div>
+                    <div>
+                        <p class="user2_para_head">Employement status: </p>
+                        <p class="user2_para_content">{{../employmentStatus}}</p>
+                    </div>
+                    <div>
+                        <p class="user2_para_head">Status: </p>
+                        <p class="user2_para_content">{{../Status}}</p>
+                    </div>
+                    <div>
+                        <p class="user2_para_head">Current status: </p>
+                        <p class="user2_para_content">Other Owning/owned companies</p>
+                    </div>
+                    <div style="margin-bottom: 80px;width:100%;">
+                        <a href="javascript:void(0)" onclick="adminViewProfile('{{../_id}}')" class="btn moreAdvanceDD_custom darkcolorchanger2">profile</a>
+                    </div>
+                {{/each}}
+            {{/if}}
+            {{#if working.WorkingownedPreviousStorage}}
+                {{#each working.WorkingownedPreviousStorage}}
+                    <div>
+                        <img class="rounded-circle profileImageAlternate" src="/user-images/{{../_id}}.jpg" alt="Profile Image" style="width: 50px;height: 50px;border-radius: 50%;object-fit: contain;">
+                    </div>
+                    <div>
+                        <p class="user2_para_head" style="margin-top: 10px;">Name : </p>
+                        <p class="user2_para_content">{{../Name}}</p>
+                    </div>
+                    <div>
+                        <p class="user2_para_head">Company Name: </p>
+                        <p class="user2_para_content">{{this.ownCompany.FoundedCompanyName}}</p>
+                    </div>
+                    <div>
+                        <p class="user2_para_head">Founded Year: </p>
+                        <p class="user2_para_content">{{this.ownCompany.foundedYear}}</p>
+                    </div>
+                    <div>
+                        <p class="user2_para_head">Employement status: </p>
+                        <p class="user2_para_content">{{../employmentStatus}}</p>
+                    </div>
+                    <div>
+                        <p class="user2_para_head">Status: </p>
+                        <p class="user2_para_content">{{../Status}}</p>
+                    </div>
+                    <div>
+                        <p class="user2_para_head">Current status: </p>
+                        <p class="user2_para_content">Other Owning/owned companies</p>
+                    </div>
+                    <div style="margin-bottom: 80px;width:100%;">
+                        <a href="javascript:void(0)" onclick="adminViewProfile('{{this._id}}')" class="btn moreAdvanceDD_custom darkcolorchanger2">profile</a>
+                    </div>
+                {{/each}}
+            {{/if}}
+        {{/each}}
+    </section>
+{{/if}}
+</section>
+
+ <script>
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const changeViewBtn = document.querySelector('.change_view_btn');
+        const showuser1 = document.querySelector('.showuser1');
+        const showuser2 = document.querySelector('.showuser2');
+
+        changeViewBtn.addEventListener('click', function () {
+            // Toggle visibility of showuser1 and showuser2
+            if (showuser1.style.display === 'none') {
+                showuser1.style.display = 'block';
+                showuser2.style.display = 'none';
+            } else {
+                showuser1.style.display = 'none';
+                showuser2.style.display = 'block';
+            }
+        });
+    });
+
+
+    function adminViewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/admin-view-profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+    
+</script>

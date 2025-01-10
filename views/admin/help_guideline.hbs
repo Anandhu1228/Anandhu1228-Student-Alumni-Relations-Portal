@@ -1,0 +1,109 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    .section_guideline{
+        padding-top: 180px;
+    }
+
+    .div_guideline{
+
+    }
+
+    .p_guideline_heading{
+        font-size: 21px;
+        font-weight: 600;
+        color: rgb(93, 138, 222);
+    }
+
+    .num_guide{
+        color: rgb(93, 138, 222);
+    }
+
+    .p_guideline_content{
+        font-size: 17px;
+        font-weight: 550;
+    }
+
+</style>
+
+<section class="section_guideline container-fluid">
+    <div class="div_guideline">
+        <p class="p_guideline_heading">Admin abilities</p>
+        <p class="p_guideline_content darkcolorchanger1">
+            <span class="num_guide">1. </span>Can search alumni based on location, work domain, pass-out year, branch, and name.<br>
+            <span class="num_guide">2. </span>Can search students based on location, work domain, admission year, branch, and name.<br>
+            <span class="num_guide">3. </span>Can remove users from the portal.<br>
+            <span class="num_guide">4. </span>Has access to information regarding alumni-owned companies registered on the portal.<br>
+            <span class="num_guide">5. </span>Has access to information regarding working alumni registered on the portal.<br>
+            <span class="num_guide">6. </span>Can view user queries and chat with users.<br>
+            <span class="num_guide">7. </span>Can enter group chats, interact with users, and delete any user messages.<br>
+            <span class="num_guide">8. </span>Can broadcast a message to all users.<br>
+            <span class="num_guide">9. </span>Can enter the mentorship portal, interact, and delete any question or reply.<br>
+            <span class="num_guide">10. </span>Can enter the job portal to delete or add jobs.<br>
+            <span class="num_guide">11. </span>Has access to edit a user's profile.<br>
+            <span class="num_guide">12. </span>Has access to update a user's profile.<br>
+            <span class="num_guide">13. </span>Has access to update any user's password with consent.<br>
+            <span class="num_guide">14. </span>Can delete user records to enable users to sign up again if their account was deleted by the admin.<br>
+            <span class="num_guide">15. </span>Can delete internship requests from the portal.<br>
+            <span class="num_guide">16. </span>Can delete images or videos posted by users.<br>
+            <span class="num_guide">17. </span>Can delete comments or replies from users.<br>
+            <span class="num_guide">18. </span>Can restrict a user from entering group chat.<br>
+            <span class="num_guide">19. </span>Can restrict a user from entering the portal.<br>
+            <span class="num_guide">20. </span>Can view user login details.<br>
+            <span class="num_guide">21. </span>Can view user password update logs.<br>
+            <span class="num_guide">22. </span>Can view deleted group chat entries.<br>
+            <span class="num_guide">23. </span>Can view deleted private chat messages only with the consent of one of the users.<br>
+            <span class="num_guide">24. </span>Admin must notify the user to turn on the access button located in the "Contact Admin" section inside settings.<br>
+            <span class="num_guide">25. </span>Can enable power transfer to transfer admin privileges to another admin.<br>
+            <span class="num_guide">26. </span>Admin must enable "Enable Power Transfer" under other functionalities to transfer admin privileges to another admin.<br>
+            <span class="num_guide">27. </span>Do not enable "Enable Power Transfer" without a valid purpose.<br>
+            <span class="num_guide">28. </span>Admin will receive notifications on the website as well as via email.<br>
+            <span class="num_guide">29. </span>Too many OTP attempts or incorrect passwords will disable admin access.<br>
+            <span class="num_guide">30. </span>A maximum of 3 OTP and 3 password attemps are allowed<br>
+            <span class="num_guide">31. </span>Account will be disabled for 1 hour after too many OTPs and 24 hours for too many incorrect password<br>
+            <span class="num_guide">32. </span>The superadmin can disable admin access in case of any dispute.
+        </p>
+    </div>
+    <div class="div_guideline" style="margin-top: 60px; margin-bottom:50px;">
+        <p class="p_guideline_heading">General guidelines and informations</p>
+        <p class="p_guideline_content darkcolorchanger1">
+            <span class="num_guide">1. </span>All admin activities can be monitored by the superadmin.<br>
+            <span class="num_guide">2. </span>Superadmin has access to the history of users removed by admins, with timestamps.<br>
+            <span class="num_guide">3. </span>Superadmin has access to the history of users added by admins, with timestamps.<br>
+            <span class="num_guide">4. </span>Superadmin can access all broadcast messages deleted by admins, with timestamps.<br>
+            <span class="num_guide">5. </span>Superadmin can access all mentorship questions and replies deleted by admins, with timestamps.<br>
+            <span class="num_guide">6. </span>Superadmin can access all profiles edited by admins, with timestamps.<br>
+            <span class="num_guide">7. </span>Superadmin can access all profiles updated by admins, with timestamps.<br>
+            <span class="num_guide">8. </span>Superadmin can access all user status updates made by admins, with timestamps.<br>
+            <span class="num_guide">9. </span>Superadmin can access all passwords updated by admins, with timestamps.<br>
+            <span class="num_guide">10. </span>Superadmin can access all jobs deleted by admins, with timestamps.<br>
+            <span class="num_guide">11. </span>Superadmin can access all internship requests deleted by admins, with timestamps.<br>
+            <span class="num_guide">12. </span>Superadmin can access all posts deleted by admins, with timestamps.<br>
+            <span class="num_guide">13. </span>Superadmin can access all portal users restricted by admins, with timestamps.<br>
+            <span class="num_guide">14. </span>Superadmin can access all group chat restrictions placed by admins, with timestamps.<br>
+            <span class="num_guide">15. </span>Superadmin can access all user log details viewed by admins, with timestamps.<br>
+            <span class="num_guide">16. </span>Superadmin can access all password update logs viewed by admins, with timestamps.<br>
+            <span class="num_guide">17. </span>Superadmin can access all deleted group chat entries viewed by admins, with timestamps.<br>
+            <span class="num_guide">18. </span>Superadmin can access all deleted private chats viewed by admins, with timestamps.<br>
+            <span class="num_guide">19. </span>All resources deleted by admins that are accessible to users will display a notice stating "This resource was deleted by admin."<br>
+            <span class="num_guide">20. </span>Users can directly report admin activities to college authorities.<br>
+            <span class="num_guide">21. </span>Any malicious activity by an admin may result in actions taken by the college, including possible legal consequences.<br>
+            <span class="num_guide">22. </span>Admins should not disclose their password or username to anyone, including the superadmin, under any circumstances.<br>
+            <span class="num_guide">23. </span>Admins must also monitor the activities of maintainers, and any changes to the page can only be made with admin consent.<br>
+            <span class="num_guide">24. </span>Admin needed to constantly check for user enquiries, admin individual chat, user reports for any user service.
+        </p>
+    </div>
+</section>

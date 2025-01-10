@@ -1,0 +1,468 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+    body {
+        background-color: #ffffff;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 80% auto;
+        background-position: center bottom 60%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+        .newMessenger{
+            font-weight: 600;
+            font-size: 14px;
+        }
+    }
+
+    #chat-container-chat {
+        padding-top: 100px;
+        padding-bottom: 30px;
+    }
+
+    .message-chat {
+        padding: 15px;
+        width: 85%;
+        margin: auto;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        border-bottom: 1px solid #ddd;
+        align-items: center;
+        background-color: rgba(123, 180, 230,0.4);
+        height: auto;
+        margin-top: 15px;
+       transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+    .message-chat:hover{
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.8);
+        background-color: rgba(233, 236, 238,0.5);
+    }
+
+    .profile-pic-chat {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+        object-fit: cover;
+    }
+
+    .message-details-chat {
+        flex-direction: column;
+        margin-left: 20px;
+    }
+
+    .message_carrier{
+        margin-right: 70px;
+    }
+
+    .badge_carrier{
+        position: absolute;
+        right: 10px;
+        top: -10px;
+    }
+
+    .sender-chat {
+        font-weight: bold;
+        margin-bottom: 5px;
+        margin-left: 30px;
+    }
+
+    .newNoti{
+        font-weight: bold; 
+        font-size:15px; 
+        display:inline-block;
+        margin-left:10px;
+    }
+
+    .messageContent{
+        white-space: nowrap;
+        overflow: hidden;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        margin-left: 70px;
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .newMessageObtained{
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        font-size: 16px;
+        border-radius: 50%;
+        padding: 5px;
+    }
+
+    .newMessenger{
+        margin: 0px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+
+    .newMessageObtained_bagde{
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+
+    .newMessenger_badge{
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 600;
+        border-radius:50%;
+        position:absolute;
+        right:0px;
+    }
+
+    .message_user_detail{
+        display: flex;
+        align-items: center;
+    }
+    
+    @media (max-width: 991px) {
+        .message-chat{
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .message-chat{
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 516px) {
+        .last_seen_seen{
+            font-size: 10px;
+            font-weight: 600;
+            color: rgb(82, 70, 70);
+            margin-left: 20px;
+        }
+        .last_seen_head{
+            color: rgb(105, 100, 100);
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .message-chat{
+            width: 100%;
+        }
+    }
+    @media (max-width: 443px) {
+        .last_seen_seen{
+            margin-left: 10px;
+        }
+        .message-chat{
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 396px) {
+        .messageContent{
+            font-size: 12px;
+        }
+    }
+
+     @media (max-width: 550px) {
+        .chat-container-chat{
+            margin-top: 0px;
+        }
+        .message-chat:first-child{
+            margin-top: -20px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .newMessenger{
+            font-size: 10px;
+        }
+        .badge_carrier{
+            top:-6px;
+        }
+    }
+
+    .profileImageAlternate {
+        -webkit-user-drag: none;
+        user-drag: none;
+    }
+
+</style>
+
+<div class="container" id="chat-container-chat" style="object-fit: contain;">
+    {{#each reports}}
+        <div class="message-chat darkcolorchanger2">
+            <div class="message_user_detail">
+                <a style="text-decoration: none;" href="javascript:void(0)" onclick="adminViewProfile('{{this.reporter_id}}')">
+                    <img class="profile-pic-chat profileImageAlternate" src="/user-images/{{this.reporter_id}}.jpg" alt="User Image">
+                </a>
+                <a style="text-decoration: none;color:black;cursor:pointer;" onclick="passEnquiryId('{{this._id}}')">
+                    <div class="sender-chat">{{this.Name_IN}}</div>
+                </a>
+            </div>
+            <div class="message-details-chat" style="position: relative;">
+                <div class="message_carrier">
+                    <div class="messageContent">
+                        {{this.reported_time}}
+                    </div>
+                </div>
+                <div class="badge_carrier">
+                    {{#compare this.admin_opened_time "===" ""}}
+                        <button type="button" class="newMessenger" style="padding: 5px;border:none">
+                            open <span class="badge newMessenger_badge"></span>
+                        </button>
+                    {{/compare}}
+                </div>
+            </div>
+        </div>
+    {{/each}}
+    <div id="new_mess_container">
+        {{!-- This is where new messages will be appended --}}
+    </div>
+    <div id="loadingIndicator" style="display:none; text-align: center;">
+        <!-- Your loading indicator (spinner, text, etc.) -->
+        <p>Loading...</p>
+    </div>
+</div>
+
+<script>
+
+    sessionStorage.setItem("limiterEnquiryrAdmin", '{{limit}}');
+    var skip = sessionStorage.getItem('limiterEnquiryrAdmin')
+
+    function sendTimestampOnUnload() {
+        const url = '/admin/send_timestamp_leave_admin_askadmin';
+        navigator.sendBeacon(url);
+    }
+    window.addEventListener('beforeunload', sendTimestampOnUnload);
+
+    
+    if (performance.navigation.type === 2) {
+        location.reload(true);
+    }
+        
+ 
+    function passEnquiryId(report_id) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/view_each_report';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'report_id';
+        input.value = report_id;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+   
+
+    function adminViewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/admin-view-profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+    var bottomReached = false;
+    var limit = 15;
+
+    async function checkScroll() {
+        var scrollPosition = window.scrollY + window.innerHeight; // Get the current scroll position including the window height
+        var documentHeight = document.documentElement.scrollHeight; // Get the total height of the document
+
+        if (scrollPosition >= documentHeight - 30 && !bottomReached) {
+            bottomReached = true;
+
+            let response = await $.ajax({
+                url: '/admin/get_remaining_report_admin',
+                method: 'post',
+                data: {
+                    skip: sessionStorage.getItem('limiterEnquiryrAdmin'),
+                    limit: limit
+                }
+            });
+
+            if (response.success) { 
+                const nem_enquirie_s = response.reports;
+                if (nem_enquirie_s && nem_enquirie_s.length > 0) {
+                    skip = parseInt(skip) + limit;
+                    sessionStorage.setItem('limiterEnquiryrAdmin', skip);
+
+                    $("#loadingIndicator").show();
+
+                    nem_enquirie_s.forEach(enquirie_s => {
+                        // Append each post to the existing posts container
+                        $("#new_mess_container").append(addMentorWithReplies(enquirie_s));
+                    });
+
+                    $("#loadingIndicator").hide();
+
+                }
+            } else {
+                $("#loadingIndicator").hide();
+            }
+        } else if (scrollPosition < documentHeight - 30) {
+            bottomReached = false;
+        }
+    }
+
+    // Listen for scroll events on the window
+    window.addEventListener('scroll', checkScroll);
+
+
+    function addMentorWithReplies(report) {
+        const  darkEnabler = localStorage.getItem('darkModeARCCEC') === 'enabled';
+        const user_id = report.reporter_id;
+        const user_name = report.Name_IN;
+        const timestamp = report.reported_time;
+        const admin_opened_time = report.admin_opened_time;
+        const _id = report._id;
+        // Create the outer container div
+        const messageChatDiv = document.createElement('div');
+        messageChatDiv.classList.add('message-chat','darkcolorchanger2');
+        if(darkEnabler){
+            messageChatDiv.style.color = 'white';
+            messageChatDiv.style.backgroundColor = 'gray';
+        }
+
+        // Create the user detail container div
+        const messageUserDetailDiv = document.createElement('div');
+        messageUserDetailDiv.className = 'message_user_detail';
+
+        // Create the anchor for the profile image and user name
+        const profileLink = document.createElement('a');
+        profileLink.href = 'javascript:void(0)';
+        profileLink.style.textDecoration = 'none';
+        profileLink.onclick = () => adminViewProfile(user_id);
+
+        // Create the profile image element
+        const profileImage = document.createElement('img');
+        profileImage.className = 'profile-pic-chat profileImageAlternate';
+        profileImage.src = `/user-images/${user_id}.jpg`;
+        profileImage.alt = 'User Image';
+        profileImage.draggable = false;
+
+        profileImage.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Prevent dragging
+        profileImage.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+
+        // Append the profile image to the anchor
+        profileLink.appendChild(profileImage);
+
+        // Append the profile image anchor to the user detail container
+        messageUserDetailDiv.appendChild(profileLink);
+
+        // Create the anchor for the user name
+        const nameLink = document.createElement('a');
+        nameLink.style.textDecoration = 'none';
+        nameLink.style.color = 'black';
+        nameLink.style.cursor = 'pointer';
+        nameLink.onclick = () => passEnquiryId(_id);
+
+        // Create the user name div
+        const senderChatDiv = document.createElement('div');
+        senderChatDiv.className = 'sender-chat';
+        senderChatDiv.textContent = user_name;
+
+        // Append the user name div to the name anchor
+        nameLink.appendChild(senderChatDiv);
+
+        // Append the name anchor to the user detail container
+        messageUserDetailDiv.appendChild(nameLink);
+
+        // Append the user detail container to the outer container
+        messageChatDiv.appendChild(messageUserDetailDiv);
+
+        // Create the message details container div
+        const messageDetailsDiv = document.createElement('div');
+        messageDetailsDiv.className = 'message-details-chat';
+        messageDetailsDiv.style.position = 'relative';
+
+        // Create the message carrier div
+        const messageCarrierDiv = document.createElement('div');
+        messageCarrierDiv.className = 'message_carrier';
+
+        // Create the message content div
+        const messageContentDiv = document.createElement('div');
+        messageContentDiv.className = 'messageContent';
+        messageContentDiv.textContent = timestamp;
+
+        // Append the message content div to the message carrier div
+        messageCarrierDiv.appendChild(messageContentDiv);
+
+        // Append the message carrier div to the message details container
+        messageDetailsDiv.appendChild(messageCarrierDiv);
+
+        // Create the badge carrier div
+        const badgeCarrierDiv = document.createElement('div');
+        badgeCarrierDiv.className = 'badge_carrier';
+
+        // Check if admin_opened_time is empty
+        if (admin_opened_time === "") {
+            // Create the button element
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'newMessenger';
+            button.style.padding = '5px';
+            button.style.border = 'none';
+            button.textContent = 'open';
+
+            // Create the badge span element
+            const badgeSpan = document.createElement('span');
+            badgeSpan.className = 'badge newMessenger_badge';
+
+            // Append the badge span to the button
+            button.appendChild(badgeSpan);
+
+            // Append the button to the badge carrier div
+            badgeCarrierDiv.appendChild(button);
+        }
+
+        // Append the badge carrier div to the message details container
+        messageDetailsDiv.appendChild(badgeCarrierDiv);
+
+        // Append the message details container to the outer container
+        messageChatDiv.appendChild(messageDetailsDiv);
+
+        return messageChatDiv;
+    }
+
+</script>
+
+</body>

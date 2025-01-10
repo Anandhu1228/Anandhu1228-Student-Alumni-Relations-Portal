@@ -1,0 +1,2194 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+
+    body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-color:aliceblue
+    }
+
+    .whole_body_mentor_main{
+        padding-top: 100px;
+    }
+
+    .add-button {
+        background-color: #f3c306;
+        color: rgb(0, 0, 0);
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .popup-form {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        z-index: 2001;
+        width: 70%;
+    }
+
+    .popup-form .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .popup-form .close:hover {
+        color: red; /* Change the color on hover as desired */
+    }
+
+    .popup-form textarea {
+        width: 100%;
+        margin-bottom: 10px;
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        padding: 10px;
+        font-size: 18px;
+        min-height: 180px;
+        max-height: 470px;
+        box-sizing: border-box;
+        resize: vertical; /* Enable vertical resizing */
+        overflow: auto; /* Add scrollbar when content exceeds textarea height */
+    }
+
+    .popup-form button {
+        background-color: #2d649f;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .user-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .user-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+    }
+
+    .user-name {
+        font-weight: bold;
+        font-size: 15px;
+        margin-left: -10px;
+        margin-right: 5px;
+    }
+
+    .mentorcontainer{
+        /*background-color: rgba(16, 161, 239, 0.585);*/
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        min-height: 100px;
+        height: auto;
+        background-color: rgba(255, 255, 255, 0.8);
+        width: 80%;
+        margin-left: auto;
+        margin-right: 20px;
+        padding: 20px;
+        position: relative;
+        border-radius: 10px 10px 0px 10px;
+        margin-top: 30px;
+    }
+
+    .messageMentor{
+        font-size: 15px;
+        font-weight: 600;
+        word-wrap: break-word;
+        min-height: 30px;
+        padding: 20px;
+        padding-left: 50px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+
+    .mentor-content {
+        overflow: hidden;
+        max-height: calc(1.5em * 6); /* Limit to 6 lines */
+        transition: max-height 0.3s ease; /* Smooth transition for expanding/collapsing */
+    }
+
+    .mentor-content.expanded {
+        max-height: none; /* Allow full expansion */
+    }
+
+    .show-more {
+        color: #007bff;
+        cursor: pointer;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .show-more.active {
+        display: inline;
+    }
+
+    .replycontainer{
+        /*background-color: rgb(123, 180, 230);*/
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        min-height: 100px;
+        height: auto;
+        width: 70%;
+        position: relative;
+        background-color: rgba(255, 255, 255, 0.8);
+        margin-left: auto;
+        margin-right: 20px;
+        padding: 20px;
+        border-bottom: 1px solid #a9a1a1;
+        transition: background-color 2.3s ease;
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    .replycontainer:last-child {
+        border-radius: 0px 0px 10px 10px;
+    }
+
+    .replyMentor{
+        font-size: 15px;
+        font-weight: 600;
+        min-height: 30px;
+        padding: 20px;
+        padding-left: 50px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    @media (max-width: 860px) {
+        .replyMentor{
+            font-size: 14px;
+        }
+        .messageMentor{
+            font-size: 14px;
+        }
+    }
+
+    .reply-btn{
+        text-decoration:none;
+        font-size: 14px;
+        font-weight: 550;
+        color: #0868b7;
+    }
+
+    .reply-btn:hover{
+        color:blue;
+        text-decoration:none;
+    }
+
+    .profile_data{
+        background-color:rgb(206, 214, 230);
+        width: fit-content;
+        border-radius: 20px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .athead_name{
+        font-size: 13px;
+        font-weight: 600;
+        color: rgb(93, 138, 222);
+        cursor: pointer;
+    }
+
+    @media (max-width:1550px) {
+        .replycontainer{
+            width: 80%;
+            margin-right: 10px;
+        }
+        .mentorcontainer{
+            width: 96%;
+            margin-right: 10px;
+        }
+        .popup-form {
+            width: 90%;
+        }
+        .athead_name{
+            font-weight:500;
+            font-size:13px
+        }
+    }
+
+    @media (max-width:600px) {
+        .reply-btn{
+            font-size: 13px;
+        }
+        .replyMentor{
+            font-size: 13px;
+            font-weight: 650;
+            padding: 5px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 20px;
+        }
+        .messageMentor{
+            font-size: 13px;
+            padding: 5px;
+            font-weight: 650;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 20px;
+        }
+        .user-name{
+            font-size: 12px;
+        }
+        .replycontainer{
+            width: 80%;
+            margin-right: 5px;
+        }
+        .mentorcontainer{
+            width: 96%;
+            margin-right: 5px;
+        }
+        .athead_name{
+            font-weight:400;
+            font-size:13px
+        }
+        .whole_body_mentor_main{
+            padding-top: 90px;;
+        }
+        .popup-form {
+            width: 96%;
+        }
+    }
+
+    .option_div {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        cursor: pointer;
+    }
+
+    .dropdownND {
+        display: none;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        border-radius: 5px;
+        z-index: 997;
+    }
+
+    .dropdownND ul {
+        list-style-type: none;
+        padding: 3px;
+        margin: 0;
+    }
+
+    .dropdownND ul li {
+        padding-left: 5px;
+        padding-right: 5px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    @media (max-width: 500px) {
+        .dropdownND ul li {
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    }
+
+    .dropdownND ul li:hover {
+        background-color: #ffffff;
+        border-radius: 8px;
+    }
+
+    .emoji-popup {
+        display: none;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        z-index: 997;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .emoji-popup span {
+        font-size: 24px;
+        margin: 5px;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    @media (max-width: 900px) {
+        .emoji-popup span {
+            font-size: 18px;
+        }
+    }
+
+    @media (max-width: 620px) {
+        .emoji-popup span {
+            font-size: 16px;
+        }
+    }
+
+    .emoji-popup span:hover {
+        background-color: #ffffff;
+        border-radius: 50%;
+    }
+
+    .reply_del_div{
+        position: absolute;
+        left: 0px;
+        bottom: 5px;
+        display: flex;
+        margin-bottom:0px;
+        margin-left: 20px;
+    }
+
+    .reaction_div{
+        position:absolute;
+        right: 2px;
+        cursor: pointer;
+        bottom: 0px;
+        background-color: rgb(255, 255, 255);
+        border-radius: 20px;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .reaction_thumb{
+        margin-bottom: 0px;
+        font-size: 18px;
+        margin-right: 10px;
+    }
+
+    .count_reaction{
+        font-weight: bold;
+        font-size: 15px;
+        margin-right: 1px;
+        margin-left: 10px;
+    }
+
+    .popupform_view_reactions{
+        display: none;
+        padding: 20px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        background-color: #ffffff;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+        z-index: 2001;
+        min-width: 30%;
+        max-width: 90%;
+        max-height: 65vh;
+        min-height: 20vh;
+        height: auto;
+        overflow-y: auto;
+        border-radius: 20px;
+        box-shadow: 0 4px 30px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 1270px) {
+        .popupform_view_reactions{
+            min-width: 60%;
+            max-width: 90%;
+        }
+    }
+
+    @media (max-width: 950px) {
+        .popupform_view_reactions{
+            min-width: 80%;
+            max-width: 90%;
+        }
+    }
+
+    .close_pop_up_view_reactions{
+        font-size: 15px;
+        z-index: 105;
+        position: absolute; 
+        top:5px; 
+        right:10px;
+        cursor: pointer;
+    }
+
+    .close_pop_up_view_reactions:hover{
+        color: red;
+    }
+
+    .close_button{
+        text-align: right;
+        display:block;
+        margin-bottom: 30px;
+    }
+
+    .no-scroll {
+        overflow: hidden;
+    }
+
+    .user_circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+    }
+
+    .user_image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .p_emoji{
+        margin-bottom: 0px;
+        display: flex;
+        margin-left:auto;
+        margin-right:60px;
+    }
+
+    .p_in_like_body_turnedon{
+        font-weight:bold;
+        margin-bottom:0px;
+        color:black;
+        cursor:pointer;
+    }
+
+    .reaction_divider{
+        display: flex;
+        align-items:center; 
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 1420px) {
+        .p_emoji{
+            margin-right: 10px;
+        }
+    }
+
+    @media (max-width: 850px) {
+        .p_in_like_body_turnedon{
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 450px) {
+        .p_emoji{
+            margin-right:9px;
+        }
+        .p_in_like_body_turnedon{
+            font-size: 12px;
+        }
+        .popupform_view_reactions{
+            padding: 15px;
+        }
+    }
+
+    .bot_p_1{
+        margin-top:40px;
+        font-weight: 600;
+        font-size:14px;
+        margin-bottom:5px;
+        color:grey;
+        text-align: center;
+    }
+
+    .bot_p_2{
+        font-weight: 600;
+        font-size:14px;
+        margin-bottom:0px;
+        color:grey;
+        text-align: center;
+    }
+
+    @media (max-width: 950px) {
+        .bot_p_1{
+            font-size: 10px;
+        }
+        .bot_p_2{
+            font-size: 10px;
+        }
+    }
+
+    .comment_p_actual_rep{
+        color: rgb(93, 138, 222);
+        font-weight:bold;
+        font-size:11px;
+        margin-bottom:0px;
+    }
+
+    .highlight {
+        background-color: rgb(255, 230, 0) !important; /* Change this color as needed */
+        transition: background-color 0.5s ease;
+    }
+
+    #questionInputReply::placeholder {
+        font-size: 14px;
+    }
+
+    #replyInput::placeholder {
+        font-size: 14px;
+    }
+
+    #loading-indicator_loader {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        z-index: 1000;
+    }
+
+    #loading-indicator_loader p {
+        margin: 10px 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    #loading-indicator_loader .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    .profileImageAlternate {
+        -webkit-user-drag: none;
+        user-drag: none;
+    }
+
+    @media (max-width: 450px){
+        .reaction_thumb{
+            font-size: 15px;
+        }
+
+        .count_reaction{
+            font-size: 12px;
+        }
+    }
+
+    .popup_overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        z-index: 999;  /* Layer above the main content */
+        cursor: not-allowed;  /* Optional: Change cursor to indicate no interaction */
+    }
+
+    #whole_mentor_body{
+        margin-bottom: 20px;
+    }
+
+</style>
+
+<div class="whole_body_mentor_main">
+<div id = "whole_mentor_body" class="container-fluid">
+    <div id="new_mess_container">
+        {{!-- This is where new messages will be appended --}}
+    </div>
+    <div id="loadingIndicator" style="display:none; text-align: center;">
+        <!-- Your loading indicator (spinner, text, etc.) -->
+        <p>Loading...</p>
+    </div>
+    {{#each mentors}}
+        <div id="{{this._id}}" style="position: relative;">
+            <div class="mentorcontainer" 
+                onmousedown="startPressTimer('{{this._id}}')" 
+                onmouseup="handlePressRelease()" 
+                onmouseleave="handlePressRelease()" 
+                ontouchstart="startPressTimer('{{this._id}}')" 
+                ontouchend="handlePressRelease()" 
+                id="mentor_c_o_ntainr_{{this._id}}">
+                <div class="option_div" onclick="view_mess_options('{{this._id}}',event)">
+                    <i class="fa-solid fa-ellipsis" style="font-size: 22px;"></i>
+                    <div class="dropdownND" id="dropdown-{{this._id}}">
+                        <ul>
+                            <li onclick="showEmojiPopup('{{this._id}}',event)">React</li>
+                            <li onclick="deleteMentorAdmin('{{this._id}}','{{this.userName}}','{{this.userId}}','{{this.questionInput}}')">delete</li>
+                            {{#compare this.userId "===" ../userId}}
+                            <li onclick="showQuestionEditForm('{{this._id}}','{{this.questionInput}}')">edit</li>
+                            {{/compare}}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="emoji-popup right_color_box" id="emoji-popup-{{this._id}}">
+                    <span onclick="selectEmoji('{{this._id}}', '{{this.reactionCount}}', '{{stringify this.reactions}}', '👍')">👍</span>
+                    <span onclick="selectEmoji('{{this._id}}', '{{this.reactionCount}}', '{{stringify this.reactions}}', '❤️')">❤️</span>
+                    <span onclick="selectEmoji('{{this._id}}', '{{this.reactionCount}}', '{{stringify this.reactions}}', '👎')">👎</span>
+                    <span class="close-btn" onclick="closeEmojiPopup('{{this._id}}',event)">✖</span>
+                </div>
+
+                <div class="profile_data" >
+                    <div class="user-circle">
+                        <a style="text-decoration: none;" {{#ifNotEqual this.userName "Admin"}} href="javascript:void(0)" onclick="adminViewProfile('{{this.userId}}')" {{/ifNotEqual}}>
+                            <img class="user-image profileImageAlternate" src="/user-images/{{this.userId}}.jpg" alt="User Image" draggable="false">
+                        </a>
+                    </div>
+                    <div style="margin-left: 10px;">
+                        <a style="text-decoration: none;color:black;" {{#ifNotEqual this.userName "Admin"}} href="javascript:void(0)" onclick="adminViewProfile('{{this.userId}}')" {{/ifNotEqual}}>
+                            <div class="user-name">{{this.userName}}</div>
+                        </a>
+                    </div>
+                </div>
+                {{#if this.edit_status}}
+                    <p class="comment_p_actual_rep" style="color: #7d7c7c; font-weight: 600;">( edited )</p>
+                {{/if}}
+
+                <div class="messageMentor" id="message-{{this._id}}">
+                    <div class="mentor-content" id="mentor-content-{{this._id}}">
+                        {{this.questionInput}}
+                    </div>
+                    <a href="javascript:void(0)" class="show-more" id="show-more-{{this._id}}" onclick="toggleContent('{{this._id}}')">Show More</a>
+                </div>
+
+                <div class="reply_del_div">
+                    <a class="reply-btn" href="javascript:void(0)" onclick="showReplyForm('{{this._id}}','{{this.questionInput}}')"><i class="fas fa-reply"></i></a>
+                </div>
+                {{#if this.reactions}}
+                    <div class="reaction_div" onclick="view_mess_reactionss('{{this._id}}')">
+                        <div class="reaction_thumb"><span class="count_reaction">{{this.reactions.length}}</span> {{getLastReaction this.reactions}}</div>
+                    </div>
+                {{/if}}
+                <section>
+                    <div id="view_reactions_{{this._id}}" class="popupform_view_reactions right_color_box">
+                        <p class="close_pop_up_view_reactions" onclick="closePopupViewReactions('{{this._id}}')">&#10006;</p>
+                        <div class="Reaction_body_turnedon" style="margin-top: 50px;">
+                            {{#each this.reactions}}
+                                <div class="reaction_divider">
+                                    <div class="user_circle" style="display: flex;">
+                                        <a style="text-decoration: none;cursor:pointer;" {{#ifNotEqual this.user_Name "Admin"}} href="javascript:void(0)" onclick="adminViewProfile('{{this.user_id}}')" {{/ifNotEqual}}>
+                                            <img class="user_image profileImageAlternate" src="/user-images/{{this.user_id}}.jpg" alt="User Image" draggable="false">
+                                        </a>
+                                    </div>
+                                    <a style="text-decoration: none;display: flex;" {{#ifNotEqual this.user_Name "Admin"}} href="javascript:void(0)" onclick="adminViewProfile('{{this.user_id}}')"{{/ifNotEqual}}>
+                                        <p class="p_in_like_body_turnedon">{{this.user_Name}}</p>
+                                    </a>
+                                    <p class="p_emoji">{{this.emoji}}</p>
+                                </div>
+                            {{/each}}
+                            <p class="bot_p_1 blackName">press on the emoji once more to remove</p>
+                            <p class="bot_p_2 blackName">press on other emoji to modify your reaction</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            {{#if this.replies}}
+                {{#each this.replies}}
+                <div id="{{this._id}}" style="position: relative;">
+                    <div class="replycontainer" 
+                        onmousedown="startPressTimer('{{this._id}}')" 
+                        onmouseup="handlePressRelease()" 
+                        onmouseleave="handlePressRelease()" 
+                        ontouchstart="startPressTimer('{{this._id}}')" 
+                        ontouchend="handlePressRelease()">
+                        
+                        <div class="option_div" onclick="view_mess_options('{{this._id}}',event)">
+                            <i class="fa-solid fa-ellipsis" style="font-size: 22px;"></i>
+                            <div class="dropdownND" id="dropdown-{{this._id}}">
+                                <ul>
+                                    <li onclick="showReplyEmojiPopup('{{this._id}}','{{this.questionId}}',event)">React</li>
+                                    <li onclick="deleteMentorReplyAdmin('{{this._id}}','{{this.questionId}}','{{this.userName}}','{{this.userId}}','{{this.questionInput}}')">delete</li>
+                                    {{#compare this.userId "===" ../../userId}}
+                                        {{#ifEqual this.Status "reply"}}
+                                            <li onclick="showReplyReplyEditForm('{{this._id}}','{{this.questionId}}','{{this.questionInput}}',null)">edit</li>
+                                        {{/ifEqual}}
+                                        {{#ifEqual this.Status "replyofreply"}}
+                                            <li onclick="showReplyReplyEditForm('{{this._id}}','{{this.questionId}}','{{this.questionInput}}','{{this.replyId}}')">edit</li>
+                                        {{/ifEqual}}
+                                    {{/compare}}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="emoji-popup right_color_box" id="emoji-popup-{{this._id}}">
+                            <span onclick="selectReplyEmoji('{{this._id}}', '{{this.questionId}}', '{{this.reactionCount}}', '{{stringify this.reactions}}', '👍')">👍</span>
+                            <span onclick="selectReplyEmoji('{{this._id}}', '{{this.questionId}}', '{{this.reactionCount}}', '{{stringify this.reactions}}', '❤️')">❤️</span>
+                            <span onclick="selectReplyEmoji('{{this._id}}', '{{this.questionId}}', '{{this.reactionCount}}', '{{stringify this.reactions}}', '👎')">👎</span>
+                            <span class="close-btn" onclick="closeReplyEmojiPopup('{{this._id}}', '{{this.questionId}}',event)">✖</span>
+                        </div>
+                        
+                        <div class="profile_data">
+                            <div class="user-circle">
+                                <a style="text-decoration: none;" {{#ifNotEqual this.user_Name "Admin"}} href="javascript:void(0)" onclick="adminViewProfile('{{this.userId}}')" {{/ifNotEqual}}>
+                                    <img class="user-image profileImageAlternate" src="/user-images/{{this.userId}}.jpg" alt="User Image" draggable="false">
+                                </a>
+                            </div>
+                            <div style="margin-left: 10px;">
+                                <a style="text-decoration: none;color:black" {{#ifNotEqual this.user_Name "Admin"}} href="javascript:void(0)" onclick="adminViewProfile('{{this.userId}}')"{{/ifNotEqual}}>
+                                    <div class="user-name">{{this.userName}}</div>
+                                </a>
+                            </div>
+                        </div>
+                        {{#if this.edit_status}}
+                            <p class="comment_p_actual_rep" style="color: #7d7c7c; font-weight: 600;">( edited )</p>
+                        {{/if}}
+                        {{#ifEqual this.Status "reply"}}
+                        <div class="replyMentor" id="message-reply-{{this._id}}">
+                            <div class="mentor-content" id="mentor-reply-content-{{this._id}}">
+                                {{this.questionInput}}
+                            </div>
+                            <a href="javascript:void(0)" class="show-more" id="show-more-reply-{{this._id}}" onclick="toggleReplyContent('{{this._id}}')">Show More</a>
+                        </div>
+                        {{/ifEqual}}
+                        {{#ifEqual this.Status "replyofreply"}}
+                        <div class="replyMentor" id="message-reply-{{this._id}}">
+                            <div onclick="scrollToOriginReply('{{this.replyId}}', '{{this.questionId}}')" class="athead_name">@{{this.replytoUsername}}</div> 
+                            <div class="mentor-content" id="mentor-reply-content-{{this._id}}">
+                                {{this.questionInput}}
+                            </div>
+                            <a href="javascript:void(0)" class="show-more" id="show-more-reply-{{this._id}}" onclick="toggleReplyContent('{{this._id}}')">Show More</a>
+                        </div>
+                        {{/ifEqual}}
+
+                        <div class="reply_del_div">
+                            <a class="reply-btn" href="javascript:void(0)" onclick="showReplyReplyForm('{{this._id}}','{{this.userName}}','{{this.questionId}}','{{this.questionInput}}')"><i class="fas fa-reply"></i></a>
+                        </div>
+                        {{#if this.reactions}}
+                            <div class="reaction_div" onclick="view_mess_reactionss('{{this._id}}')">
+                                <div class="reaction_thumb"><span class="count_reaction">{{this.reactions.length}}</span> {{getLastReaction this.reactions}}</div>
+                            </div>
+                        {{/if}}
+                        <section>
+                            <div id="view_reactions_{{this._id}}" class="popupform_view_reactions right_color_box">
+                                <p class="close_pop_up_view_reactions" onclick="closePopupViewReactions('{{this._id}}')">&#10006;</p>
+                                <div class="Reaction_body_turnedon" style="margin-top: 50px;">
+                                    {{#each this.reactions}}
+                                        <div class="reaction_divider">
+                                            <div class="user_circle" style="display: flex;">
+                                                <a style="text-decoration: none;cursor:pointer;" {{#ifNotEqual this.user_Name "Admin"}} href="javascript:void(0)" onclick="adminViewProfile('{{this.user_id}}')" {{/ifNotEqual}}>
+                                                    <img class="user_image profileImageAlternate" src="/user-images/{{this.user_id}}.jpg" alt="User Image" draggable="false">
+                                                </a>
+                                            </div>
+                                            <a style="text-decoration: none;display: flex;" {{#ifNotEqual this.user_Name "Admin"}} href="javascript:void(0)" onclick="adminViewProfile('{{this.user_id}}')" {{/ifNotEqual}}>
+                                                <p class="p_in_like_body_turnedon">{{this.user_Name}}</p>
+                                            </a>
+                                            <p class="p_emoji">{{this.emoji}}</p>
+                                        </div>
+                                    {{/each}}
+                                    <p class="bot_p_1 blackName">press on the emoji once more to remove</p>
+                                    <p class="bot_p_2 blackName">press on other emoji to modify your reaction</p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                {{/each}}
+            {{/if}}
+        </div>
+    {{/each}}
+    <div id="mentors-container"></div>
+</div>
+</div>
+    
+
+<div id="loading-indicator_loader">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+</div>
+
+<div id="popupForm" class="popup-form right_color_box">
+    <span class="close" onclick="closePopupForm()">&times;</span>
+    <div>
+        <label for="questionInput">Add your question</label>
+        <textarea id="questionInput" name="questionInput" placeholder="Add your question"  oninput="resizeTextarea(); limitCharacters(this, 2000);"></textarea>
+        <br>
+        <button class="darkcolorchanger2" onclick="add_question_mentor()">Submit</button>
+    </div>
+</div>
+
+<div id="replyForm" class="popup-form right_color_box">
+    <span class="close" onclick="closeReplyForm()">&times;</span>
+    <div>
+        <label for="questionInputReply">Add your reply</label>
+        <textarea id="questionInputReply" name="questionInputReply" placeholder="Add your reply" oninput="resizeTextarea(); limitCharacters(this, 2000);"></textarea>
+        <br>
+        <button class="darkcolorchanger2" onclick="add_question_mentor_reply()">Submit</button>
+    </div>
+</div>
+
+<div id="editQuestionForm" class="popup-form right_color_box">
+    <span class="close" onclick="closeQuestionEditForm()">&times;</span>
+    <div>
+        <label for="questionInput">Edit your Question</label>
+        <textarea id="questionInputEdit" name="questionInput" oninput="resizeTextarea(); limitCharacters(this, 2000);"></textarea>
+        <br>
+        <button class="darkcolorchanger2" onclick="edit_question_mentor()">Submit</button>
+    </div>
+</div>
+
+<div id="replyReplyForm" class="popup-form right_color_box">
+    <span class="close" onclick="closeReplyReplyForm()">&times;</span>
+    <div>
+        <label>Add your reply</label>
+        <textarea id="replyInput" name="replyInput" placeholder="Add your reply" oninput="resizeTextarea(); limitCharacters(this, 2000);"></textarea>
+        <br>
+        <button class="darkcolorchanger2" onclick="add_question_mentor_reply_reply()">Submit</button>
+    </div>
+</div>
+
+<div id="replyReplyEditForm" class="popup-form right_color_box">
+    <span class="close" onclick="closeReplyReplyEditForm()">&times;</span>
+    <div>
+        <label for="questionInput">Edit your reply</label>
+        <textarea id="replyreplyEditInput" name="replyInput" placeholder="Add your reply"  oninput="resizeTextarea(); limitCharacters(this, 2000);"></textarea>
+        <br>
+        <button class="darkcolorchanger2" onclick="edit_question_mentor_reply()">Submit</button>
+    </div>
+</div>
+
+
+<script src="http://localhost:3001/socket.io/socket.io.js"></script>
+<script>
+
+
+    const socket = io('http://localhost:3001');
+    const userID = '{{userId}}';
+    const userNAME = '{{aber}}';
+
+
+    socket.on('deleteMentor', (data) => {
+        //console.log("deleteMentor event received at ADMIN:", data);
+        const deletedMentor = document.getElementById(data);
+        if (deletedMentor) {
+            deletedMentor.remove();
+        }
+    });
+
+
+    socket.on('addMentorEmoji', (data) => {
+        //console.log("addMentorEmoji event received at client:", data);
+        updateMentorContentInDOM(data);
+    });
+
+
+    socket.on('addMentorReplyEmoji', (data) => {
+        //console.log("addMentorReplyEmoji event received at client:", data);
+        updateMentorReplyContentInDOM(data);
+    });
+
+
+    socket.on('addMentorReply', (data) => {
+        //console.log("addMentorReply event received at client:", data);
+        addMentorReply(data);
+    });
+
+
+    socket.on('deleteMentorReply', (data) => {
+        //console.log("deleteMentorReply event received at ADMIN:", data);
+        const mentorElement = document.getElementById(data.mentorId);
+        if (mentorElement) { 
+            // Find replyElement within mentorElement
+            const replyElement = mentorElement.querySelector(`#${CSS.escape(data.replyId)}`);
+            if (replyElement) {
+                replyElement.remove();
+            }
+        }
+    });
+
+
+    socket.on('editMentor', (data) => {
+        editMentorSocket(data);
+    });
+
+
+    socket.on('editMentorReply', (data) => {
+        editMentorReplySocket(data);
+    });
+
+
+    function scrollToBottom() {
+        document.body.scrollTop = document.body.scrollHeight;
+        document.documentElement.scrollTop = document.documentElement.scrollHeight;
+    }
+
+
+    function view_mess_options(mentorID, event) {
+        event.stopPropagation(); // Prevents the event from bubbling up
+        var dropdown = document.getElementById('dropdown-' + mentorID);
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = "block";
+        }
+    }
+
+
+    function showEmojiPopup(mentorID, event) {
+        event.stopPropagation(); // Prevents the event from bubbling up
+        var dropdown = document.getElementById('dropdown-' + mentorID);
+        dropdown.style.display = "none";
+
+        var emojiPopup = document.getElementById('emoji-popup-' + mentorID);
+        emojiPopup.style.display = "block";
+    }
+
+
+    function showReplyEmojiPopup(replyID, QuestionId, event) {
+        event.stopPropagation(); // Prevents the event from bubbling up
+        var mainDiv = document.getElementById(QuestionId);
+
+        if (mainDiv) {
+            var replyDiv = mainDiv.querySelector('#' + CSS.escape(replyID));
+
+            if (replyDiv) {
+                var dropdown = replyDiv.querySelector('.dropdownND');
+                if (dropdown) {
+                    dropdown.style.display = "none";
+                }
+
+                var emojiPopup = replyDiv.querySelector('.emoji-popup');
+                if (emojiPopup) {
+                    emojiPopup.style.display = "block";
+                }
+            }
+        }
+    }
+
+
+    async function selectEmoji(mentorID, emojiCount, reactionsArray, emoji) {
+        try {
+            var emojiPopup = document.getElementById('emoji-popup-' + mentorID);
+            emojiPopup.style.display = "none";
+
+            emojiPopup.style.display = "none";
+            const response = await $.ajax({
+                url: '/admin/add_reaction_mentorship',
+                method: 'post',
+                data: {
+                    MeNtOrId: mentorID,
+                    EmOjIcOnTeNt: emoji,
+                }
+            });
+            
+            if (response.addedMentorReaction) {
+                // Fetch the updated message data
+                const updatedMentorResponse = await $.ajax({
+                    url: '/admin/get_mentor_by_id_emoji',
+                    method: 'POST',
+                    data: {
+                        MeNtOrId: mentorID,
+                    }
+                });
+                if (updatedMentorResponse.mentor) {
+                    updatedMentorResponse.mentor.MentorId = mentorID;
+                    //console.log("MENTOR VALID : ", updatedMentorResponse.mentor);
+
+                    // Update the message content in the DOM
+                    //await updateMentorContentInDOM(updatedMentorResponse.mentor);
+                }
+                await socket.emit('addMentorEmoji',  
+                    updatedMentorResponse.mentor
+                );
+            }
+        } catch (error) {
+            console.error('Error in selectEmoji function:', error);
+        }
+    }
+
+
+    function updateMentorContentInDOM(updatedMentor) {
+        const darkEnabler = localStorage.getItem('darkModeARCCEC') === 'enabled';
+        var view_reactions_pop = document.getElementById('view_reactions_' + updatedMentor.MentorId);
+
+        //console.log("UPDATE MENTOR RECEIVED : ",updatedMentor)
+        const mentorElement = document.getElementById('mentor_c_o_ntainr_'+ updatedMentor.MentorId);
+        //console.log("MENTOR ELEMENT : ",mentorElement)
+        if (mentorElement) {
+            // Update reactions
+            let reactionDiv = mentorElement.querySelector('.reaction_div');
+            
+            if (!reactionDiv) {
+                // Create reaction div if it doesn't exist
+                reactionDiv = document.createElement('div');
+                reactionDiv.className = 'reaction_div';
+                reactionDiv.setAttribute('onclick', `view_mess_reactionss('${updatedMentor.MentorId}')`);
+                mentorElement.appendChild(reactionDiv);
+            }
+            
+            if (updatedMentor.reactions && updatedMentor.reactions.length > 0) {
+                reactionDiv.innerHTML = `<div class="reaction_thumb"><span class="count_reaction">${updatedMentor.reactions.length}</span> ${(updatedMentor.reactions[updatedMentor.reactions.length - 1]).emoji}</div>`;
+            } else {
+                reactionDiv.innerHTML = '';
+            }
+
+            // Handle the reaction popup
+            let reactionPopup = document.getElementById('view_reactions_' + updatedMentor.MentorId);
+            if (!reactionPopup) {
+                // Create the reaction popup if it doesn't exist
+                reactionPopup = document.createElement('div');
+                reactionPopup.id = 'view_reactions_' + updatedMentor.MentorId;
+                reactionPopup.classList.add('popupform_view_reactions','right_color_box');
+                if(darkEnabler){ 
+                    reactionPopup.style.background = 'linear-gradient(#fff, #606060)';
+                }
+                reactionPopup.innerHTML = `
+                    <p class="close_pop_up_view_reactions" onclick="closePopupViewReactions('${updatedMentor.MentorId}')">&#10006;</p>
+                    <div class="Reaction_body_turnedon" style="margin-top: 50px;"></div>
+                `;
+                mentorElement.appendChild(reactionPopup);
+            }
+
+            // Update reaction popup content
+            let reactionsHTML = '';
+            updatedMentor.reactions.forEach(reaction => {
+                reactionsHTML += `
+                    <div class="reaction_divider">
+                        <div class="user_circle" style="display: flex;">
+                            <a style="text-decoration: none;cursor:pointer;" >
+                                <img class="user_image profileImageAlternate" src="/user-images/${reaction.user_id}.jpg" alt="User Image" onerror="this.onerror=null;this.src='/user-images/user.png';">
+                            </a>
+                        </div>
+                        <a style="text-decoration: none;display: flex;">
+                            <p class="p_in_like_body_turnedon">${reaction.user_Name}</p>
+                        </a>
+                        <p class="p_emoji">${reaction.emoji}</p>
+                    </div>
+                `;
+            });
+            const experienceHeaderColor = darkEnabler ? '#414A4C' : 'black';
+            reactionPopup.querySelector('.Reaction_body_turnedon').innerHTML = `
+                ${reactionsHTML}
+                <p class="bot_p_1 blackName" style="color: ${experienceHeaderColor};">press on the emoji once more to remove</p>
+                <p class="bot_p_2 blackName" style="color: ${experienceHeaderColor};">press on other emoji to modify your reaction</p>
+            `;
+
+            // Add error handling for user images in the main message content
+            const userImages = mentorElement.querySelectorAll('.user-image.profileImageAlternate');
+            userImages.forEach(img => {
+                img.onerror = function() {
+                    this.onerror = null;
+                    this.src = '/user-images/user.png';
+                };
+            });
+
+            document.querySelectorAll('.profileImageAlternate').forEach(function(img) {
+                img.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                });
+            });
+
+            // Optionally, prevent dragging
+            document.querySelectorAll('.profileImageAlternate').forEach(function(img) {
+                img.addEventListener('dragstart', function(e) {
+                    e.preventDefault();
+                });
+            });
+
+        }
+    }
+
+
+    async function selectReplyEmoji(ReplyId, mentorID, emojiCount, reactionsArray, emoji) {
+        try {
+            var mentorDiv = document.getElementById(mentorID);
+            if (mentorDiv) {
+            var emojiPopup = mentorDiv.querySelector('#emoji-popup-' + CSS.escape(ReplyId));
+                if (emojiPopup) {
+                    emojiPopup.style.display = "none";
+                }
+            }
+
+            const response = await $.ajax({
+                url: '/admin/add_reaction_reply_mentorship',
+                method: 'post',
+                data: {
+                    MeNtOrId: mentorID,
+                    EmOjIcOnTeNt: emoji,
+                    RePlYiD: ReplyId
+                }
+            });
+            
+            if (response.addedMentorReplyReaction) {
+                // Fetch the updated message data
+                const updatedMentorReplyResponse = await $.ajax({
+                    url: '/admin/get_mentor_reply_by_id_emoji',
+                    method: 'POST',
+                    data: {
+                        MeNtOrId: mentorID,
+                        RePlYiD: ReplyId
+                    }
+                });
+                if (updatedMentorReplyResponse.mentorReply) {
+                    updatedMentorReplyResponse.mentorReply.MentorId = mentorID;
+                    updatedMentorReplyResponse.mentorReply.ReplyId = ReplyId;
+                    //console.log("MENTOR VALID : ", updatedMentorReplyResponse.mentorReply);
+
+                    // Update the message content in the DOM
+                    //await updateMentorReplyContentInDOM(updatedMentorReplyResponse.mentorReply);
+                
+                    await socket.emit('addMentorReplyEmoji',  
+                        updatedMentorReplyResponse.mentorReply
+                    );
+
+                }
+            }
+        } catch (error) {
+            console.error('Error in selectEmoji function:', error);
+        }
+    }
+
+
+    function updateMentorReplyContentInDOM(updatedMentor) {
+        const darkEnabler = localStorage.getItem('darkModeARCCEC') === 'enabled';
+        const mentorElement = document.getElementById(updatedMentor.MentorId);
+        if (mentorElement) {
+            // Find replyElement within mentorElement
+            const replyElement = mentorElement.querySelector(`#${CSS.escape(updatedMentor.ReplyId)}`);
+            if (replyElement) {
+
+                let reactionDiv = replyElement.querySelector('.reaction_div');
+                
+                if (!reactionDiv) {
+                    // Create reaction div if it doesn't exist
+                    reactionDiv = document.createElement('div');
+                    reactionDiv.className = 'reaction_div';
+                    reactionDiv.style.right = "7px"
+                    reactionDiv.setAttribute('onclick', `view_mess_reactionss('${updatedMentor.ReplyId}')`);
+                    replyElement.appendChild(reactionDiv);
+                }
+                
+                if (updatedMentor.reactions && updatedMentor.reactions.length > 0) {
+                    reactionDiv.innerHTML = `<div class="reaction_thumb"><span class="count_reaction">${updatedMentor.reactions.length}</span> ${(updatedMentor.reactions[updatedMentor.reactions.length - 1]).emoji}</div>`;
+                } else {
+                    reactionDiv.innerHTML = '';
+                }
+
+                let reactionPopup = replyElement.querySelector(`#view_reactions_${updatedMentor.ReplyId}`);
+                if (!reactionPopup) {
+                    // Create the reaction popup if it doesn't exist
+                    reactionPopup = document.createElement('div');
+                    reactionPopup.id = `view_reactions_${updatedMentor.ReplyId}`;
+                    reactionPopup.classList.add('popupform_view_reactions','right_color_box');
+                    if(darkEnabler){ 
+                        reactionPopup.style.background = 'linear-gradient(#fff, #606060)';
+                    }
+                    reactionPopup.innerHTML = `
+                        <p class="close_pop_up_view_reactions" onclick="closePopupViewReactions('${updatedMentor.ReplyId}')">&#10006;</p>
+                        <div class="Reaction_body_turnedon" style="margin-top: 50px;"></div>
+                    `;
+                    replyElement.appendChild(reactionPopup);
+                }
+
+                // Update reaction popup content
+                let reactionsHTML = '';
+                updatedMentor.reactions.forEach(reaction => {
+                    reactionsHTML += `
+                        <div class="reaction_divider">
+                            <div class="user_circle" style="display: flex;">
+                                <a style="text-decoration: none;cursor:pointer;" >
+                                    <img class="user_image profileImageAlternate" src="/user-images/${reaction.user_id}.jpg" alt="User Image" onerror="this.onerror=null;this.src='/user-images/user.png';">
+                                </a>
+                            </div>
+                            <a style="text-decoration: none;display: flex;">
+                                <p class="p_in_like_body_turnedon">${reaction.user_Name}</p>
+                            </a>
+                            <p class="p_emoji">${reaction.emoji}</p>
+                        </div>
+                    `;
+                });
+                const experienceHeaderColor = darkEnabler ? '#414A4C' : 'black';
+                reactionPopup.querySelector('.Reaction_body_turnedon').innerHTML = `
+                    ${reactionsHTML}
+                    <p class="bot_p_1 blackName" style="color: ${experienceHeaderColor};">press on the emoji once more to remove</p>
+                    <p class="bot_p_2 blackName" style="color: ${experienceHeaderColor};">press on other emoji to modify your reaction</p>
+                `;
+
+                document.querySelectorAll('.profileImageAlternate').forEach(function(img) {
+                    img.addEventListener('contextmenu', function(e) {
+                        e.preventDefault();
+                    });
+                });
+
+                // Optionally, prevent dragging
+                document.querySelectorAll('.profileImageAlternate').forEach(function(img) {
+                    img.addEventListener('dragstart', function(e) {
+                        e.preventDefault();
+                    });
+                });
+
+            }
+        }
+    }
+
+
+    function closeEmojiPopup(mentorId, event) {
+        event.stopPropagation(); // Prevents the event from bubbling up
+        var emojiPopup = document.getElementById('emoji-popup-' + mentorId);
+        emojiPopup.style.display = "none";
+    }
+
+
+    function closeReplyEmojiPopup(replyID, mentorID, event) {
+        event.stopPropagation(); // Prevents the event from bubbling up
+        var mentorDiv = document.getElementById(mentorID);
+        if (mentorDiv) {
+           var emojiPopup = mentorDiv.querySelector('#emoji-popup-' + CSS.escape(replyID));
+            if (emojiPopup) {
+                emojiPopup.style.display = "none";
+            }
+        }
+    }
+
+
+
+    async function add_question_mentor_reply(){
+        var question = document.getElementById('questionInputReply');
+        question = question.value;
+        var hiddenMentorId = sessionStorage.getItem("mentor_i_d_to_reply");
+        if (question !== '') {
+
+            var addQuestionReplyPopup = document.getElementById('replyForm');
+            document.getElementById('questionInputReply').value = '';
+            var overlay = document.getElementById('add_question_reply_overlay_mentor')
+            if (overlay) {
+                overlay.remove();
+            }
+            document.body.style.overflow = "auto";
+            addQuestionReplyPopup.style.display = "none";
+
+            question = question.replace(/[\r\n]+/g, " ").replace(/\s+/g, ' ').trim();
+
+            question = question.replace(/[\r\n]+/g, " ").replace(/\s+/g, ' ').trim();
+
+            try {
+                const response = await $.ajax({
+                    url: '/admin/add-reply',
+                    method: 'post',
+                    data: {
+                        questionInput : question,
+                        questionId : hiddenMentorId
+                    }
+                });
+
+                if (response.addedMentorReply) {
+                    // Fetch the updated message data
+                    sessionStorage.setItem("mentor_i_d_to_reply", null);
+                    var replyID = response.insertedReplyId;
+                    var mentorID = hiddenMentorId;
+                    const updatedMentorReplyResponse = await $.ajax({
+                        url: '/admin/get_mentor_reply_by_id_text',
+                        method: 'POST',
+                        data: {
+                            MeNtOrId : mentorID,
+                            RePlYiD: replyID
+
+                        }
+                    });
+
+                    if (updatedMentorReplyResponse.mentorReply.has_mentorReply) {
+                        //console.log("MESSAGE VALID : ", updatedMentorReplyResponse.mentorReply);
+                        
+                        // TO DISPLAY MESSAGE USING WEBSOCKET AFTER SUCCESSFULL EXECUTION OF DATABASE MENTOR INSERTION
+                        await socket.emit('addMentorReply', { userId: userID, Name: userNAME, mentorID: hiddenMentorId, replyID, question,status: "reply"});
+                        //await scrollToBottom()
+                    }
+                }
+            } catch (error) {
+                console.error('Error sending mentor reply :', error);
+            }
+        }
+    }
+
+
+    async function add_question_mentor_reply_reply(){
+        var replyreply = document.getElementById('replyInput');
+        replyreply = replyreply.value;
+
+        var replyId = sessionStorage.getItem("mentor_i_d_to_reply_reply");
+        var replytoUsername = sessionStorage.getItem("mentor_i_d_to_reply_user");
+        var questionId = sessionStorage.getItem("mentor_i_d_to_reply_mentor");
+
+        if (replyreply !== '') {
+
+            var addQuestionReplyPopup = document.getElementById('replyReplyForm');
+            document.getElementById('replyInput').value = '';
+            var overlay = document.getElementById('add_question_reply_reply_overlay_mentor')
+            if (overlay) {
+                overlay.remove();
+            }
+            document.body.style.overflow = "auto";
+            addQuestionReplyPopup.style.display = "none";
+
+            replyreply = replyreply.replace(/[\r\n]+/g, " ").replace(/\s+/g, ' ').trim();
+
+            try {
+                const response = await $.ajax({
+                    url: '/admin/add-reply-ofreply',
+                    method: 'post',
+                    data: {
+                        replyId,
+                        replytoUsername,
+                        questionId,
+                        replyInput : replyreply,
+                    }
+                });
+
+                if (response.addedMentorReplyReply) {
+                    // Fetch the updated message data
+                    sessionStorage.setItem("mentor_i_d_to_reply_reply", null);
+                    sessionStorage.setItem("mentor_i_d_to_reply_user", null);
+                    sessionStorage.setItem("mentor_i_d_to_reply_mentor", null);
+                    var replyID = response.insertedReplyReplyId;
+                    var mentorID = questionId;
+
+                    const updatedMentorReplyResponse = await $.ajax({
+                        url: '/admin/get_mentor_reply_by_id_text',
+                        method: 'POST',
+                        data: {
+                            MeNtOrId : mentorID,
+                            RePlYiD: replyID
+
+                        }
+                    });
+
+                    if (updatedMentorReplyResponse.mentorReply.has_mentorReply) {
+                        //console.log("MESSAGE VALID : ", updatedMentorReplyResponse.mentorReply);
+                        
+                        // TO DISPLAY MESSAGE USING WEBSOCKET AFTER SUCCESSFULL EXECUTION OF DATABASE MENTOR INSERTION
+                        await socket.emit('addMentorReply', { userId: userID, Name: userNAME, mentorID: questionId, replyID, redirect_id: replyId, question: replyreply, status: "replyofreply", OriginUserName: replytoUsername});
+                        //await scrollToBottom()
+                    }
+                }
+            } catch (error) {
+                console.error('Error sending mentor reply :', error);
+            }
+        }
+    }
+
+
+    async function edit_question_mentor(){
+        if (confirm("Do you want to edit question ?")) {
+            var question = document.getElementById('questionInputEdit');
+            question = question.value;
+            var hiddenQuestionId = sessionStorage.getItem("mentor_i_d_to_edit_q");
+            if (question !== '') {
+
+                var addQuestionEditPopup = document.getElementById('editQuestionForm');
+                document.getElementById('questionInputEdit').value = '';
+                var overlay = document.getElementById('edit_question_overlay_mentor')
+                if (overlay) {
+                    overlay.remove();
+                }
+                document.body.style.overflow = "auto";
+                addQuestionEditPopup.style.display = "none";
+
+                question = question.replace(/[\r\n]+/g, " ").replace(/\s+/g, ' ').trim();
+
+                try {
+                    const response = await $.ajax({
+                        url: '/admin/edit-question',
+                        method: 'post',
+                        data: {
+                            questionInput : question,
+                            questionId : hiddenQuestionId
+                        }
+                    });
+
+                    if (response.success) {
+                        // Fetch the updated message data           
+                        await socket.emit('editMentor', {mentorID: hiddenQuestionId, editInput: question});
+                        await sessionStorage.setItem("mentor_i_d_to_edit_q", null);             
+                    }
+                } catch (error) {
+                    console.error('Error editing mentor question : ', error);
+                }
+            }
+        }
+    }
+
+
+    async function edit_question_mentor_reply(){
+        if (confirm("Do you want to edit this reply ?")) {
+            var question = document.getElementById('replyreplyEditInput');
+            question = question.value;
+            var hiddenMentorId = sessionStorage.getItem("mentor_i_d_to_reply_reply_ment");
+            var hiddenMentorReplyId = sessionStorage.getItem("mentor_i_d_to_reply_reply");
+            var hiddenActualRedirect = sessionStorage.getItem("mentor_i_d_to_redirect_reply_reply");
+            if (question !== '') {
+
+                var addQuestionReplyPopup = document.getElementById('replyReplyEditForm');
+                document.getElementById('replyreplyEditInput').value = '';
+                var overlay = document.getElementById('edit_question_reply_overlay_mentor')
+                if (overlay) {
+                    overlay.remove();
+                }
+                document.body.style.overflow = "auto";
+                addQuestionReplyPopup.style.display = "none";
+
+                question = question.replace(/[\r\n]+/g, " ").replace(/\s+/g, ' ').trim();
+
+                try {
+                    const response = await $.ajax({
+                        url: '/admin/edit-reply',
+                        method: 'post',
+                        data: {
+                            replyInput : question,
+                            questionId : hiddenMentorId,
+                            replyId : hiddenMentorReplyId
+                        }
+                    });
+
+                    if (response.success) {
+                        await socket.emit('editMentorReply', {mentorID: hiddenMentorId, replyID: hiddenMentorReplyId, editReplyInput: question,actualRedirectId: hiddenActualRedirect});
+                        await sessionStorage.setItem("mentor_i_d_to_reply_reply_ment", null);
+                        await sessionStorage.setItem("mentor_i_d_to_reply_reply", null);
+                        await sessionStorage.setItem("mentor_i_d_to_redirect_reply_reply", null);
+                    }
+                } catch (error) {
+                    console.error('Error editing mentor reply :', error);
+                }
+            }
+        }
+    }
+
+
+    function scrollToOriginReply(replyId, mentorId){
+        const mentorElement = document.getElementById(mentorId);
+        if (mentorElement) {
+            const replyElement = mentorElement.querySelector(`#${CSS.escape(replyId)}`);
+            if (replyElement) {
+                replyElement.scrollIntoView({ behavior: 'smooth' });
+                replyElement.classList.add('highlight');
+                setTimeout(() => {
+                    replyElement.classList.remove('highlight');
+                }, 2000);
+            }
+        }
+    }
+
+
+    function showReplyForm(mentorId, QuestionInput) {
+        var replyForm = document.getElementById("replyForm");
+        sessionStorage.setItem("mentor_i_d_to_reply", mentorId);
+        var questionInputReplybox = document.getElementById("questionInputReply");
+        var overlay = document.createElement('div');
+        overlay.id = 'add_question_reply_overlay_mentor';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay); 
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+        document.body.style.overflow = "hidden";
+        replyForm.style.display = "block";
+        updatePlaceholder(QuestionInput);
+        
+        // Add a slight delay before focusing the text area
+        setTimeout(function() {
+            questionInputReplybox.focus();
+        }, 100); // 100 milliseconds delay
+    }
+
+
+    function updatePlaceholder(QuestionInput) {
+        var questionInputReplybox = document.getElementById("questionInputReply");
+        var firstLine = QuestionInput.split('\n')[0]; // Split the input by newline and take the first element
+        var maxLength = 50; // Set a maximum length for the placeholder text
+        if (firstLine.length > maxLength) {
+            firstLine = firstLine.substring(0, maxLength) + "..."; // Truncate and add ellipsis if it's too long
+        }
+        questionInputReplybox.placeholder = "Reply to: " + firstLine;
+    }
+
+
+    function closeReplyForm() {
+        var replyForm = document.getElementById("replyForm");
+        replyForm.style.display = "none";
+        var overlay = document.getElementById('add_question_reply_overlay_mentor')
+        if (overlay) {
+            overlay.remove();
+        }
+        document.body.style.overflow = "auto";
+    }
+
+
+    function showQuestionEditForm(mentorId,questionInput) {
+        sessionStorage.setItem("mentor_i_d_to_edit_q",mentorId);
+        var editQuestionForm = document.getElementById("editQuestionForm");
+        var questionInputTextarea = document.getElementById("questionInputEdit");
+        var overlay = document.createElement('div');
+        overlay.id = 'edit_question_overlay_mentor';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay); 
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+        document.body.style.overflow = "hidden";
+        questionInputTextarea.value = questionInput; 
+        editQuestionForm.style.display = "block";
+    }
+
+
+    function closeQuestionEditForm() {
+        var editQuestionForm = document.getElementById("editQuestionForm");
+        editQuestionForm.style.display = "none";
+        var overlay = document.getElementById('edit_question_overlay_mentor')
+        if (overlay) {
+            overlay.remove();
+        }
+        document.body.style.overflow = "auto";
+    }
+
+
+    function showReplyReplyForm(replyId,userName,questionId,QuestionInput) {
+        var replyReplyForm = document.getElementById("replyReplyForm");
+        var replyInputTextarea = document.getElementById("replyInput");
+
+        sessionStorage.setItem("mentor_i_d_to_reply_reply",replyId);
+        sessionStorage.setItem("mentor_i_d_to_reply_user",userName);
+        sessionStorage.setItem("mentor_i_d_to_reply_mentor",questionId);
+        updateReplyPlaceholder(QuestionInput);
+        var overlay = document.createElement('div');
+        overlay.id = 'add_question_reply_reply_overlay_mentor';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay); 
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+        document.body.style.overflow = "hidden";
+        
+        setTimeout(function() {
+            replyInputTextarea.focus();
+        }, 100);
+        replyReplyForm.style.display = "block";
+    }
+
+
+    function updateReplyPlaceholder(QuestionInput) {
+        var questionInputReplybox = document.getElementById("replyInput");
+        var firstLine = QuestionInput.split('\n')[0]; // Split the input by newline and take the first element
+        var maxLength = 50; // Set a maximum length for the placeholder text
+        if (firstLine.length > maxLength) {
+            firstLine = firstLine.substring(0, maxLength) + "..."; // Truncate and add ellipsis if it's too long
+        }
+        questionInputReplybox.placeholder = "Reply to: " + firstLine;
+    }
+
+
+    function closeReplyReplyForm() {
+        var replyReplyForm = document.getElementById("replyReplyForm");
+        replyReplyForm.style.display = "none";
+        var overlay = document.getElementById('add_question_reply_reply_overlay_mentor')
+        if (overlay) {
+            overlay.remove();
+        }
+        document.body.style.overflow = "auto";
+    }
+
+
+    function showReplyReplyEditForm(replyId,questionId,userInput,actualRedirectReply) {
+
+
+        sessionStorage.setItem("mentor_i_d_to_reply_reply",replyId);
+        sessionStorage.setItem("mentor_i_d_to_reply_reply_ment",questionId);
+        sessionStorage.setItem("mentor_i_d_to_redirect_reply_reply",actualRedirectReply);
+
+        var replyReplyEditForm = document.getElementById("replyReplyEditForm");
+        var replyInputEditTextarea = document.getElementById("replyreplyEditInput")
+        replyInputEditTextarea.value = userInput;
+        var overlay = document.createElement('div');
+        replyReplyEditForm.style.display = "block";
+        overlay.id = 'edit_question_reply_overlay_mentor';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay); 
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+        document.body.style.overflow = "hidden";
+        questionInputTextarea.value = questionInput;
+    }
+
+
+    function closeReplyReplyEditForm() {
+        var replyReplyEditForm = document.getElementById("replyReplyEditForm");
+        replyReplyEditForm.style.display = "none";
+        var overlay = document.getElementById('edit_question_reply_overlay_mentor')
+        if (overlay) {
+            overlay.remove();
+        }
+        document.body.style.overflow = "auto";
+    }
+
+
+    function resizeTextarea() {
+        var textareaReply = document.getElementById("questionInputReply");
+        var textareaReplyReply = document.getElementById("replyInput");
+        var replyEdit = document.getElementById('questionInputEdit');
+        var replyreplyEdit = document.getElementById('replyreplyEditInput');
+        textareaReply.style.height = "auto";
+        textareaReply.style.height = (textareaReply.scrollHeight) + "px";
+        textareaReplyReply.style.height = "auto";
+        textareaReplyReply.style.height = (textareaReplyReply.scrollHeight) + "px";
+        replyEdit.style.height = "auto";
+        replyEdit.style.height = (replyEdit.scrollHeight) + "px";
+        replyreplyEdit.style.height = "auto";
+        replyreplyEdit.style.height = (replyreplyEdit.scrollHeight) + "px";
+    }
+
+
+    function deleteMentorAdmin(mentorId,user_name,user_id,QUESTIONINPUT) {
+        //console.log("DELETE MENTOR ADMIN CALLED")
+        if (confirm("Do you want to delete this question from portal?")) {
+            $.ajax({
+            url: '/admin/delete_mentor_admin',
+            method: 'post',
+            data: {
+                MentoR: mentorId,
+                ProfileENAME:user_name,
+                ProfileID:user_id,
+                QUESTIONINPUT: QUESTIONINPUT
+            },
+            success: function (response) {
+                if (response.deleteMentor) {
+                    socket.emit('deleteMentor', mentorId);
+                }
+            },
+            });
+        }
+    }
+
+
+    function deleteMentorReplyAdmin(replyId,questionId,user_name,user_id,REPLYINPUT) {
+        //console.log("DELETE MENTOR REPLY ADMIN CALLED")
+        if (confirm("Do you want to delete this response from portal?")) {
+            $.ajax({
+            url: '/admin/delete_mentor_reply_admin',
+            method: 'post',
+            data: {
+                MentorreplY: replyId,
+                QuestioN:questionId,
+                ProfileENAME:user_name,
+                ProfileID:user_id,
+                REPLYINPUT: REPLYINPUT
+            },
+            success: function (response) {
+                if (response.deleteMentorReply) {
+                    socket.emit('deleteMentorReply',{replyId, mentorId: questionId})
+                }
+            },
+            });
+        }
+    }
+
+
+    function showEmojiwithouteventPopup(mentorId) {
+        var dropdown = document.getElementById('dropdown-' + mentorId);
+        dropdown.style.display = "none";
+
+        var emojiPopup = document.getElementById('emoji-popup-' + mentorId);
+        emojiPopup.style.display = "block";
+    }
+
+
+    function view_mess_reactionss(mentorID) {
+        var view_reactions_pop = document.getElementById('view_reactions_' + mentorID);
+        var overlay = document.createElement('div');
+        overlay.id = 'view_mentor_reactions_overlay';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay); 
+        view_reactions_pop.style.display = 'block';
+        document.body.style.overflow = "hidden";
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    }
+
+
+    function closePopupViewReactions(mentorID){
+        var view_reactions_pop = document.getElementById('view_reactions_' + mentorID);
+        view_reactions_pop.style.display = 'none';
+        document.body.style.overflow = "auto";
+        var overlay = document.getElementById('view_mentor_reactions_overlay')
+        if (overlay) {
+            overlay.remove();
+        }
+    }
+
+
+    // FUNCTION TO HANDLE LONG PRESS
+    let pressTimer;
+    let longPressActivated = false;
+    let currentDivId = null;
+
+    function startPressTimer(divId) {
+        currentDivId = divId;
+        pressTimer = setTimeout(() => handleLongPress(divId), 700); // 1000ms for a 1-second long press
+    }
+
+    function handlePressRelease() {
+        clearTimeout(pressTimer);
+        if (!longPressActivated) {
+            currentDivId = null;
+        }
+    }
+
+    function handleLongPress(divId) {
+        longPressActivated = true;
+        //console.log(`Long press detected on div with id: ${divId}`);
+        // Perform any action required for long press
+        showEmojiwithouteventPopup(divId)
+    }
+
+    // Add an event listener for clicks anywhere on the document
+    document.addEventListener('click', (event) => {
+        if (longPressActivated && event.target.id !== currentDivId) {
+            longPressActivated = false;
+            currentDivId = null;
+            //console.log('Long press deactivated');
+            // Perform any cleanup or action required when long press is deactivated
+        }
+    }, true);
+
+    // Prevent scrolling during touch to prevent unintended behavior
+    /*document.addEventListener('touchmove', (event) => {
+        if (longPressActivated) {
+            event.preventDefault();
+        }
+    }, { passive: false });*/
+
+
+    function addMentorReply(data) {
+        // Find the mentor's container by ID
+        let mentorDiv = document.getElementById(data.mentorID);
+
+        const darkEnabler = localStorage.getItem('darkModeARCCEC') === 'enabled';
+
+        // Check if mentorDiv exists
+        if (!mentorDiv) {
+            console.error(`Mentor container with ID ${data.mentorID} not found.`);
+            return;
+        }
+
+        // Create the main reply container
+        let replyDiv = document.createElement('div');
+        replyDiv.id = data.replyID;
+        replyDiv.style.position = 'relative';
+
+        // Create the inner reply container with event handlers
+        let replyContainer = document.createElement('div');
+        replyContainer.className = 'replycontainer';
+        replyContainer.setAttribute('onmousedown', `startPressTimer('${data.replyID}')`);
+        replyContainer.setAttribute('onmouseup', 'handlePressRelease()');
+        replyContainer.setAttribute('onmouseleave', 'handlePressRelease()');
+        replyContainer.setAttribute('ontouchstart', `startPressTimer('${data.replyID}')`);
+        replyContainer.setAttribute('ontouchend', 'handlePressRelease()');
+
+        // Option div
+        let optionDiv = document.createElement('div');
+        optionDiv.className = 'option_div';
+        optionDiv.setAttribute('onclick', `view_mess_options('${data.replyID}', event)`);
+
+        let icon = document.createElement('i');
+        icon.className = 'fa-solid fa-ellipsis';
+        icon.style.fontSize = '22px';
+        optionDiv.appendChild(icon);
+
+        // Dropdown menu
+        let dropdown = document.createElement('div');
+        dropdown.className = 'dropdownND';
+        dropdown.id = `dropdown-${data.replyID}`;
+        let ul = document.createElement('ul');
+        let liReact = document.createElement('li');
+        liReact.setAttribute('onclick', `showReplyEmojiPopup('${data.replyID}', '${data.mentorID}', event)`);
+        liReact.innerText = 'React';
+        ul.appendChild(liReact);
+        let liDelete = document.createElement('li');
+        liDelete.setAttribute('onclick', `deleteMentorReplyAdmin('${data.replyID}', '${data.mentorID}', '${data.Name}', '${data.userId}', '${data.question}')`);
+        liDelete.innerText = 'delete';
+        ul.appendChild(liDelete);
+
+        if (data.userId == userID) {
+            let liEdit = document.createElement('li');
+            liEdit.setAttribute('onclick', `showReplyReplyEditForm('${data.replyID}', '${data.mentorID}', '${data.question}')`);
+            liEdit.innerText = 'edit';
+            ul.appendChild(liEdit);
+        }
+
+        dropdown.appendChild(ul);
+        optionDiv.appendChild(dropdown);
+        replyContainer.appendChild(optionDiv);
+
+        // Emoji popup
+        let emojiPopup = document.createElement('div');
+        emojiPopup.classList.add('emoji-popup','right_color_box');
+        if(darkEnabler){
+            emojiPopup.style.background = 'linear-gradient(#fff, #606060)';
+        }
+        emojiPopup.id = `emoji-popup-${data.replyID}`;
+
+        ['👍', '❤️', '👎'].forEach(emoji => {
+            let span = document.createElement('span');
+            span.setAttribute('onclick', `selectReplyEmoji('${data.replyID}', '${data.mentorID}', '${data.reactionCount}', '${JSON.stringify(data.reactions)}', '${emoji}')`);
+            span.innerText = emoji;
+            emojiPopup.appendChild(span);
+        });
+
+        let closeBtn = document.createElement('span');
+        closeBtn.className = 'close-btn';
+        closeBtn.setAttribute('onclick', `closeReplyEmojiPopup('${data.replyID}', '${data.mentorID}', event)`);
+        closeBtn.innerText = '✖';
+        emojiPopup.appendChild(closeBtn);
+        replyContainer.appendChild(emojiPopup);
+
+        // Profile data
+        let profileData = document.createElement('div');
+        profileData.className = 'profile_data';
+
+        let userCircle = document.createElement('div');
+        userCircle.className = 'user-circle';
+        let profileLink = document.createElement('a');
+        profileLink.style.textDecoration = 'none';
+        /*if(data.Name != 'Admin'){
+            profileLink.style.cursor = 'pointer';
+            profileLink.onclick = function() { adminViewProfile(data.userId); };
+        }*/
+        let profileImg = document.createElement('img');
+        profileImg.className = 'user-image profileImageAlternate';
+        profileImg.src = `/user-images/${data.userId}.jpg`;
+        profileImg.alt = 'User Image';
+        profileImg.draggable = false;
+
+        profileImg.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Prevent dragging
+        profileImg.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+
+        // Profile image fallback handling
+        fetch(profileImg.src)
+            .then(response => {
+                if (!response.ok) {
+                    profileImg.src = "/user-images/user.png";
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching image:", error);
+                profileImg.src = "/user-images/user.png";
+            });
+
+        profileLink.appendChild(profileImg);
+        userCircle.appendChild(profileLink);
+        profileData.appendChild(userCircle);
+
+        let userInfo = document.createElement('div');
+        userInfo.style.marginLeft = '10px';
+        let userNameLink = document.createElement('a');
+        userNameLink.style.textDecoration = 'none';
+        userNameLink.style.color = 'black';
+        /*if(data.Name != 'Admin'){
+            userNameLink.style.cursor = 'pointer';
+            userNameLink.onclick = function() { adminViewProfile(data.userId); };
+        }*/
+        let userNameDiv = document.createElement('div');
+        userNameDiv.className = 'user-name';
+        userNameDiv.innerText = data.Name;
+        userNameLink.appendChild(userNameDiv);
+        userInfo.appendChild(userNameLink);
+        profileData.appendChild(userInfo);
+        replyContainer.appendChild(profileData);
+
+        let replyMentor = document.createElement('div');
+        replyMentor.className = 'replyMentor';
+        replyMentor.id = `message-reply-${data.replyID}`;
+
+        if (data.status === "replyofreply") {
+            let redirectReply = document.createElement('div');
+            redirectReply.innerText = '@'+data.OriginUserName;
+            redirectReply.setAttribute('onclick', `scrollToOriginReply('${data.redirect_id}', '${data.mentorID}')`);
+            redirectReply.className = 'athead_name';
+            replyMentor.appendChild(redirectReply);
+        }
+        
+        let mentorContent = document.createElement('div');
+        mentorContent.className = 'mentor-content';
+        mentorContent.id = `mentor-reply-content-${data.replyID}`;
+        mentorContent.innerText = data.question;
+        replyMentor.appendChild(mentorContent);
+
+        // Add "Show More" link
+        let showMoreLink = document.createElement('a');
+        showMoreLink.href = 'javascript:void(0)';
+        showMoreLink.className = 'show-more';
+        showMoreLink.id = `show-more-reply-${data.replyID}`;
+        showMoreLink.setAttribute('onclick', `toggleReplyContent('${data.replyID}')`);
+        showMoreLink.innerText = 'Show More';
+        replyMentor.appendChild(showMoreLink);
+
+        replyContainer.appendChild(replyMentor);
+
+        let replyDelDiv = document.createElement('div');
+        replyDelDiv.className = 'reply_del_div';
+        let replyBtn = document.createElement('a');
+        replyBtn.className = 'reply-btn';
+        replyBtn.href = 'javascript:void(0)';
+        replyBtn.setAttribute('onclick', `showReplyReplyForm('${data.replyID}', '${data.Name}', '${data.mentorID}', '${data.question}')`);
+        let replyIcon = document.createElement('i');
+        replyIcon.className = 'fas fa-reply';
+        replyBtn.appendChild(replyIcon);
+        replyDelDiv.appendChild(replyBtn);
+        replyContainer.appendChild(replyDelDiv);
+
+        // Reaction view
+        /*if (data.hasReactions) {
+            let reactionDiv = document.createElement('div');
+            reactionDiv.className = 'reaction_div';
+            reactionDiv.setAttribute('onclick', `view_mess_reactionss('${data.replyID}')`);
+            let reactionThumb = document.createElement('div');
+            reactionThumb.className = 'reaction_thumb';
+            reactionThumb.innerHTML = `<span class="count_reaction">${data.reactionCount}</span> ${data.reactionThumbnail}`;
+            reactionDiv.appendChild(reactionThumb);
+            replyContainer.appendChild(reactionDiv);
+        }*/
+
+        // Append all to the main reply div
+        replyDiv.appendChild(replyContainer);
+
+        // Append the replyDiv to the mentorDiv
+        mentorDiv.appendChild(replyDiv);
+        checkReplyContentOverflow(data.replyID)``
+    }
+
+
+    function editMentorSocket(data) {
+        const { editInput, mentorID } = data;
+
+        // Find the mentor container by ID
+        const mentorElement = document.getElementById(mentorID);
+
+        if (mentorElement) {
+            // Update the question input
+            const questionInputElement = mentorElement.querySelector('.mentor-content');
+            if (questionInputElement) {
+                questionInputElement.textContent = editInput;
+            }
+
+            // Update the edit status
+            let editStatusElement = mentorElement.querySelector('.comment_p_actual_rep');
+            if (!editStatusElement) {
+                // Create the edited status element if it doesn't exist
+                editStatusElement = document.createElement('p');
+                editStatusElement.className = 'comment_p_actual_rep';
+                editStatusElement.style.color = '#7d7c7c';
+                editStatusElement.style.fontWeight = '600';
+                editStatusElement.textContent = '( edited )';
+
+                // Insert the edit status element before the question input
+                const messageMentorElement = mentorElement.querySelector('.messageMentor');
+                if (messageMentorElement) {
+                    messageMentorElement.parentNode.insertBefore(editStatusElement, messageMentorElement);
+                }
+            } else {
+                // If the edit status element already exists, ensure it has the correct text
+                editStatusElement.textContent = '( edited )';
+            }
+            //checkContentOverflow(mentorID)
+        }
+    }
+
+
+    function editMentorReplySocket(data) {
+        const { editReplyInput, mentorID, replyID, actualRedirectId } = data;
+
+        // Find the mentor container by ID
+        const mentorElement = document.getElementById(mentorID);
+
+        if (mentorElement) {
+            // Find the reply container by ID within the mentor container
+            const replyElement = mentorElement.querySelector(`#${CSS.escape(replyID)}`);
+
+            if (replyElement) {
+                // Update the question input
+                const questionInputElement = replyElement.querySelector('.replyMentor');
+                if (questionInputElement) {
+                    const controlled_limit_showmoreless = questionInputElement.querySelector('.mentor-content');
+                    controlled_limit_showmoreless.textContent = editReplyInput;
+                }
+
+                // Update the edit status
+                let editStatusElement = replyElement.querySelector('.comment_p_actual_rep');
+                if (!editStatusElement) {
+                    // Create the edited status element if it doesn't exist
+                    editStatusElement = document.createElement('p');
+                    editStatusElement.className = 'comment_p_actual_rep';
+                    editStatusElement.style.color = '#7d7c7c';
+                    editStatusElement.style.fontWeight = '600';
+                    editStatusElement.textContent = '( edited )';
+
+                    // Insert the edit status element before the question input
+                    const replyMentorElement = replyElement.querySelector('.replyMentor');
+                    if (replyMentorElement) {
+                        replyMentorElement.parentNode.insertBefore(editStatusElement, replyMentorElement);
+                    }
+                } else {
+                    // If the edit status element already exists, ensure it has the correct text
+                    editStatusElement.textContent = '( edited )';
+                }
+            }
+        }
+    }
+
+
+    function adminViewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/admin-view-profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+    window.onload = function() {
+        scrollToBottom();
+    }
+
+
+    function getLastReaction(reactions) {
+        if (reactions && reactions.length > 0) {
+            return reactions[reactions.length - 1].emoji;
+        }
+        return '';
+    }
+
+
+    function stringifyReactions(reactions) {
+        return Array.isArray(reactions) ? JSON.stringify(reactions).replace(/"/g, '&quot;') : '[]';
+    }
+
+
+    // Function to check if the content exceeds 6 lines and enable the "Show More" link
+    function checkContentOverflow(mentorId) {
+        const content = document.getElementById(`mentor-content-${mentorId}`);
+        const showMoreLink = document.getElementById(`show-more-${mentorId}`);
+        
+        // If the content's scrollHeight exceeds the set max-height (i.e. 6 lines), show the "Show More" link
+        if (content.scrollHeight > content.clientHeight) {
+            showMoreLink.classList.add('active');
+        }
+    }
+
+
+    // After the page loads, check each mentor's content to see if it exceeds 6 lines
+    document.querySelectorAll('.messageMentor').forEach((mentorElement) => {
+        const mentorId = mentorElement.id.replace('message-', '');
+        checkContentOverflow(mentorId);
+    });
+
+
+    function toggleReplyContent(replyId) {
+        const contentReply = document.getElementById(`mentor-reply-content-${replyId}`);
+        const showMoreReplyLink = document.getElementById(`show-more-reply-${replyId}`);
+
+        // Check if the contentReply is currently expanded or not
+        if (contentReply.classList.contains('expanded')) {
+            // Collapse the contentReply
+            contentReply.classList.remove('expanded');
+            contentReply.style.maxHeight = 'calc(1.5em * 6)'; // Limit to 6 lines
+            showMoreReplyLink.innerText = 'Show More';
+        } else {
+            // Expand the contentReply
+            contentReply.classList.add('expanded');
+            contentReply.style.maxHeight = contentReply.scrollHeight + 'px'; // Expand to fit the entire contentReply
+            showMoreReplyLink.innerText = 'Show Less';
+        }
+    }
+
+
+    // Function to check if the contentReply exceeds 6 lines and enable the "Show More" link
+    function checkReplyContentOverflow(replyId) {
+        const contentReply = document.getElementById(`mentor-reply-content-${replyId}`);
+        const showMoreReplyLink = document.getElementById(`show-more-reply-${replyId}`);
+        
+        // If the contentReply's scrollHeight exceeds the set max-height (i.e. 6 lines), show the "Show More" link
+        if (contentReply.scrollHeight > contentReply.clientHeight) {
+            showMoreReplyLink.classList.add('active');
+        }
+    }
+
+
+    function limitCharacters(textarea, maxChars) {
+        if (textarea.value.length > maxChars) {
+            alert("You have reached the maximum allowed characters.");
+            textarea.value = textarea.value.substring(0, maxChars);
+        }
+    }
+
+
+    // After the page loads, check each mentor's contentReply to see if it exceeds 6 lines
+    document.querySelectorAll('.replyMentor').forEach((mentorReplyElement) => {
+        const replyId = mentorReplyElement.id.replace('message-reply-', '');
+        checkReplyContentOverflow(replyId);
+    });
+
+
+    function validateInput(input) {
+        // Remove leading and trailing spaces and count the non-space characters
+        const trimmedValue = input.value.trim();
+        const nonSpaceLength = trimmedValue.replace(/\s/g, '').length;
+
+        // Check if the non-space character length is less than 5
+        if (nonSpaceLength < 5) {
+            input.setCustomValidity("Please enter at least 5 characters (excluding spaces).");
+        } else {
+            input.setCustomValidity(""); // Clear any existing error
+        }
+        
+        // Optionally, you can enforce a maximum length of 60 characters as well
+        if (trimmedValue.length > 60) {
+            input.value = trimmedValue.substring(0, 60);
+        }
+    }
+
+</script>

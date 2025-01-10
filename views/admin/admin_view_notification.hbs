@@ -1,0 +1,299 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .common_feature{
+        background-color: rgb(199, 205, 207);
+        border-radius: 6px;
+        margin-top: 15px;
+        margin-bottom: 25px;
+        padding: 25px;
+        padding-left: 25px;
+        padding-bottom: 10px;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+    .common_feature:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .rectified_p{
+        font-weight: bold;
+        font-size: 14px;
+        color: rgb(6, 116, 14);
+    }
+
+    .text_content{
+        font-weight: 600;
+    }
+
+    .all_a_here{
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+    }
+    .all_a_here:hover{
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+    }
+
+    .profile-pic-chat {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+        object-fit: cover;
+    }
+
+    .btn_confirm_pass_updation{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        padding: 5px;
+        font-size: 15px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        font-weight: bold;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .btn_confirm_pass_updation:hover{
+        background-color: rgb(46, 98, 194);
+        color: white;
+        text-decoration: none;
+    }
+
+    .spacer{
+        background-color: rgb(46, 98, 194);
+        color: white;
+        border-radius: 0px 20px 0px 20px;
+        padding: 5px;
+        font-weight: bold;
+        margin-top: 70px;
+        margin-bottom: 70px;
+        text-align: center;
+    }
+
+    .container{
+        padding-top: 200px;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+        .container{
+            padding-top: 150px;
+        }
+    }
+
+    @media (max-width: 549px) {
+        .text_content{
+            font-size: 14px;
+        }
+        .btn_confirm_pass_updation{ 
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+        }
+    }
+
+</style>
+
+<section class="container" >
+
+    {{#each firstNotification}}
+        <div class="All_Notif" >
+
+            {{#if newEnquiry_notif_admin}}
+                <a class="all_a_here" href="/admin/enquirywith_admin">
+                    <div class="new_admin_personal_notif common_feature">
+                        <p class="text_content">you got {{new_enquiry_count_admin}} enquiry message from a user.</p>
+                    </div>
+                </a>
+            {{/if}}
+
+            {{#if new_messenger_found}}
+                <div class="new_messenger_notif common_feature">
+                    {{#each New_Reciever}}
+                        <div style="display: flex;align-items: center;">
+                            <a style="text-decoration: none;" href="javascript:void(0)" onclick="adminViewProfile('{{this.id}}')">
+                                <img class="profile-pic-chat profileImageAlternate" src="/user-images/{{this.id}}.jpg" alt="User Image">
+                            </a>
+                            <a class="all_a_here" href="/admin/chatwith_admin">
+                                <p class="text_content" style="margin-bottom: 0px;">You got a new message from {{this.name}}</p>
+                            </a>
+                        </div>
+                    {{/each}}
+                </div>
+            {{/if}}
+
+            {{#if newMessagesInExisting_Found}}
+                <a class="all_a_here" href="/admin/chatwith_admin">
+                    <div class="new_message_notif common_feature">
+                        <p class="text_content">You nave {{AllNewExistingMessageCountAdmin}} new unreaded messages in your chat.</p>
+                    </div>
+                </a>
+            {{/if}}
+
+            {{#if new_Job_Notif}}
+                <a class="all_a_here" href="/admin/delete_job_from_portal">
+                    <div class="jobs_add_notif common_feature">
+                        <p class="text_content">{{new_Job_Notif_Count}} new jobs posted since you left from job portal.</p>
+                    </div>
+                </a>
+            {{/if}}
+
+            {{#if groupchat_notif_admin}}
+                <a class="all_a_here" href="/admin/send_delete_group_chat_messages_admin">
+                    <div class="groupchat_new_notif common_feature">
+                        <p class="text_content">There are unchecked {{groupchatcount_admin}} new groupchat messaged for you.</p>
+                    </div>
+                </a>
+            {{/if}}
+
+            {{#if new_Intern_Notif}}
+                <a class="all_a_here" href="/admin/delete_internship_from_portal">
+                    <div class="interns_add_notif common_feature">
+                        <p class="text_content">{{new_Intern_Notif_Count}} new internship requests appears since you left from internship portal.</p>
+                    </div>
+                </a>
+            {{/if}}
+
+            {{#if newMentor_notif_admin}}
+                <a class="all_a_here" href="/admin/delete_mentorship_entry_from_portal">
+                    <div class="mentor_add_notif common_feature">
+                        <p class="text_content">You have unchecked new {{mentorcount_admin}} mentorship questions left.</p>
+                    </div>
+                </a>
+            {{/if}}
+
+        </div>
+    {{/each}}
+
+    <div class="spacer"> Old Notifications </div>
+
+    {{#each remainingNotification}}
+        <div class="All_Notif" >
+            {{#if newEnquiry_notif_admin}}
+                <a class="all_a_here" href="/admin/enquirywith_admin">
+                    <div class="new_admin_personal_notif common_feature">
+                        <p class="text_content">you got {{new_enquiry_count_admin}} direct message from admin.</p>
+                    </div>
+                </a>
+            {{/if}}
+
+            {{#if new_messenger_found}}
+                <div class="new_messenger_notif common_feature">
+                    {{#each New_Reciever}}
+                        <div style="display: flex;align-items: center;">
+                            <a style="text-decoration: none;"  href="javascript:void(0)" onclick="adminViewProfile('{{this.id}}')">
+                                <img class="profile-pic-chat profileImageAlternate" src="/user-images/{{this.id}}.jpg" alt="User Image">
+                            </a>
+                            <a class="all_a_here" href="/admin/chatwith_admin">
+                                <p class="text_content" style="margin-bottom: 0px;">You got a new message from {{this.name}}</p>
+                            </a>
+                        </div>
+                    {{/each}}
+                </div>
+            {{/if}}
+
+            {{#if newMessagesInExisting_Found}}
+                <a class="all_a_here" href="/admin/chatwith_admin">
+                    <div class="new_message_notif common_feature">
+                        <p class="text_content">You nave {{AllNewExistingMessageCountAdmin}} new unreaded messages in your chat.</p>
+                    </div>
+                </a>
+            {{/if}}
+
+            {{#if new_Job_Notif}}
+                <a class="all_a_here" href="/admin/delete_job_from_portal">
+                    <div class="jobs_add_notif common_feature">
+                        <p class="text_content">{{new_Job_Notif_Count}} new jobs posted since you left from job portal.</p>
+                    </div>
+                </a>
+            {{/if}}
+
+            {{#if groupchat_notif_admin}}
+                <a class="all_a_here" href="/admin/send_delete_group_chat_messages_admin">
+                    <div class="groupchat_new_notif common_feature">
+                        <p class="text_content">There are unchecked {{groupchatcount_admin}} new groupchat messaged for you.</p>
+                    </div>
+                </a>
+            {{/if}}
+
+            {{#if new_Intern_Notif}}
+                <a class="all_a_here" href="/admin/delete_internship_from_portal">
+                    <div class="interns_add_notif common_feature">
+                        <p class="text_content">{{new_Intern_Notif_Count}} new internship requests appears since you left from internship portal.</p>
+                    </div>
+                </a>
+            {{/if}}
+
+            {{#if newMentor_notif_admin}}
+                <a class="all_a_here" href="/admin/delete_mentorship_entry_from_portal">
+                    <div class="mentor_add_notif common_feature">
+                        <p class="text_content">You have unchecked new {{mentorcount_admin}} mentorship questions left.</p>
+                    </div>
+                </a>
+            {{/if}}
+        </div>
+    {{/each}}
+
+</section>
+
+<script>
+
+    /*function reloadBaseRoot() {
+        fetch('/admin/reload_root_on_leave_notification', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(),
+        });
+    }
+    window.addEventListener('beforeunload', reloadBaseRoot);*/
+
+    window.addEventListener('pageshow', function(event) {
+        // Check if the page was loaded from the cache (e.g., back button used)
+        if (event.persisted) {
+        // Reload the page
+        window.location.reload();
+        }
+    });
+
+    function adminViewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/admin-view-profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+    
+</script>

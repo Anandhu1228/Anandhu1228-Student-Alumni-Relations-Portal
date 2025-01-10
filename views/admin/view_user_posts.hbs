@@ -1,0 +1,2100 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    
+    body {
+        background-color:rgb(245, 247, 249);
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 60%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .container {
+        padding: 3%;
+        max-width: 1000px;
+        margin: 0 auto;
+        height: auto;
+    }
+
+    .post-container {
+        position: relative;
+        height: auto;
+        background-color: rgb(255, 255, 255,0.8);
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .post_head{
+        height: 75px;
+        display: flex;
+        padding: 15px;
+        align-items: center;
+    }
+
+    .post_read_time{
+        margin-bottom: 0px;
+        font-weight: bold;
+        margin-right: 5px;
+        color: #adacac;
+        font-size: 10px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    
+    .rounded_circle_post_head_image{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit:contain
+    }
+
+    .post_head_name_location_div{
+        margin-left: 10px;
+    }
+
+    .post_head_name{
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .location-post{
+        margin: 0px;
+        font-size: 12px;
+        padding: 0;
+        color: #645f5f;
+    }
+
+    .post_image{
+        height:450px;
+        object-fit:contain;
+        margin-bottom:10px;
+    }
+
+    .video-container-post{
+        margin-top: 10px;
+    }
+
+    .post_video{
+        object-fit: contain;
+        width: 100%;
+        height:450px;
+    }
+
+    .like_comment_container{
+        display: flex;
+        align-items: center;
+        margin-left: 12px;
+    }
+
+    .view_likes_para{
+        margin-bottom: 0px;
+        margin-left: 0px;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .comment-container{
+        align-items: center;
+    }
+
+    .comment-button {
+        background-color: rgb(147, 136, 136);
+        border-radius: 30%;
+        border: none;
+        color: #333;
+        font-size: 20px;
+        cursor: pointer;
+    }  
+
+    .comment_button_icon{
+        font-size: 23px;
+    }
+
+    .comment-button:hover {
+        color: #666;
+    }
+
+    .view_likes{
+        margin-bottom: 0px;
+        font-size: 13px;
+        font-weight:bold;
+    }
+
+    .caption-post{
+        margin-left: 12px;
+        position: relative;
+        padding-bottom: 0px;
+    }
+
+    .caption-text{
+        font-size: 15px;
+        font-weight: 600;
+        overflow: hidden;
+        word-wrap: break-word;
+        white-space: nowrap;
+        margin-bottom: 2px;
+    }
+
+    .read-more {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: white;
+        border-radius: 10px;
+        padding: 5px;
+        margin-bottom: 0px;
+        font-weight: 600;
+        cursor: pointer;
+        color: rgb(177, 169, 169);
+        text-decoration: none;
+    }
+
+    .delete_button{
+        color: rgb(209, 29, 16);
+        font-weight: 500;
+        padding: 5px;
+        margin-right: 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .delete_button:hover{
+        color: rgb(252, 24, 7);
+    }
+
+    .close_pop_up:hover{
+        color: red;
+    }
+
+    .close_pop_up {
+        position: sticky;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        z-index: 105; /* Ensure the close button is above the popup */
+    }
+   
+    .popupform_seecomment {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 20px;
+        z-index: 2001;
+        min-width: 40%;
+        width: auto;
+        max-width: 40%;
+        min-height: 300px;
+        max-height: 90vh; /* Ensures the popup does not exceed 90% of the viewport height */
+        box-shadow: 0 4px 30px 15px rgba(0, 0, 0, 0.2);
+        background-color: rgb(255, 255, 255);
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-bottom: 0px;
+        padding-right: 15px;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 135% auto;
+        background-position: center bottom 45%;
+        background-repeat: no-repeat;
+        overflow-y: auto; /* Adds vertical scroll */
+        overflow-x: hidden;
+    }
+
+    .comments_of_post{
+        margin-bottom:50px;
+        align-items: center;
+        padding-top: 20px;
+    }
+
+    .show_replies{
+        align-items: center;
+        width:82%;margin-left:auto;
+        margin-top:10px;
+    }
+
+    .commenter_detail{
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .replier_detail{
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .commentsss{
+        margin-bottom: 30px;
+    }
+
+    .each_reply_comment {
+        margin-bottom: 10px;
+        background: transparent;
+    }
+
+    .comment_p{
+        font-weight: 600;
+        font-size:14px;
+        margin-bottom: 0px;
+        overflow: auto;
+        max-width: 90%;
+        word-wrap: break-word;
+    }
+
+    .comment_p_actual_rep{
+        color: rgb(93, 138, 222);
+        font-weight:bold;
+        font-size:11px;
+        margin-bottom:0px;
+    }
+
+    .comment_content{
+        margin-left: 56px;
+        margin-top:0px;
+        transition: background-color 0.3s ease;
+    }
+
+    .reply_content{
+        margin-left: 56px;
+        margin-top:0px;
+        transition: background-color 0.3s ease;
+    }
+
+    .comment_actions{
+        display: flex;
+        align-items: center;
+        margin-top: 5px;
+    }
+
+    .reply_actions{
+        display: flex;
+        align-items: center;
+        margin-top: 5px;
+    }
+
+    .comment_re_li{
+        display: flex;
+        align-items: center;
+    }
+
+    .comment_time{
+        font-size: 10px;
+        margin-right:60px;
+        margin-top:0px;
+        margin-bottom: 0px;
+    }
+
+    .comment_del_time{
+        color: red;
+        font-size: 10px;
+        margin-top:0px;
+        margin-right: 15px;
+        margin-bottom: 0px;
+    }
+
+    .time_controller{
+        margin-left: auto;
+        display: flex;
+    }
+
+    .comment_delete_button{
+        margin-left: 15px;
+        color:rgb(204, 21, 21);
+        font-size:12px;
+        margin-bottom: 0px;
+        margin-right: 8px;
+        cursor:pointer
+    }
+
+    .view_reply_para{
+        font-size: 12px;
+        display:block;
+        margin-bottom:0px;
+        font-weight: bold;
+        cursor: pointer;
+        width:fit-content
+    }
+
+    .view_replies_of_comment{
+        margin-left: 57px;
+        margin-top: 3px;
+    }
+
+    .user-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+    }
+
+    .user-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .user-name {
+        font-weight: 600;
+        color: rgb(78, 74, 74);
+    }
+
+    .no-scroll {
+        overflow: hidden;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+     @media (max-width: 878px) {
+        .post_image{
+            height:450px;
+        }
+        .post_video{
+            height:450px;
+        }
+    }
+
+     @media (max-width: 778px) {
+        .post_image{
+            height:350px;
+        }
+        .post_video{
+            height:350px;
+        }
+    }
+
+     @media (max-width: 448px) {
+        .post_image{
+            height:300px;
+        }
+        .image-container-post{
+            height:300px;
+        }
+        .video-container-post{
+            height:300px;
+    
+        }
+        .post_video{
+            height:300px;
+        }
+        .caption-text{
+            font-size: 14px;
+        }
+        .post_head{
+            height: 75px;
+            padding-top: 10px;
+            padding-bottom: 6px;
+            padding-left: 12px;
+        }
+    }
+
+    @media (max-width: 1550px) {
+        .popupform_seecomment{
+            min-width: 50%;
+        }
+    }
+
+    @media (max-width: 1250px) {
+        .popupform_seecomment {
+            min-width: 54%;
+        }
+    }
+
+    @media (max-width: 1050px) {
+        .popupform_seecomment {
+            min-width: 58%;
+        }
+    }
+
+    @media (max-width: 850px) {
+        .popupform_seecomment {
+            min-width: 62%;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .popupform_seecomment {
+            min-width: 90%;
+        }
+        .seecomment_popup_form {
+            padding: 20px;
+            padding-top: 10px;
+            padding-bottom: 50px;
+        }
+    }
+
+    @media (max-width: 850px) {
+        .textarea-container {
+            padding: 7px;
+        }
+    }
+
+     @media (max-width: 575px) {
+        .comment_del_time {
+            margin-right: 9px;
+        }
+    }
+
+    @media (max-width: 470px) {
+        .comment_time{
+            margin-right:10px;
+        }
+        .seecomment_popup_form {
+            padding: 10px;
+            padding-top: 10px;
+            padding-bottom: 50px;
+        }
+    }
+
+    @media (max-width: 410px) {
+        .comment_time{
+            margin-right:0px;
+        }
+    }
+
+    .close_button{
+        text-align: right;
+        display:block;
+        margin-bottom: 30px;
+    }
+
+    .no-scroll {
+        overflow: hidden;
+    }
+
+    .popupform_view_likes{
+        display: none;
+        padding: 20px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        background-color: #ffffff;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+        z-index: 2001;
+        min-width: 40%;
+        max-width: 90%;
+        max-height: 91vh;
+        min-height: 20vh;
+        height: auto;
+        border-radius: 20px;
+        box-shadow: 0 4px 30px 15px rgba(0, 0, 0, 0.2);
+        overflow: auto;
+    }
+
+    .close_pop_up_view_likes{
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        font-size: 20px;
+        z-index: 105;
+    }
+
+    .close_pop_up_view_likes:hover{
+        color: red;
+    }
+
+    .view_likes_para{
+        margin-bottom: 0px;
+        margin-left: 0px;
+        font-weight: bold;
+        font-size: 21px;
+    }
+
+    .like_divider{
+        display: flex;
+        align-items:center;
+        margin-bottom: 10px;
+    }
+
+    .a_in_view_likes{
+        display: flex;
+        align-items:center;
+    }
+
+    @media (max-width: 1550px) {
+        .popupform_view_likes{
+            min-width: 50%;
+        }
+    }
+
+    @media (max-width: 1250px) {
+        .popupform_view_likes {
+            min-width: 54%;
+        }
+    }
+
+    @media (max-width: 1050px) {
+        .popupform_view_likes {
+            min-width: 58%;
+        }
+        .read-more{
+            font-size: 12px;
+        }
+    }
+
+    @media (max-width: 850px) {
+        .popupform_view_likes {
+            min-width: 62%;
+        }
+        .read-more{
+            font-size: 11px;
+        }
+    }
+
+    @media (max-width: 800px) {
+        .heart-button{
+            font-size: 20px;
+        }
+        #like-count{
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .comment_button_icon{
+            font-size: 20px;
+        }
+        .view_likes_para{
+            font-size: 18px;
+        }
+        .caption-text{
+            font-size: 14px;
+        }
+        .post_head_name{
+            font-size: 15px;
+        }
+        .rounded_circle_post_head_image{
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .popupform_view_likes {
+            min-width: 90%;
+        }
+    }
+
+    @media (max-width: 550px) {
+        .heart-button{
+            font-size: 18px;
+        }
+        #like-count{
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .comment_button_icon{
+            font-size: 18px;
+        }
+        .view_likes_para{
+            font-size: 16px;
+        }
+        .caption-text{
+            font-size: 13px;
+        }
+        .post_head_name{
+            font-size: 14px;
+        }
+        .rounded_circle_post_head_image{
+            width: 35px;
+            height: 35px;
+        }
+        .caption-post{
+            padding-top: 0px;
+        }
+        .post_read_time{
+            font-size: 8.5px;
+        }
+    }
+
+    @media (max-width: 530px) {
+        .read-more{
+            font-size: 10px;
+            color: #7b7b7b;
+        }
+    }
+
+    .highlight {
+        background-color: rgb(255, 230, 0) !important; /* Change this color as needed */
+        transition: background-color 0.5s ease;
+    }
+
+    #uploadForm_edit {
+        background-color: #7fcbde;
+        border-radius: 0px 60px 0px 60px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        padding: 25px;
+
+    }
+
+    @media (max-width:630px) {
+        .comment_p {
+            font-size: 13px;
+        }
+    }
+
+    .profileImageAlternate {
+        -webkit-user-drag: none;  /* Safari */
+        user-drag: none;           /* Non-prefixed version */
+    }
+
+    .edita_status{
+        color: #7d7c7c; 
+        font-weight: 600;
+    }
+
+     .popup_overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        z-index: 999;  /* Layer above the main content */
+        cursor: not-allowed;  /* Optional: Change cursor to indicate no interaction */
+    }
+
+</style>
+
+
+<section style="padding-top: 110px;">
+    {{#each allPosts}}
+        <div class="container" id="post_container_{{this._id}}">
+            <div class="post-container">
+                <div class="post_head">
+                    <a href="javascript:void(0)" onclick="viewProfile('{{this.UserId}}')" style="text-decoration: none;">
+                        <div class="post_head_image">
+                            <img class="rounded_circle_post_head_image profileImageAlternate" src="/user-images/{{this.UserId}}.jpg" alt="Card image cap" draggable="false">
+                        </div>
+                    </a>
+                    <a href="javascript:void(0)" onclick="viewProfile('{{this.UserId}}')" style="text-decoration: none;color:black">
+                        <div class="post_head_name_location_div">
+                            <h6 class="post_head_name">{{this.Name}}</h6>
+                            {{#if this.location}}
+                                <p id="post_o_w_n_location" class="location-post">{{this.location}}</p>
+                            {{/if}}
+                        </div>
+                    </a>
+                    <p class="post_read_time drop_dop_nav3">{{this.readable_time}}</p>
+                </div>
+                <div class="post_middle">
+                    {{#if this.ImageNames}}
+                        <div class="image-container-post">
+                            <div id="carouselExampleIndicators-{{this._id}}" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    {{#each this.ImageNames}}
+                                        <li data-target="#carouselExampleIndicators-{{../_id}}" data-slide-to="{{@index}}" {{#if @first}}class="active"{{/if}}></li>
+                                    {{/each}}
+                                </ol>
+                                <div class="carousel-inner">
+                                    {{#each this.ImageNames}}
+                                        <div class="carousel-item {{#if @first}}active{{/if}}" data-src="/posts/{{../UserId}}/{{../_id}}/{{this}}">
+                                            <img class="post_image" alt="Image {{@index}}">
+                                        </div>
+                                    {{/each}}
+                                </div>
+                                   
+                                <a class="carousel-control-prev" href="#carouselExampleIndicators-{{this._id}}" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleIndicators-{{this._id}}" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    {{/if}}
+                    {{#if this.VideoNames}}
+                        <div class="video-container-post">
+                            {{#each this.VideoNames}}
+                                <div class="video-item" data-src="/posts/{{../UserId}}/{{../_id}}/{{this}}">
+                                    <video class="post_video" controls autoplay loop muted>
+                                        <source src="" type="video/mp4">
+                                    </video>
+                                </div>
+                            {{/each}}
+                        </div>
+                    {{/if}}
+                </div>
+               
+                <div class="post_tail">
+                    <div class="like_comment_container">
+                        <div class="comment-container">
+                            <a class="nav-link" onclick="viewComment('{{this._id}}')"><i class="fas fa-comment-dots comment_button_icon" style="cursor: pointer;color:rgb(14, 12, 12)"></i></a>
+                        </div>
+                        <div class="comment-container" style="margin-left: 10px;">
+                            <p class="nav-link view_likes_para" style="cursor: pointer;" onclick="viewLikes('{{this._id}}')"><i class="fa-solid fa-eye"></i></p>
+                        </div> 
+                         <div class="comment-container" style="margin-left: 10px;">
+                            <a href="javascript:void(0)" onclick="deletePost('{{this._id}}','{{this.UserId}}','{{this.Name}}')"  class="delete_button btn "><i class="fas fa-trash"></i></a>
+                        </div>
+                        <section>
+                            <div id="view_likes_{{this._id}}" class="popupform_view_likes right_color_box" style="display: none;">
+                                <div class="close_button">
+                                    <span class="close_pop_up_view_likes" style="cursor: pointer;" onclick="closePopupViewLikes('{{this._id}}')">&#10006;</span>
+                                </div>
+                                <div class="like_body_turnedon" style="padding: 10px;">
+                                    {{#each this.likes}}
+                                        <div class="like_divider" data-user-id="{{this.insertedId}}">
+                                            <div class="user-circle">
+                                                <a style="text-decoration: none;cursor:pointer;" href="javascript:void(0)" onclick="viewProfile('{{this.insertedId}}')">
+                                                    <img class="user-image profileImageAlternate" src="/user-images/{{this.insertedId}}.jpg" alt="User Image" draggable="false">
+                                                </a>
+                                            </div>
+                                            <a style="text-decoration: none;" href="javascript:void(0)" onclick="viewProfile('{{this.insertedId}}')">
+                                                <p class="p_in_like_body_turnedon" style="font-weight:bold;margin-bottom:0px;color:black;cursor:pointer;">{{this.Name}}</p>
+                                            </a>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div id="seecomment_popup_{{this._id}}" class="popupform_seecomment right_color_box">
+                        <span id="close_pop_up_{{this._id}}" class="close_pop_up" style="cursor: pointer;" onclick="closePopupSeeComment('{{this._id}}')">&#10006;</span>
+                        <div class="comments_of_post">
+                            {{#each this.comments}}
+                                <div class="commentsss" id="comment_{{this.comment_id}}">
+                                    <div class="commenter_detail">
+                                        <div class="user-circle">
+                                            <a style="text-decoration: none;" href="javascript:void(0)" onclick="viewProfile('{{this.comment_owner_id}}')">
+                                                <img class="user-image profileImageAlternate" src="/user-images/{{this.comment_owner_id}}.jpg" alt="User Image">
+                                            </a>
+                                        </div>
+                                        <div class="user_name_container">
+                                            <div class="user-name">{{this.comment_owner_name}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="comment_content" id="comment_content_{{this.comment_id}}">
+                                        {{#if this.editstatus}}
+                                            <p class="comment_p_actual_rep edita_status" >( edited )</p>
+                                        {{/if}}
+                                        <p class="comment_p" {{#if this.del_com_stat}} style="font-size: 10px;font-style: italic;color:red;"{{/if}}>{{this.Comment_data}}</p>
+                                    </div>
+                                    <div class="comment_actions">
+                                        <div class="time_controller">
+                                            {{#unless this.del_com_stat}}
+                                                <p class="comment_delete_button" onclick="adddeleteComment('{{../this._id}}', '{{this.comment_id}}')"><i class="fas fa-trash"></i></p>
+                                            {{/unless}}
+                                            {{#if this.del_com_stat}}
+                                                <p class="comment_delete_button" onclick="deleteCommentSupreme('{{../this._id}}', '{{this.comment_id}}','{{this.comment_owner_id}}')"><i class="fas fa-trash"></i></p>
+                                                <p class="comment_del_time">{{this.del_time}}</p>
+                                            {{/if}} 
+                                            <p class="comment_time">{{this.time}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="view_replies_of_comment">
+                                        <p class="view_reply_para" onclick="view_replies(this, '{{this.comment_id}}','{{../this._id}}')">view replies</p>
+                                    </div>
+                                    <div id="show_replies_{{this.comment_id}}" class="show_replies" style="display: none;">
+                                        {{#each this.replies}}
+                                            <div class="each_reply_comment" id="comment_reply_{{this.reply_id}}">
+                                                <div class="replier_detail">
+                                                    <div class="user-circle">
+                                                        <a style="text-decoration: none;" href="javascript:void(0)" onclick="viewProfile('{{this.Reply_owner_id}}')">
+                                                            <img class="user-image profileImageAlternate" src="/user-images/{{this.Reply_owner_id}}.jpg" alt="User Image" draggable="false">
+                                                        </a>
+                                                    </div>
+                                                    <div class="user_name_container">
+                                                        <div class="user-name">{{this.Reply_owner_name}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="reply_content" id="reply_content_{{this.reply_id}}">
+                                                    {{#ifEqual this.Redirection_Status "REPLYOFREPLY"}}
+                                                        <p class="comment_p_actual_rep" onclick="scrollToreply('{{this.Redirection_ID}}')">@ {{this.Comment_owner_name}}</p>
+                                                    {{/ifEqual}}
+                                                    {{#ifEqual this.Redirection_Status "REPLYOFCOMMENT"}}
+                                                        <p class="comment_p_actual_rep" onclick="scrollTocomment('{{this.Redirection_ID}}')">@ {{this.Comment_owner_name}}</p>
+                                                    {{/ifEqual}}
+                                                    {{#if this.editreplystatus}}
+                                                        <p class="comment_p_actual_rep edita_status" >( edited )</p>
+                                                    {{/if}}
+                                                    <p class="comment_p" {{#if this.del_rep_stat}} style="font-size: 11px;font-style: italic;color:red;"{{/if}}>{{this.Reply_content}}</p>
+                                                </div>
+                                                <div class="reply_actions">
+                                                    <div class="time_controller">
+                                                        {{#unless this.del_rep_stat}}
+                                                            <p class="comment_delete_button" onclick="adddeleteCommentReply('{{../../this._id}}', '{{../this.comment_id}}', '{{this.reply_id}}')"><i class="fas fa-trash"></i></p>
+                                                        {{/unless}}
+                                                        {{#if this.del_rep_stat}}
+                                                            <p class="comment_delete_button" onclick="deleteCommentReplySupremecy('{{../../this._id}}', '{{../this.comment_id}}', '{{this.reply_id}}','{{this.Reply_owner_id}}')"><i class="fas fa-trash"></i></p> 
+                                                            <p class="comment_del_time">{{this.del_time}}</p>
+                                                        {{/if}}
+                                                        <p class="comment_time">{{this.time_comment}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+
+                    <div class="caption-post">
+                        <p id="caption_text_{{this._id}}" class="caption-text">
+                            {{this.description}}
+                        </p>
+                        <p id="read_more_less_{{this._id}}" class="read-more" onclick="toggleReadMore('{{this._id}}')">Read more</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+    
+    <div id="post_container">
+        {{!-- This is where new posts will be appended --}}
+    </div>
+</section>
+<div id="loadingIndicator" style="display:none; text-align: center;">
+    <!-- Your loading indicator (spinner, text, etc.) -->
+    <p>Loading...</p>
+</div>
+
+<script src="http://localhost:3001/socket.io/socket.io.js"></script>
+
+<script>
+
+    const MyUserName = '{{aber}}'
+    const MyUserID = null
+
+    const socket = io('http://localhost:3001');
+
+
+    // TO SCROLL TO TOP ON RELOADING
+    window.onload = function() {
+        var SeePopUpOfComment = sessionStorage.getItem("POPUPaDmInReStOrE");
+        if(SeePopUpOfComment === 'null'){  //  to scroll to message and display message when more than 10 posts currently present
+            window.scrollTo(0, 0);
+        } else if(SeePopUpOfComment !== 'null')  //  to display popup when post comment opened anywhere in first 10 post
+        {
+            scrollToPost(SeePopUpOfComment)
+        }
+    };
+
+
+    // SOCKET DATA COMING FOR EDIT POST
+    socket.on('editPoSt', (data) => {
+       updatePost(data);
+    });
+
+
+    //  SOCKET DATA COMING FOR DELETE POST
+    socket.on('deletePost', (postID) => {
+        const deletedPost = document.getElementById('post_container_'+postID)
+        if (deletedPost) {
+            deletedPost.remove();
+        }
+    });
+
+
+    //  SOCKET DATA COMING FOR DELETE COMMENT 
+    socket.on('deleteCOMMENT', (data) => { 
+        const deletedPost = document.getElementById('post_container_' + data.postID);
+        if (deletedPost) {
+            // Use querySelector to find the comment inside the post
+            const deletedComment = deletedPost.querySelector('#comment_' + data.commentID);
+            if (deletedComment) {
+                deletedComment.remove();
+            }
+        }
+        
+        if (MyUserID == data.MyUserID) {
+            document.body.style.overflow = "hidden";
+        }
+    });
+
+
+    //  SOCKET DATA COMING FOR DELETE COMMENT REPLY
+    socket.on('deleteCOMMENTreply', (data) => {
+        const deletedPost = document.getElementById('post_container_' + data.postID);
+        if (deletedPost) {
+            // Use querySelector to find the comment inside the post
+            const deletedComment = deletedPost.querySelector('#comment_' + data.commentID);
+            if (deletedComment) {
+                const deletedCommentReply = deletedComment.querySelector('#comment_reply_'+data.replyID)
+                if (deletedCommentReply) {
+                    deletedCommentReply.remove();
+                }
+            }
+        }
+        
+        if (MyUserID == data.MyUserID) {
+            document.body.style.overflow = "hidden";
+        }
+    });
+
+
+    //   SOCKET DATA COMING FOR ADDING POST LIKE
+    socket.on('addPostLike', (data) => {
+        const liking_post = document.getElementById('post_container_' + data.postId);
+        const viewLikesPopup = liking_post.querySelector('.popupform_view_likes');
+        const existingUser = viewLikesPopup.querySelector('.like_divider[data-user-id="' + data.userId + '"]');
+        if (!existingUser) {
+            addUserToLikesPopup(data.postId, data.userId, data.MyUserName);
+        } else {
+            removeUserFromLikesPopup(data.postId, data.userId);
+        }
+    });
+
+
+    //    SOCKET DATA COMING FOR COMMENT LIKE
+    socket.on('addCOMMENTLike', (data) => {
+        var already_like_comment_status = data.already_liked;
+        const { USERID, POSTID, COMMENTID } = data;
+        const commentElement = $(`#comment_${COMMENTID}`);
+        const commentHeartButton = commentElement.find('.comment_heart_button');
+        const likeCountElement = commentElement.find('.like_count_comment');
+
+        // Get the current like count, default to 0 if it's NaN or empty
+        let currentLikeCount = parseInt(likeCountElement.text());
+        if (isNaN(currentLikeCount)) {
+            currentLikeCount = 0;
+        }
+
+        // Initialize commentLikes array if it doesn't exist
+        let commentLikes = commentElement.data('comment-likes') || [];
+        const userLiked = commentElement.data('user-liked');
+
+        // Check if the USERID is already in the comment_likes
+        const userIndex = commentLikes.indexOf(USERID);
+        if(already_like_comment_status == false)
+        {
+            if (userIndex === -1) {
+                // If USERID is not in comment_likes, add it
+                commentLikes.push(USERID);
+                likeCountElement.text(currentLikeCount + 1);
+            } else {
+                // If USERID is in comment_likes, remove it
+                commentLikes.splice(userIndex, 1);
+                likeCountElement.text(currentLikeCount - 1);
+            }
+        } else if(already_like_comment_status == true){
+            sessionStorage.setItem("already_liked_comment_" + data.COMMENTID, false);
+            commentLikes.splice(userIndex, 1);
+            likeCountElement.text(currentLikeCount - 1);
+        }
+
+        // Update the data attribute with the new comment_likes
+        commentElement.data('comment-likes', commentLikes);
+        
+        if(USERID == MyUserID){
+            document.body.style.overflow = "hidden";
+        }
+    });
+
+
+    //  SOCKET DATA COMING FOR LIKING REPLY OF COMMENT
+    socket.on('addCOMMENTREPLYLike', (data) => {
+        var already_like_comment_reply_status = data.already_liked_comment_reply;
+        const { USERID, POSTID, COMMENTID, REPLYID } = data;
+        const replycommentElement = $(`#comment_reply_${REPLYID}`);
+        const replycommentHeartButton = replycommentElement.find('.comment_reply_heart_button');
+        const replylikeCountElement = replycommentElement.find('.like_count_reply');
+
+        // Get the current like count, default to 0 if it's NaN or empty
+        let replycurrentLikeCount = parseInt(replylikeCountElement.text());
+        if (isNaN(replycurrentLikeCount)) {
+            replycurrentLikeCount = 0;
+        }
+
+        // Initialize replycommentLikes array if it doesn't exist
+        let replycommentLikes = replycommentElement.data('comment-reply-likes') || [];
+        const userLiked = replycommentElement.data('user-liked');
+
+        // Check if the USERID is already in the comment_likes
+        const userIndex = replycommentLikes.indexOf(USERID);
+        if(already_like_comment_reply_status == false)
+        {
+            if (userIndex === -1) {
+                // If USERID is not in comment_likes, add it
+                replycommentLikes.push(USERID);
+                replylikeCountElement.text(replycurrentLikeCount + 1);
+            } else {
+                // If USERID is in comment_likes, remove it
+                replycommentLikes.splice(userIndex, 1);
+                replylikeCountElement.text(replycurrentLikeCount - 1);
+            }
+        } else if(already_like_comment_reply_status == true){
+            //sessionStorage.setItem("already_liked_comment_" + data.COMMENTID, false);
+            replycommentLikes.splice(userIndex, 1);
+            replylikeCountElement.text(replycurrentLikeCount - 1);
+        }
+
+        // Update the data attribute with the new comment_likes
+        replycommentElement.data('comment-reply-likes', replycommentLikes);
+        
+        if(USERID == MyUserID){
+            document.body.style.overflow = "hidden";
+        }
+    });
+        
+
+    //    FUNCTION TO ADD USER FROM VIEW LIKES THROUGH SOCKET
+    function addUserToLikesPopup(postId, userId, userName) {
+        const viewLikesPopup = document.getElementById('view_likes_' + postId);
+        if (viewLikesPopup) {
+            const existingUser = viewLikesPopup.querySelector('.like_divider[data-user-id="' + userId + '"]');
+            if (!existingUser) {
+                const newUser = document.createElement('div');
+                newUser.classList.add('like_divider');
+                newUser.setAttribute('data-user-id', userId);
+
+                const userLink = document.createElement('a');
+                userLink.classList.add('a_in_view_likes');
+                userLink.style.textDecoration = 'none';
+                userLink.style.cursor = 'pointer';
+                //userLink.onclick = function() { viewProfile(userId); };
+
+                const userCircle = document.createElement('div');
+                userCircle.classList.add('user-circle');
+
+                const userImage = document.createElement('img');
+                userImage.classList.add('user-image', 'profileImageAlternate');
+                userImage.src = '/user-images/' + userId + '.jpg';
+                userImage.alt = 'User Image';
+                userImage.draggable = false;
+
+                const userNameElement = document.createElement('p');
+                userNameElement.classList.add('p_in_like_body_turnedon');
+                userNameElement.style.fontWeight = 'bold';
+                userNameElement.style.marginBottom = '0px';
+                userNameElement.style.color = 'black';
+                userNameElement.style.cursor = 'pointer';
+                userNameElement.textContent = userName;
+
+                userCircle.appendChild(userImage);
+                userLink.appendChild(userCircle);
+                userLink.appendChild(userNameElement);
+                newUser.appendChild(userLink);
+
+                const likeBody = viewLikesPopup.querySelector('.like_body_turnedon');
+                if (likeBody) {
+                    likeBody.appendChild(newUser);
+
+                    userImage.addEventListener('contextmenu', function(e) {
+                        e.preventDefault();
+                    });
+                    userImage.addEventListener('dragstart', function(e) {
+                        e.preventDefault();
+                    });
+                }
+            }
+        }
+    }
+
+
+    //    FUNCTION TO REMOVE USER FROM VIEW LIKES THROUGH SOCKET
+    function removeUserFromLikesPopup(postId, userId) {
+        const viewLikesPopup = document.getElementById('view_likes_' + postId);
+        if (viewLikesPopup) {
+            const userToRemove = viewLikesPopup.querySelector('.like_divider[data-user-id="' + userId + '"]');
+            if (userToRemove) {
+                userToRemove.remove();
+            }
+        }
+    }
+
+
+    //   FUNCTION TO ADD COMMENT TO A POST THROUGH SOCKET
+    socket.on('addcommentpost', (data) => {
+        // Extract data from the received object
+        const postId = data.postID;
+        const commentId = data.comment_id;
+        const userId = data.MyUserID;
+        const userName = data.MyUserName;
+        const commentContent = data.comment_Input;
+        const time = data.time;
+
+        var userConfirmedStatusComment = false;
+
+        // Construct the new comment HTML
+        let newCommentHTML = `
+            <div class="commentsss" id="comment_${commentId}">
+                <div class="commenter_detail">
+                    <div class="user-circle">
+                        <a style="text-decoration: none;" href="javascript:void(0)">
+                            <img class="user-image profileImageAlternate" src="/user-images/${userId}.jpg" alt="User Image" draggable="false">
+                        </a>
+                    </div>
+                    <div class="user_name_container">
+                        <div class="user-name">${userName}</div>
+                    </div>
+                </div>
+                <div class="comment_content" id = "comment_content_${commentId}">
+                    <p class="comment_p">${commentContent}</p>
+                </div>
+                <div class="comment_actions">
+                    <div class="comment_re_li">
+                        <div class="delete_button_comment_div">
+                            <p class="comment_delete_button" onclick="adddeleteComment('${postId}', '${commentId}')"><i class="fas fa-trash"></i></p>
+                        </div>
+                    </div>
+                    <div class= "time_controller">
+                        <p class="comment_time">${time}</p>
+                    </div>
+                </div>
+                <div class="view_replies_of_comment">
+                    <p class="view_reply_para" onclick="view_replies(this, '${commentId}', '${postId}')">view replies</p>
+                </div>
+                <div id="show_replies_${commentId}" class="show_replies" style="display: none;"></div>
+            </div>
+        `;
+
+        // Append the new comment to the comments section
+        const commentsContainer = document.querySelector(`#seecomment_popup_${postId} .comments_of_post`);
+        commentsContainer.innerHTML += newCommentHTML;
+
+        const newImg = commentsContainer.querySelector(`#comment_${commentId} .profileImageAlternate`);
+        newImg.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        newImg.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+        
+        if (MyUserID == data.MyUserID) {
+            document.body.style.overflow = "hidden";
+        }
+    });
+
+
+    //   FUNCTION TO ADD REPLY OF COMMENT TO A POST THROUGH SOCKET
+    socket.on('addcommentreplypost', (data) => {
+        addNewReplyToComment(data);
+    });
+
+
+    // CALLED INSIDE ADD COMMENT REPLY SOCKET TO DYNAMICALLY ADD REPLY TO A COMMENT
+    function addNewReplyToComment(data) {
+        var userConfirmedStatusReply = false;
+
+        // Construct the new reply HTML
+        let newReplyHTML = `
+            <div class="each_reply_comment" id="comment_reply_${data.reply_id}">
+                <div class="replier_detail">
+                    <div class="user-circle">
+                        <a style="text-decoration: none;" href="javascript:void(0)">
+                            <img class="user-image profileImageAlternate" src="/user-images/${data.MyUserID}.jpg" alt="User Image" draggable="false">
+                        </a>
+                    </div>
+                    <div class="user_name_container">
+                        <div class="user-name">${data.MyUserName}</div>
+                    </div>
+                </div>
+                <div class="reply_content" id="reply_content_${data.reply_id}">
+        `;
+
+        // Add condition for Redirection_Status being "REPLYOFREPLY"
+        if (data.Redirection_Status === "REPLYOFREPLY") {
+            newReplyHTML += `
+                <p class="comment_p_actual_rep" onclick="scrollToreply('${data.Redirection_ID}')">@ ${data.CommentOwnerName}</p>
+            `;
+        }
+
+        // Add condition for Redirection_Status being "REPLYOFCOMMENT"
+        if (data.Redirection_Status === "REPLYOFCOMMENT") {
+            newReplyHTML += `
+                <p class="comment_p_actual_rep" onclick="scrollTocomment('${data.Redirection_ID}')">@ ${data.CommentOwnerName}</p>
+            `;
+        }
+
+        newReplyHTML += `
+                        <p class="comment_p">${data.comment_Reply_Input}</p>
+                    </div>
+                    <div class="reply_actions">
+                        <div class="reply_re_li">
+                            <div class="delete_button_comment_div">
+                                <p class="comment_delete_button" onclick="adddeleteCommentReply('${data.PostID}', '${data.CommentId}', '${data.reply_id}')"><i class="fas fa-trash"></i></p>
+                            </div>
+                        </div>
+                        <div class= "time_controller">
+                            <p class="comment_time">${data.time}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+        // Append the new reply HTML to the corresponding comment's reply section
+        const repliesContainer = document.getElementById(`show_replies_${data.CommentId}`);
+        if (repliesContainer) {
+            if (repliesContainer.style.display === "block") {
+                repliesContainer.style.display = 'block'; // Ensure the replies container is visible
+            }
+            repliesContainer.innerHTML += newReplyHTML;
+
+            const newImg = repliesContainer.querySelector(`#comment_reply_${data.reply_id} .profileImageAlternate`);
+            newImg.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+            newImg.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+            });
+        }
+
+        if (MyUserID == data.MyUserID) {
+            document.body.style.overflow = "hidden";
+        }
+    }
+
+
+    //    SOCKET TO RETRIEVE EDITED COMMENT AND STATUS THROUGH SOCKET
+    socket.on('addcommenteditpost', (data) => {
+        // Extract data from the received object
+        const postId = data.postID;
+        const commentId = data.commentID;
+        const updatedCommentContent = data.commentContent;
+
+        // Find the existing comment element in the DOM
+        const commentElement = document.getElementById('comment_' + commentId);
+
+        if (commentElement) {
+            // Update the comment content
+            const commentContentElement = commentElement.querySelector('.comment_p');
+            commentContentElement.textContent = updatedCommentContent;
+
+            // Set the editstatus as true by adding an edited indicator
+            const editStatusElement = commentElement.querySelector('.comment_p_actual_rep');
+            if (!editStatusElement) {
+                const editedIndicator = document.createElement('p');
+                editedIndicator.classList.add('comment_p_actual_rep');
+                editedIndicator.style.color = '#7d7c7c';
+                editedIndicator.style.fontWeight = '600';
+                editedIndicator.textContent = '( edited )';
+                commentContentElement.parentElement.insertBefore(editedIndicator, commentContentElement);
+            }
+        }
+
+        if (MyUserID == data.MyUserID) {
+            document.body.style.overflow = "hidden";
+        }
+    });
+
+
+    //    SOCKET TO RETRIEVE EDITED REPLY OF COMMENT AND STATUS THROUGH SOCKET
+    socket.on('addcommentreplyeditpost', (data) => {
+        // Extract data from the received object
+        const postId = data.postID;
+        const commentId = data.commentID;
+        const replyId = data.replyID;
+        const updatedReplyContent = data.commentContent;
+
+        // Find the existing reply element in the DOM
+        const replyElement = document.getElementById('comment_reply_' + replyId);
+
+        if (replyElement) {
+            // Update the reply content
+            const replyContentElement = replyElement.querySelector('.comment_p');
+            replyContentElement.textContent = updatedReplyContent;
+
+            // Set the editreplystatus as true by adding an edited indicator
+            const editStatusElement = replyElement.querySelector('.comment_p_actual_rep[style*="( edited )"]');
+            if (!editStatusElement) {
+                const editedIndicator = document.createElement('p');
+                editedIndicator.classList.add('comment_p_actual_rep');
+                editedIndicator.style.color = '#7d7c7c';
+                editedIndicator.style.fontWeight = '600';
+                editedIndicator.textContent = '( edited )';
+                replyContentElement.parentElement.insertBefore(editedIndicator, replyContentElement);
+            }
+        }
+
+        if (MyUserID == data.MyUserID) {
+            document.body.style.overflow = "hidden";
+        }
+    });
+
+
+    //  FUNCTION TO READ MORE ON LARGE CAPTIONS
+    async function toggleReadMore(PostID) {
+        var captionTex_t = document.getElementById('caption_text_' + PostID);
+        var see_less_more = document.getElementById('read_more_less_' + PostID);
+
+        if (captionTex_t.style.whiteSpace == 'nowrap' || captionTex_t.style.whiteSpace === '') {
+            captionTex_t.style.whiteSpace = 'normal';
+            see_less_more.innerText = 'Read less';
+        } else {
+            captionTex_t.style.whiteSpace = 'nowrap';
+            see_less_more.innerText = 'Read more';
+        }
+    }
+   
+
+    //  FUNCTION TO SEND DELETE POST REQUEST TO SERVER
+    function deletePost(postId, post_owner_id, post_owner_name) {
+        var post_container = document.getElementById('post_container_'+postId)
+        if (confirm("Do you want to delete this post from your profile?")) {
+            $.ajax({
+                url: '/admin/delete_post',
+                method: 'post',
+                data: {
+                    PostID: postId,
+                    post_owner_id: post_owner_id,
+                    post_owner_name: post_owner_name
+                },
+                success: function (response) {
+                    if (response.deletePost) {
+                        socket.emit('deletePost', postId);
+                        //post_container.remove();
+                    }
+                },
+            });
+        }
+    }
+    
+
+    //  FUNCTION TO VIEW COMMENTS OF A POST
+    function viewComment(postID) {
+        
+        sessionStorage.setItem("POPUPaDmInReStOrE",postID)
+
+        var SeeComment_PopUp = document.getElementById('seecomment_popup_' + postID);
+        var overlay = document.createElement('div');
+        overlay.id = 'popup_overlay_see_comment';
+        overlay.className = 'popup_overlay';
+
+        // Append the overlay to the body when the popup is displayed
+        if (SeeComment_PopUp.style.display === 'none' || SeeComment_PopUp.style.display === '') {
+            document.body.appendChild(overlay);
+            SeeComment_PopUp.style.display = 'block';
+            document.body.style.overflow = "hidden";
+
+            // If the user tries to click the overlay, we will stop propagation to prevent closing the popup
+            overlay.addEventListener('click', function(event) {
+                event.stopPropagation();
+            });
+        }
+        document.getElementById('popup_textarea_' + postID).focus(); 
+    }
+
+
+    //   FUNCTION TO CLOSE COMMENT POPUP
+    function closePopupSeeComment(postID) {
+        sessionStorage.setItem("POPUPaDmInReStOrE",null)
+        var SeeComment_PopUp = document.getElementById('seecomment_popup_' + postID);
+        var overlay = document.getElementById('popup_overlay_see_comment');
+
+        if (SeeComment_PopUp) {
+            SeeComment_PopUp.style.display = 'none';
+            document.body.style.overflow = "auto";  // Restore body scrolling
+            if (overlay) {
+                overlay.remove();  // Remove the overlay
+            }
+        }
+    }
+
+
+    //   FUNCTION TO UPDATE POST AFTER EDITING POST THROUGH SOCKET
+    function updatePost(data) {
+        const { postID, locationInput, descriptionInput } = data;
+
+        // Find the post container by post ID
+        const postContainer = document.getElementById(`post_container_${postID}`);
+       
+        if (postContainer) {
+            // Update the description
+            const descriptionElement = postContainer.querySelector('.caption-post .caption-text');
+            if (descriptionElement) {
+                descriptionElement.textContent = descriptionInput;
+            }
+
+            // Find the post_head_name_location_div element
+            const nameLocationDiv = postContainer.querySelector('.post_head .post_head_name_location_div');
+
+            // Check if the post already has a location
+            let locationElement = postContainer.querySelector('.post_head .location-post');
+            const hasLocation = locationElement !== null;
+
+            if (locationInput.trim() === "") {
+                // If locationInput is empty and a location element exists, remove it
+                if (hasLocation) {
+                    locationElement.remove();
+                }
+            } else {
+                // If locationInput is not empty
+                if (!hasLocation) {
+                    // If the location element does not exist, create and add it
+                    locationElement = document.createElement('p');
+                    locationElement.className = 'location-post';
+                    nameLocationDiv.appendChild(locationElement);
+                }
+                // Update the location text
+                if (locationElement) {
+                    locationElement.textContent = locationInput;
+                }
+            }
+        } else {
+            console.error(`Post with ID ${postID} not found`);
+        }
+    }
+
+
+    function isAnyPopupOpen() {
+        var popups = document.querySelectorAll('.popupform_seecomment');
+        for (var i = 0; i < popups.length; i++) {
+            if (popups[i].style.display === 'block') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    //    FUNCTION TO DELETE COMMENT
+    function adddeleteComment(postID, commentID) {
+        if (confirm("Do you want to delete this comment?")) {           
+
+            $.ajax({
+                url: '/admin/delete_comment_post',
+                method: 'post',
+                data: {
+                    PoStId: postID,
+                    CoMmEnTiD: commentID,
+                },
+                success: function(response) {
+                    if (response.deleted_Comment) {
+                        //location.reload();
+                        socket.emit('deleteCOMMENT', {postID, commentID, MyUserID: MyUserID});
+                    }
+                },
+            });
+        }
+    }
+
+
+    //    FUNCTION TO DELETE COMMENT REPLY
+    function adddeleteCommentReply(postID, commentID, replyID) {
+        if (confirm("Do you want to delete this reply?")) {
+            $.ajax({
+                url: '/admin/delete_reply_comment_post',
+                method: 'post',
+                data: {
+                    PoStId: postID,
+                    CoMmEnTiD: commentID,
+                    RePlYiD: replyID,
+                },
+                success: function(response) {
+                    if (response.deleted_reply_Comment) {
+                        //location.reload();
+                        socket.emit('deleteCOMMENTreply', {postID, commentID, replyID, MyUserID: MyUserID});
+                    }
+                },
+            });
+        }
+    }
+
+
+    //    FUNCTION TO DELETE COMMENT BACKTRACER
+    function deleteCommentSupreme(postID, commentID,post_comment_owner_id) {
+        if (confirm("Only delete this if the user has requested to delete the comment trace. Do you still want to continue?")) {           
+
+            $.ajax({
+                url: '/admin/delete_comment_post_supreme',
+                method: 'post',
+                data: {
+                    PoStId: postID,
+                    CoMmEnTiD: commentID,
+                    post_comment_owner_id: post_comment_owner_id
+                },
+                success: function(response) {
+                    if (response.deleted_Comment_supreme) {
+                        //location.reload();
+                        socket.emit('deleteCOMMENT', {postID, commentID, MyUserID: MyUserID});
+                    }
+                },
+            });
+        }
+    }
+
+
+    //    FUNCTION TO DELETE COMMENT REPLY BACKTRACER
+    function deleteCommentReplySupremecy(postID, commentID, replyID, post_comment_reply_owner_id) {
+        if (confirm("Only delete this if the user has requested to delete the reply trace. Do you still want to continue?")) {
+            $.ajax({
+                url: '/admin/delete_reply_comment_post_supreme',
+                method: 'post',
+                data: {
+                    PoStId: postID,
+                    CoMmEnTiD: commentID,
+                    RePlYiD: replyID,
+                    post_comment_reply_owner_id: post_comment_reply_owner_id
+                },
+                success: function(response) {
+                    if (response.deleted_reply_Comment_supreme) {
+                        //location.reload();
+                        socket.emit('deleteCOMMENTreply', {postID, commentID, replyID, MyUserID: MyUserID});
+                    }
+                },
+            });
+        }
+    }
+
+
+   //  FUNCTION TO VIEW REPLIES INSIDE A COMMENT BOX
+    function view_replies(element, commentId, postID) {
+        const PostDiv = document.getElementById('post_container_' + postID);
+        const showRepliesDiv = PostDiv.querySelector('#show_replies_' + commentId);
+        if (showRepliesDiv.style.display === "none" || showRepliesDiv.style.display === "") {
+            showRepliesDiv.style.display = "block";
+            element.textContent = "hide replies";
+            sessionStorage.setItem('viewed_reply', commentId);
+        } else {
+            showRepliesDiv.style.display = "none";
+            element.textContent = "view replies";
+            sessionStorage.setItem('viewed_reply', "hided");
+        }
+    }
+
+
+    //  FUNCTION TO VIEW LIKES POPUP
+    function viewLikes(postID){
+        var overlay = document.createElement('div');
+        overlay.id = 'popup_overlay_view_likes';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay);
+        var view_like_pop = document.getElementById('view_likes_' + postID);
+        view_like_pop.style.display = 'block';
+        document.body.style.overflow = "hidden";
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    }
+
+
+    //  FUNCTION TO CLOSE POPUP FORM VIEW LIKES
+    function closePopupViewLikes(postID){
+        var view_like_pop = document.getElementById('view_likes_' + postID);
+        view_like_pop.style.display = 'none';
+        document.body.style.overflow = "auto";
+        var overlay = document.getElementById('popup_overlay_view_likes');
+        if (overlay) {
+            overlay.remove();  // Remove the overlay
+        }
+    }
+
+
+    // SCROLLING TO COMMENT INSIDE COMMENT BOX
+    function scrollTocomment(redirection_Id) {
+        const commentElement = document.getElementById('comment_content_' + redirection_Id);
+        if (commentElement) {
+            commentElement.scrollIntoView({ behavior: 'smooth' });
+            commentElement.classList.add('highlight');
+            setTimeout(() => {
+                commentElement.classList.remove('highlight');
+            }, 2000);
+        }
+    }
+
+
+    // SCROLLING TO REPLY INSID COMMENT BOX
+    function scrollToreply(redirection_Id) {
+        const replyElement = document.getElementById('reply_content_' + redirection_Id);
+        if (replyElement) {
+            replyElement.scrollIntoView({ behavior: 'smooth' });
+            replyElement.classList.add('highlight');
+            setTimeout(() => {
+                replyElement.classList.remove('highlight');
+            }, 2000);
+        }
+    }
+
+
+    //  ADDING OBSERVER TO ALL RENDERED POSTS AT BEGINNING
+    document.addEventListener("DOMContentLoaded", function() {
+        initializeObserver();
+    });
+
+
+    //  FUNCTION TO ADD OBSERVER TO EVERY IMAGE AND VIDEO TO ONLY CALL THE SOURCE WHEN REACHED
+    const initializeObserver = () => {
+        //console.log("INITIALIZE OBSERVER CALLED")
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const image = entry.target.querySelector('.post_image');
+                    if (image) {
+                        //console.log("IMAGE SOURCE CALLED");
+                        image.src = entry.target.dataset.src;
+                        observer.unobserve(entry.target);
+                    }
+                    const video = entry.target.querySelector('video');
+                    if (video) {
+                        //console.log("VIDEO SOURCE CALLED");
+                        const source = video.querySelector('source');
+                        source.src = entry.target.dataset.src;
+                        video.load();
+                        observer.unobserve(entry.target);
+                    }
+                }
+            });
+        });
+
+
+        const imageItems = document.querySelectorAll('.carousel-item');
+        imageItems.forEach(item => {
+            //console.log("IMAGE CALLED");
+            observer.observe(item);
+        });
+    
+        const videoItems = document.querySelectorAll('.video-item');
+        videoItems.forEach(item => {
+            //console.log("VIDEO CALLED");
+            observer.observe(item);
+        });
+    };
+
+
+    // FUNCTION TO LOAD MORE POSTS
+    var bottomReached = false;
+    var skip = 10; // Start after the initial 10 posts
+    var limit = 10; // Number of posts to fetch each time
+
+    async function checkScroll() {
+        var scrollPosition = window.scrollY;
+        var totalHeight = document.documentElement.scrollHeight;
+        var windowHeight = window.innerHeight;
+        var skip_Count = sessionStorage.getItem("OWN_SKIP_COUNT");
+        skip_Count = parseInt(skip_Count);
+        if (isNaN(skip_Count)) {
+            skip_Count = 10;
+        }
+        var distanceToBottom = totalHeight - (scrollPosition + windowHeight);
+        if (distanceToBottom <= 30 && !bottomReached) {
+            bottomReached = true;
+
+            let response;
+
+            if (skip_Count == limit) {
+                response = await $.ajax({
+                    url: '/admin/get_remaining_allposts',
+                    method: 'post',
+                    data: {
+                        skip: skip,
+                        limit: limit
+                    }
+                });
+            } else if (skip_Count != limit) {
+                limit = Math.min((parseInt(skip_Count) - 10), 30);
+                response = await $.ajax({
+                    url: '/admin/get_remaining_allposts',
+                    method: 'post',
+                    data: {
+                        skip: skip,
+                        limit: limit
+                    }
+                });
+            }
+
+           const newPosts = response.allPosts;
+            if (newPosts && newPosts.length > 0) {
+                // Show the loading indicator
+                $("#loadingIndicator").show();
+
+                newPosts.forEach(post => {
+                    $("#post_container").append(renderPost(post));
+                });
+
+                // Hide the loading indicator after all posts are rendered
+                $("#loadingIndicator").hide();
+
+                skip += limit; // Increment skip for the next batch
+                sessionStorage.setItem("OWN_SKIP_COUNT", skip);
+
+                // Now that rendering is complete, execute scrollToPost if needed
+                initializeObserver();
+                var SeePopUpOfComment = sessionStorage.getItem("POPUPaDmInReStOrE");
+                if (SeePopUpOfComment !== 'null') {
+                    scrollToPost(SeePopUpOfComment);
+                } 
+                /*else if (SeePopUpOfComment === 'null') {
+                    restoreScrollPosition();
+                }*/
+            } else {
+                // Hide the loading indicator if there are no new posts
+                $("#loadingIndicator").hide();
+            }
+        } else if (distanceToBottom > 30) {
+            bottomReached = false;
+        }
+    }
+    window.addEventListener('scroll', checkScroll);
+</script>
+
+
+<script>
+    // FUNCTION TO RENDER NEW POSTS
+    const renderPost = (post) => {
+        //console.log("POST : ",post)
+        const {
+            _id,
+            description,
+            location,
+            UserId,
+            Name,
+            readable_time,
+            ImageNames,
+            VideoNames,
+            liked,
+            likes,
+            comments,
+        } = post;
+
+        const darkModeEnabled = localStorage.getItem('darkModeARCCEC') === 'enabled';
+
+        // Helper function to check if a user liked a post
+        const userLikedPost = (likes) => {
+            if (!likes) return false;
+            for (const like of likes) {
+            }
+            return false;
+        };
+
+        // Helper function to format date
+        const formatDate = (timestamp) => {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        };
+
+        // Helper function to count array length
+        const arrayCount = (array) => {
+            return Array.isArray(array) ? array.length : 0;
+        };
+
+        // Helper function to get last reaction
+        const getLastReaction = (reactions) => {
+            if (reactions && reactions.length > 0) {
+                return reactions[reactions.length - 1].emoji;
+            }
+            return '';
+        };
+
+        // Helper function to render image carousel
+        const renderImageCarousel = (ImageNames, postId, userId) => {
+            if (!ImageNames || ImageNames.length === 0) return '';
+            return `
+                <div class="image-container-post">
+                    <div id="carouselExampleIndicators-${postId}" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            ${ImageNames.map((imageName, index) => `
+                                <li data-target="#carouselExampleIndicators-${postId}" data-slide-to="${index}" ${index === 0 ? 'class="active"' : ''}></li>
+                            `).join('')}
+                        </ol>
+                        <div class="carousel-inner">
+                            ${ImageNames.map((imageName, index) => `
+                                <div class="carousel-item ${index === 0 ? 'active' : ''}" data-src="/posts/${userId}/${postId}/${imageName}">
+                                    <img class="post_image" src="" alt="Image ${index + 1}">
+                                </div>
+                            `).join('')}
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators-${postId}" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators-${postId}" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+        };
+
+        // Helper function to render videos
+        const renderVideos = (VideoNames, postId, userId) => {
+            if (!VideoNames || VideoNames.length === 0) return '';
+            return `
+                <div class="video-container-post">
+                    ${VideoNames.map((videoName) => `
+                        <div class="video-item" data-src="/posts/${userId}/${postId}/${videoName}">
+                            <video class="post_video" controls autoplay loop muted>
+                                <source src="" type="video/mp4">
+                            </video>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        };
+
+        // Helper function to render likes popup
+    const renderLikesPopup = (likes, postId) => {
+            likes = likes || []; // Assign empty array if likes is null or undefined
+            
+            return `
+                <section>
+                    <div id="view_likes_${postId}" class="popupform_view_likes " style="display: none; background: ${darkModeEnabled ? 'linear-gradient(#fff, #606060)' : 'white'};">
+                        <div class="close_button">
+                            <span class="close_pop_up_view_likes" style="cursor: pointer;" onclick="closePopupViewLikes('${postId}')">&#10006;</span>
+                        </div>
+                        <div class="like_body_turnedon" style="padding: 10px;">
+                            ${likes.map((like) => `
+                                <div class="like_divider" data-user-id="${like.insertedId}">
+                                    <div class="user-circle">
+                                        <a style="text-decoration: none;cursor:pointer;" href="javascript:void(0)" onclick="viewProfile('${like.insertedId}')">
+                                            <img class="user-image profileImageAlternate" src="/user-images/${like.insertedId}.jpg" alt="User Image" draggable="false" ondragstart="return false;" oncontextmenu="return false;">
+                                        </a>
+                                    </div>
+                                    <a style="text-decoration: none;" href="javascript:void(0)" onclick="viewProfile('${like.insertedId}')">
+                                        <p class="p_in_like_body_turnedon" style="font-weight:bold;margin-bottom:0px;color:black;cursor:pointer;">${like.Name}</p>
+                                    </a>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+            `;
+        };
+
+
+        const renderCommentsPopup = (comments, postId) => {
+            comments = comments || []; // Assign empty array if comments is null or undefined
+            
+            return `
+                <div id="seecomment_popup_${postId}" 
+                class="popupform_seecomment right_color_box" 
+                style="display: none; 
+                        background: ${darkModeEnabled 
+                            ? 'linear-gradient(#fff, #606060), url(/images/logo_transparent1.png)'
+                            : 'white url(/images/logo_transparent1.png)'}; 
+                        background-size: 135% auto; 
+                        background-position: center bottom 45%; 
+                        background-repeat: no-repeat;">
+                    <span id="close_pop_up_${postId}" class="close_pop_up" style="cursor: pointer;" onclick="closePopupSeeComment('${postId}')">&#10006;</span>
+                    <div class="comments_of_post">
+                        ${comments.map(comment => `
+                            <div class="commentsss" id="comment_${comment.comment_id}">
+                                <div class="commenter_detail">
+                                    <div class="user-circle">
+                                        <a style="text-decoration: none;" href="javascript:void(0)" onclick="viewProfile('${comment.comment_owner_id}')" >
+                                            <img class="user-image profileImageAlternate" src="/user-images/${comment.comment_owner_id}.jpg" alt="User Image" draggable="false" ondragstart="return false;" oncontextmenu="return false;">
+                                        </a>
+                                    </div>
+                                    <div class="user_name_container">
+                                        <div class="user-name">${comment.comment_owner_name}</div>
+                                    </div>
+                                </div>
+                                <div class="comment_content" id="comment_content_${comment.comment_id}">
+                                    ${comment.editstatus ? `<p class="comment_p_actual_rep edita_status">( edited )</p>` : ''}
+                                    <p class="comment_p" style="${comment.del_com_stat ? 'font-size: 11px; font-style: italic; color: red;' : ''}">${comment.Comment_data}</p>                        
+                                </div>
+                                <div class="comment_actions">
+                                    <div class="time_controller">
+                                        ${!comment.del_com_stat ? `
+                                            <p class="comment_delete_button" onclick="adddeleteComment('${postId}', '${comment.comment_id}')"><i class="fas fa-trash"></i></p>
+                                        ` : ''}
+                                        ${comment.del_com_stat || comment.del_st_admin ? `
+                                            <p class="comment_delete_button" onclick="deleteCommentSupreme('${postId}', '${comment.comment_id}','${comment.comment_owner_id}')"><i class="fas fa-trash"></i></p>
+                                            <p class="comment_del_time">${comment.del_time}</p>
+                                        ` : ''} 
+                                        <p class="comment_time">${comment.time}</p>
+                                    </div>
+                                </div> 
+                                <div class="view_replies_of_comment">
+                                    <p class="view_reply_para" onclick="view_replies(this, '${comment.comment_id}', '${postId}')">view replies</p>
+                                </div>
+                                <div id="show_replies_${comment.comment_id}" class="show_replies" style="display: none;">
+                                    ${(comment.replies || []).map(reply => `
+                                        <div class="each_reply_comment" id="comment_reply_${reply.reply_id}">
+                                            <div class="replier_detail">
+                                                <div class="user-circle">
+                                                    <a style="text-decoration: none;" href="javascript:void(0)" onclick="viewProfile('${reply.Reply_owner_id}')">
+                                                        <img class="user-image profileImageAlternate" src="/user-images/${reply.Reply_owner_id}.jpg" alt="User Image" draggable="false" ondragstart="return false;" oncontextmenu="return false;">
+                                                    </a>
+                                                </div>
+                                                <div class="user_name_container">
+                                                    <div class="user-name">${reply.Reply_owner_name}</div>
+                                                </div>
+                                            </div>
+                                        <div class="reply_content" id="reply_content_${reply.reply_id}">
+                                                ${reply.Redirection_Status === 'REPLYOFREPLY' ? `<p class="comment_p_actual_rep" onclick="scrollToreply('${reply.Redirection_ID}')">@ ${reply.Comment_owner_name}</p>` : ''}
+                                                ${reply.Redirection_Status === 'REPLYOFCOMMENT' ? `<p class="comment_p_actual_rep" onclick="scrollTocomment('${reply.Redirection_ID}')">@ ${reply.Comment_owner_name}</p>` : ''}
+                                                ${reply.editreplystatus ? `<p class="comment_p_actual_rep edita_status">( edited )</p>` : ''}
+                                                <p class="comment_p" style="${reply.del_rep_stat ? 'font-size: 10px; font-style: italic; color: red;' : ''}">${reply.Reply_content}</p>
+                                            </div>
+                                            <div class="reply_actions">
+                                                <div class="time_controller">
+                                                    ${!reply.del_rep_stat ? `
+                                                        <p class="comment_delete_button" onclick="adddeleteCommentReply('${postId}', '${comment.comment_id}', '${reply.reply_id}')"><i class="fas fa-trash"></i></p>
+                                                    ` : ''}
+                                                    ${reply.del_rep_stat || reply.del_st_admin? `
+                                                        <p class="comment_delete_button" onclick="deleteCommentReplySupremecy('${postId}', '${comment.comment_id}', '${reply.reply_id}', '${reply.Reply_owner_id}')"><i class="fas fa-trash"></i></p> 
+                                                        <p class="comment_del_time">${reply.del_time}</p>
+                                                    ` : ''}
+                                                    <p class="comment_time">${reply.time_comment}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        };
+
+
+        // Rendering the post HTML
+        return `
+            <div class="container" id="post_container_${_id}">
+                <div class="post-container">
+                    <div class="post_head">
+                        <a href="javascript:void(0)" onclick="viewProfile('${UserId}')" style="text-decoration: none;">
+                            <div class="post_head_image">
+                                <img class="rounded_circle_post_head_image profileImageAlternate" src="/user-images/${UserId}.jpg" alt="Card image cap" draggable="false" ondragstart="return false;" oncontextmenu="return false;">
+                            </div>
+                        </a>
+                        <a href="javascript:void(0)" onclick="viewProfile('${UserId}')" style="text-decoration: none;color:black">
+                            <div class="post_head_name_location_div">
+                                <h6 class="post_head_name">${Name}</h6>
+                                ${location ? `<p id="post_o_w_n_location" class="location-post">${location}</p>` : ''}
+                            </div>
+                        </a>
+                        <p class="post_read_time drop_dop_nav3" style="color: ${darkModeEnabled ? 'white' : 'gray'};">${readable_time}</p>
+                    </div>
+                    <div class="post_middle">
+                        ${renderImageCarousel(ImageNames, _id, UserId)}
+                        ${renderVideos(VideoNames, _id, UserId)}
+                    </div>
+                    <div class="post_tail">
+                        <div class="like_comment_container">
+                            <div class="comment-container">
+                                <a class="nav-link" onclick="viewComment('${_id}')"><i class="fas fa-comment-dots comment_button_icon" style="cursor: pointer;color:rgb(14, 12, 12)"></i></a>
+                            </div>
+                            <div class="comment-container" style="margin-left: 10px;">
+                                <p class="nav-link view_likes_para" style="cursor: pointer;" onclick="viewLikes('${_id}')"><i class="fa-solid fa-eye"></i></p>
+                            </div>
+                            <div class="comment-container" style="margin-left: 10px;">
+                                <a href="javascript:void(0)" onclick="deletePost('${_id}')"  class="delete_button btn "><i class="fas fa-trash"></i></a>
+                            </div>
+                        </div>
+                        
+                        ${renderLikesPopup(likes, _id)}
+                        ${renderCommentsPopup(comments, _id)}
+
+                        <div class="caption-post">
+                            <p id="caption_text_${_id}" class="caption-text">${description}</p>
+                            <p id="read_more_less_${_id}" class="read-more" onclick="toggleReadMore('${_id}')">Read more</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    };
+</script>
+
+<script>
+    //   FUNCTION TO SAVE SCROLLL POSITION
+    function saveScrollPosition() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        sessionStorage.setItem("postChatOwn", scrollTop);
+    }
+
+
+    //  OPTIMIZED CODE TO AVOID SCROLLING POSITION EACH AND EVERY TIME WE SCROLL
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
+
+
+    // FUNCTION TO RESTORE SCROLL POSITION 
+    function restoreScrollPosition() {
+        //console.log("RESTORE FUNCTION CALLED");
+        const scrollPosition = sessionStorage.getItem("postChatOwn");
+        if (scrollPosition) {
+            window.scrollTo(0, scrollPosition);
+        }
+    }
+
+
+     //   FUNCTON TO SCROLL TO POST WHEN ANY COMMENT BOX IS OPENED  WHILE RELOADING, DISPLAY REPLIES IF OPENED BEFORE RELOADING
+    function scrollToPost(PostI_D) {
+        const postElement = document.getElementById('post_container_' + PostI_D);
+        if (postElement) {
+            postElement.scrollIntoView({ behavior: 'smooth' });
+            const CommentElement = document.getElementById('seecomment_popup_' + PostI_D); // SELECTING POPUP OF SPECIFIC POST
+            var overlay = document.createElement('div');
+            overlay.id = 'popup_overlay_see_comment'; 
+            overlay.className = 'popup_overlay';
+            if (CommentElement) {
+                CommentElement.style.display = "block";
+                document.body.appendChild(overlay);
+                document.body.style.overflow = "hidden";
+                overlay.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                });
+                const opened_reply_view = sessionStorage.getItem("viewed_reply");
+                if(opened_reply_view !== "hided"){
+                    const comment_Element = postElement.querySelector('#comment_' + opened_reply_view)  //  SELECTING COMMENT FROM THAT POPUP
+                    const showRepliesDiv = comment_Element.querySelector('#show_replies_' + opened_reply_view);
+                    const show_hide_reply_para_selector = comment_Element.querySelector('.view_reply_para');
+                    showRepliesDiv.style.display = "block"; 
+                    show_hide_reply_para_selector.textContent = "hide replies";
+                }
+            }
+        } else {
+            checkScroll(); // If postElement is not found, trigger checkScroll again
+        }
+    }
+
+
+    //   SAVING SCROLL POSITION WITH A DEBOUNCE EVERY TIME SCROLLED THROUGH PAGE
+    document.addEventListener("DOMContentLoaded", function() {
+        window.addEventListener("scroll", debounce(saveScrollPosition, 200));
+
+        /*var SeePopUpOfComment = sessionStorage.getItem("POPUPaDmInReStOrE");
+        console.log("SEE COMMENT POP STAT : ", SeePopUpOfComment);
+        if (SeePopUpOfComment != null) {
+            scrollToPost(SeePopUpOfComment); // Trigger scrollToPost initially
+        }*/
+    });
+
+
+    function viewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/admin-view-profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+</script>
+

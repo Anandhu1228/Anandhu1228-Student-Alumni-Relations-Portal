@@ -1,0 +1,479 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+    body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .btn_view_edit_job{
+        width: 90px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 10px;
+        transition: background-color 0.3s ease;
+    }
+    .btn_view_edit_job_delete{
+        margin-left: 10px;
+    }
+
+    .btn_view_edit_job_request{
+        margin-left: 10px;
+        width: 150px;
+    }
+
+    .btn_view_edit_job:hover{
+        background-color:  rgb(123, 180, 230);
+        color: rgb(38, 82, 164);
+    }
+
+    .jobsssdata{
+        margin-top: 50px; 
+        margin-bottom: 50px;
+        background-color: rgba(226, 229, 230, 0.8);
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.6);
+        border-radius: 15px;
+        display:flex;
+        flex-direction: row;
+        align-items: center;
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    .jobss_datas{
+        margin:10px;
+        max-width: 510px;
+    }
+
+    .job_image_data{
+        object-fit: contain; 
+        border-radius: 10px; 
+        max-width: 500px;
+        margin-left: 60px;
+    }
+
+    .labelled_job_data{
+        font-weight: 500;
+        overflow: auto; 
+        word-wrap: break-word;
+    }
+
+    @media (max-width: 1200px) {
+        .jobss_datas{
+            max-width: 350px;
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .jobsssdata{
+            flex-direction: column;
+        }
+        .job_image_data{
+            margin-left: 10px;
+            margin-bottom: 20px;
+        }
+    }
+
+    @media (max-width: 766px) {
+        .job_image_data{
+            margin-left: 1px;
+        }
+    }
+
+    @media (max-width: 530px) {
+        .job_image_data{
+            max-width: 400px;
+        }
+    }
+
+    @media (max-width: 430px) {
+        .job_image_data{
+            max-width: 350px;
+        }
+        .btn_view_edit_job{
+            width: 90px;
+            font-weight: 500;
+            padding: 8px;
+        }
+        .btn_view_edit_job_edit{
+            width: 80px;
+        }
+        .btn_view_edit_job_request{
+            margin-left: 7px;
+            width: 130px;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .job_image_data{
+            max-width: 320px;
+        }
+    }
+
+    @media (max-width: 397px) {
+        .jobss_datas{
+            padding:8px;
+            max-width: 300px;
+        }
+    }
+
+    #loading-indicator{
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        z-index: 1000;
+    }
+
+    #loading-indicator p{
+        margin: 10px 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    #loading-indicator .spinner{
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    } 
+    
+</style>
+
+<section class="container" style="padding-top: 80px; padding-bottom:30px;">
+    {{#each jobs}}
+    <div class="jobsssdata" id="job_{{this._id}}">
+        <div class="jobss_datas">
+            <h6><strong>Company Name</strong></h6>
+            <p class="card-text labelled_job_data">{{this.CompanyName}}</p>
+            {{#if this.CompanyDescription}}
+            <h6><strong>Company Description</strong></h6>
+            <p class="card-text labelled_job_data">{{this.CompanyDescription}}</p>
+            {{/if}}
+            <h6><strong>Job Role</strong></h6>
+            <p class="card-text labelled_job_data">{{this.Jobrole}}</p><br>
+            {{#if this.jobDescription}}
+            <h6><strong>Job Description</strong></h6>
+            <p class="card-text labelled_job_data">{{this.jobDescription}}</p><br>
+            {{/if}}
+            <h6><strong>Eligibility</strong></h6>
+            <p class="card-text labelled_job_data">{{this.Eligibility}}</p>
+            <div class="button-container">
+                <a href="javascript:void(0)" onclick="edit_admin_posted_job('{{this._id}}')" class="btn btn_view_edit_job btn_view_edit_job_edit darkcolorchanger2">Edit</a>
+                <a href="javascript:void(0)"  class="btn btn_view_edit_job btn_view_edit_job_delete darkcolorchanger2" onclick="deleteAdminJob('{{this._id}}')">Delete</a>
+                <a href="javascript:void(0)" onclick="view_admin_posted_job_request('{{this._id}}')"  class="btn btn_view_edit_job btn_view_edit_job_request darkcolorchanger2">view requests</a>
+            </div>  
+        </div>
+        {{#if this.hasImage}}
+            <div>
+                <img class="job_image_data" src="/job-images/{{this._id}}.jpg" alt="No image available">   
+            </div>
+        {{/if}}
+    </div>
+    {{/each}}
+    <div id="new_mess_container">
+        {{!-- This is where new messages will be appended --}}
+    </div>
+    <div id="loadingIndicator" style="display:none; text-align: center; margin-top: -40px;">
+        <p style="font-weight: bold;">Loading.........</p>
+    </div>
+</section>
+<div id="loading-indicator">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+</div>
+
+<script>
+
+    sessionStorage.setItem("limiterjobAdmin", '{{limit}}');
+
+    function deleteAdminJob(jobId) {
+        if (confirm("Do you want to delete this Job from the Portal?")) {
+            var del_cont = document.getElementById("job_"+jobId)
+            $.ajax({
+            url: '/admin/delete_admin_job_form_portal',
+            method: 'post',
+            data: {
+                JoB: jobId,
+            },
+            success: function (response) {
+                if (response.deleteJob) {
+                    del_cont.remove()
+                }
+            },
+            });
+        }
+    }
+
+
+    function edit_admin_posted_job(jobID) {
+        console.log("ID : ",jobID)
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/edit_admin_job';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'jobID';
+        input.value = jobID;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+    function view_admin_posted_job_request(jobID) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/view_admin_job_requests';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'jobID';
+        input.value = jobID;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+    window.onload = function() {
+        let bottomReached = false;
+        let initialLoad = true; // Flag to track initial load
+        const limit = 10;
+        let skip = parseInt(sessionStorage.getItem('limiterjobAdmin')) || 0; // Initialize skip variable
+
+        async function checkScroll() {
+            const scrollPosition = window.scrollY; // Current scroll position
+            const windowHeight = window.innerHeight; // Height of the viewport
+            const documentHeight = document.documentElement.scrollHeight; // Total scrollable height of the document
+
+            if (initialLoad) {
+                initialLoad = false;
+                return;
+            }
+
+            // Check if the user has scrolled near the bottom
+            if ((scrollPosition + windowHeight >= documentHeight - 30) && !bottomReached) {
+                bottomReached = true;
+
+                // Show the loading indicator
+                $("#loadingIndicator").show();
+                showLoadingIndicator();
+
+                let response = await $.ajax({
+                    url: "/admin/load_more_admin_posted_jobs",
+                    method: 'post',
+                    data: {
+                        skip: skip,
+                        limit: limit
+                    }
+                });
+
+                if (response.success) {
+                    const nem_job_s = response.jobs;
+                    if (nem_job_s && nem_job_s.length > 0) {
+                        skip += limit; // Update skip value
+                        sessionStorage.setItem('limiterjobAdmin', skip);
+
+                        nem_job_s.forEach(job_s => {
+                            // Append each job to the existing posts container
+                            $("#new_mess_container").append(generateJobCard(job_s));
+                        });
+
+                        // Hide the loading indicator
+                        $("#loadingIndicator").hide();
+                        $('body').css('overflow', 'auto');
+                    } else {
+                        // Hide the loading indicator if no more jobs
+                        $("#loadingIndicator").hide();
+                        $('body').css('overflow', 'auto');
+                    }
+                } else {
+                    // Hide the loading indicator on error
+                    $("#loadingIndicator").hide();
+                    $('body').css('overflow', 'auto');
+                }
+            } else if (scrollPosition + windowHeight < documentHeight - 30) {
+                bottomReached = false;
+            }
+        }
+
+        // Listen for scroll events on the window
+        window.addEventListener('scroll', checkScroll);
+    };
+
+
+    function showLoadingIndicator() {
+        $('#loading-indicator').show();
+        $('body').css('overflow', 'hidden');
+    }
+
+
+    function hideLoadingIndicator() {
+        $('#loading-indicator').hide();
+        $('body').css('overflow', 'auto');
+    }
+
+
+    function generateJobCard(jobData) {
+        // Create main container div
+        const jobCard = document.createElement('div');
+        jobCard.className = 'jobsssdata';
+        jobCard.id = "job_"+jobData._id
+
+        // Create inner content div
+        const jobContent = document.createElement('div');
+        jobContent.className = 'jobss_datas';
+
+        // Add Company Name
+        const companyNameTitle = document.createElement('h6');
+        companyNameTitle.innerHTML = '<strong>Company Name</strong>';
+        jobContent.appendChild(companyNameTitle);
+
+        const companyName = document.createElement('p');
+        companyName.className = 'card-text labelled_job_data';
+        companyName.textContent = jobData.CompanyName;
+        jobContent.appendChild(companyName);
+
+        // Add Company Description if exists
+        if (jobData.CompanyDescription) {
+            const companyDescriptionTitle = document.createElement('h6');
+            companyDescriptionTitle.innerHTML = '<strong>Company Description</strong>';
+            jobContent.appendChild(companyDescriptionTitle);
+
+            const companyDescription = document.createElement('p');
+            companyDescription.className = 'card-text labelled_job_data';
+            companyDescription.textContent = jobData.CompanyDescription;
+            jobContent.appendChild(companyDescription);
+        }
+
+        // Add Job Role
+        const jobRoleTitle = document.createElement('h6');
+        jobRoleTitle.innerHTML = '<strong>Job Role</strong>';
+        jobContent.appendChild(jobRoleTitle);
+
+        const jobRole = document.createElement('p');
+        jobRole.className = 'card-text labelled_job_data';
+        jobRole.textContent = jobData.Jobrole;
+        jobContent.appendChild(jobRole);
+        jobContent.appendChild(document.createElement('br'));
+
+        // Add Job Description if exists
+        if (jobData.jobDescription) {
+            const jobDescriptionTitle = document.createElement('h6');
+            jobDescriptionTitle.innerHTML = '<strong>Job Description</strong>';
+            jobContent.appendChild(jobDescriptionTitle);
+
+            const jobDescription = document.createElement('p');
+            jobDescription.className = 'card-text labelled_job_data';
+            jobDescription.textContent = jobData.jobDescription;
+            jobContent.appendChild(jobDescription);
+            jobContent.appendChild(document.createElement('br'));
+        }
+
+        // Add Eligibility
+        const eligibilityTitle = document.createElement('h6');
+        eligibilityTitle.innerHTML = '<strong>Eligibility</strong>';
+        jobContent.appendChild(eligibilityTitle);
+
+        const eligibility = document.createElement('p');
+        eligibility.className = 'card-text labelled_job_data';
+        eligibility.textContent = jobData.Eligibility;
+        jobContent.appendChild(eligibility);
+
+        // Add buttons
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'button-container';
+
+        const editButton = document.createElement('a');
+        editButton.href = 'javascript:void(0)';
+        editButton.className = 'btn btn_view_edit_job btn_view_edit_job_edit darkcolorchanger2';
+        editButton.textContent = 'Edit';
+        editButton.onclick = function () {
+            edit_admin_posted_job(jobData._id);
+        };
+        buttonContainer.appendChild(editButton);
+
+        const deleteButton = document.createElement('a');
+        deleteButton.href = 'javascript:void(0)';
+        deleteButton.className = 'btn btn_view_edit_job btn_view_edit_job_delete darkcolorchanger2';
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = function () {
+            deleteAdminJob(jobData._id);
+        };
+        buttonContainer.appendChild(deleteButton);
+
+        const viewRequestsButton = document.createElement('a');
+        viewRequestsButton.href = 'javascript:void(0)';
+        viewRequestsButton.className = 'btn btn_view_edit_job btn_view_edit_job_request darkcolorchanger2';
+        viewRequestsButton.textContent = 'view requests';
+        viewRequestsButton.onclick = function () {
+            view_admin_posted_job_request(jobData._id);
+        };
+        buttonContainer.appendChild(viewRequestsButton);
+
+        jobContent.appendChild(buttonContainer);
+
+        // Append content div to main container
+        jobCard.appendChild(jobContent);
+
+        // Add Image if exists
+        if (jobData.hasImage) {
+            const imageContainer = document.createElement('div');
+
+            const image = document.createElement('img');
+            image.className = 'job_image_data';
+            image.src = `/job-images/${jobData._id}.jpg`;
+            image.alt = 'No image available';
+
+            imageContainer.appendChild(image);
+            jobCard.appendChild(imageContainer);
+        }
+
+        return jobCard;
+    }   
+
+</script>

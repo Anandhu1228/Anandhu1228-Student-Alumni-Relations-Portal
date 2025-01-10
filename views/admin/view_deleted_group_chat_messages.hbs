@@ -1,0 +1,1356 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Keep the body from scrolling */
+    }
+
+    #chat-container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh; /* Ensure chat-container takes full viewport height */
+        padding: 20px;
+        padding-top: 120px;
+        padding-bottom: 0px;
+        border: none;
+        overflow: hidden; /* Prevent scrolling on chat-container itself */
+    }
+
+     body {
+        background-image: url('/images/logo2.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    #chat-messages {
+        flex-grow: 1; /* Let this section take up the available space */
+        overflow-y: auto; /* Allow scrolling inside this section */
+        height: auto;
+        padding-top: 10px;
+        position: relative;
+    }
+
+    @media (max-width: 1350px) {
+        #chat-container {
+            padding-top: 110px;
+        }
+    }
+
+    @media (max-width: 1250px) {
+        #chat-container {
+            padding-top: 100px;
+        }
+    }
+
+    @media (max-width: 550px) {
+        #chat-container {
+            padding-top: 90px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .message {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 10px;
+        position: relative;
+        border: none;
+        width: 95%;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: background-color 0.5s ease, box-shadow 0.3s ease;
+        background-color: #e8e6e6;
+        max-width: 900px;
+        margin-right: 10px;
+        border-radius: 0px 20px 20px 20px;
+    }
+
+    .message:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .user-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+        position: absolute;
+        top: 10px;
+    }
+
+    .user-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .user-name {
+        position: absolute;
+        top: 10px;
+        left: 70px;
+        font-weight: 600;
+        color: rgb(78, 74, 74);
+    }
+
+    .reply {
+        background-color: #e0f7fa;
+        padding: 5px;
+        margin-left: 90px;
+        margin-bottom: 0px;
+        margin-top: 30px;
+        font-size: 0.9em;
+        border-radius: 5px;
+        flex-grow: 1;
+        max-height: 50px;
+        overflow: auto; 
+        word-wrap: break-word;
+        cursor: pointer;
+    }
+
+    .replytext{
+        overflow: auto; 
+        word-wrap: break-word;
+        display: inline;
+        font-size: 13px;
+    }
+
+    .repliedTO{
+        display: inline;
+        font-weight: 600;
+    }
+
+    .actual-message {
+        margin-top: 40px;
+        margin-bottom: 10px;
+        margin-left: 70px;
+        max-width: 80%;
+        word-wrap: break-word;
+        font-weight: 600;
+    }
+
+    .message_content_class {
+        overflow: hidden;
+        max-height: calc(1.5em * 6); /* Limit to 6 lines */
+        transition: max-height 0.3s ease; /* Smooth transition for expanding/collapsing */
+        width: 109%;
+    }
+
+    .message_content_class.expanded {
+        max-height: none; /* Allow full expansion */
+    }
+
+    .show_more {
+        color: #5e6063;
+        cursor: pointer;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .show_more.active {
+        display: inline;
+    }
+
+    #message-input {
+        width: 80%;
+        min-height: 60px;
+        height: auto;
+        resize: vertical;
+        border: 2px solid #ffffff;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: #ddd;
+        box-shadow: 2px 2px 4px #dcdcdc;
+        font-size: 16px;
+        max-height: 500px;
+        margin-bottom: 0px;
+    }
+
+    #imageCarousel {
+        text-align: center;
+        margin: auto;
+    }
+
+    .grid-container {
+        margin-top: 30px;
+        margin-left: 30px;
+        margin-right: 1px;
+        margin-bottom: 1px;
+        display: grid;
+        background-color: none;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        max-width: 400px;
+        max-height: 400px;
+        overflow: hidden;
+        padding: 8px;
+        border-radius: 10px;
+        position: relative;
+    }
+
+    .grid-item {
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .preview {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .see-more-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        opacity: 0.7; /* Updated opacity value */
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .see-more-button {
+        background: none;
+        border: none;
+        color: blue;
+        cursor: pointer;
+        color: black;
+        font-weight: 600;
+    }
+
+    .grid-item:hover .see-more-overlay {
+        opacity: 1;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .extra-items .grid-item:nth-child(n+4) {
+      display: none;
+    }
+
+    .extra-items .grid-item.see-more-item {
+      display: block;
+    }
+
+    .close_pop_up{
+        font-size: 20px;
+    }
+
+    .close_pop_up:hover{
+        color: red;
+    }
+
+    .delete_time{
+        font-size: 10px; 
+        position:absolute;
+        right: 15px;
+        bottom:5px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color:red;
+    }
+
+    .post_time{
+        color:rgb(78, 74, 74);
+        font-size: 10px; 
+        position:absolute;
+        right: 15px;
+        bottom:-5px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .popupform_seemore {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+        z-index: 2001;
+        min-width: 40%;
+        width: auto;
+        max-height: 90vh; /* Ensures the popup does not exceed 90% of the viewport height */
+        overflow: hidden; /* Hides overflow content */
+        border-radius: 20px;
+        box-shadow: 0 4px 30px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #seemore_popup_form {
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        padding: 50px;
+        padding-top: 20px;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 135% auto;
+        background-position: center bottom 45%;
+        background-repeat: no-repeat;
+        z-index: 2001;
+        overflow-y: auto; /* Adds vertical scroll */
+        max-height: 90vh; /* Constrains the popup's height to 80% of the viewport height */
+    }
+
+    video.preview {
+        pointer-events: none;
+    }
+
+    @media (max-width: 750px) {
+        .actual-message {
+            margin-right: 50px;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .actual-message {
+            margin-right: 40px;
+            font-size: 15px;
+        }
+    }
+
+    @media (max-width: 550px) {
+        .actual-message {
+            margin-right: 30px;
+        }
+    }
+
+    @media (max-width: 460px) {
+        .actual-message {
+            margin-right: 20px;
+            font-size: 14px;
+            margin-left: 45px;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .actual-message {
+            margin-right: 15px;
+        }
+    }
+
+    @media (max-width: 1550px) {
+        .popupform_seemore{
+            min-width: 50%;
+        }
+    }
+
+    @media (max-width: 1250px) {
+        .popupform_seemore {
+            min-width: 54%;
+        }
+    }
+
+    @media (max-width: 1050px) {
+        .popupform_seemore {
+            min-width: 58%;
+        }
+    }
+
+    @media (max-width: 850px) {
+        .popupform_seemore {
+            min-width: 62%;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .popupform_seemore {
+            min-width: 90%;
+        }
+        #seemore_popup_form {
+            padding: 30px;
+            padding-top: 10px;
+        }
+        .reply{
+            margin-left: 70px;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .post_time,.delete_time{
+            font-size: 9px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .see-more-button {
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 391px) {
+        .see-more-button {
+            font-size: 12px;
+        }
+    }
+
+    @media (max-height: 500px) {
+        .message{
+            margin-right: 2px;
+        }
+    }
+
+     @media (max-width: 500px) {
+        .replytext{
+            font-size: 12px;
+            font-weight: 600;
+        }
+    }
+
+    .reaction_div{
+        position:absolute;
+        right: 30px;
+        cursor: pointer;
+        bottom: -11px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        z-index: 2;
+    }
+
+    .reaction_thumb{
+        margin-bottom: 0px;
+        font-size: 18px;
+        margin-right: 10px;
+    }
+
+    .count_reaction{
+        font-weight: bold;
+        font-size: 15px;
+        margin-right: 1px;
+        margin-left: 10px;
+    }
+
+    .popupform_view_reactions{
+        display: none;
+        padding: 20px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        background-color: #ffffff;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+        z-index: 2001;
+        min-width: 30%;
+        max-width: 90%;
+        max-height: 65vh;
+        min-height: 20vh;
+        height: auto;
+        overflow-y: auto;
+        border-radius: 20px;
+        box-shadow: 0 4px 30px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 1270px) {
+        .popupform_view_reactions{
+            min-width: 60%;
+            max-width: 90%;
+        }
+    }
+
+    @media (max-width: 950px) {
+        .popupform_view_reactions{
+            min-width: 80%;
+            max-width: 90%;
+        }
+    }
+
+    .close_pop_up_view_reactions{
+        font-size: 15px;
+        z-index: 105;
+        position: absolute; 
+        top:5px; 
+        right:10px;
+        cursor: pointer;
+    }
+
+    .close_pop_up_view_reactions:hover{
+        color: red;
+    }
+
+    .no-scroll {
+        overflow: hidden;
+    }
+
+    .user_circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+    }
+
+    .user_image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .p_emoji{
+        margin-bottom: 0px;
+        display: flex;
+        margin-left:auto;
+        margin-right:60px;
+    }
+
+    .p_in_like_body_turnedon{
+        font-weight:bold;
+        margin-bottom:0px;
+        color:black;
+        cursor:pointer;
+    }
+
+    .reaction_divider{
+        display: flex;
+        align-items:center; 
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 1420px) {
+        .p_emoji{
+            margin-right: 10px;
+        }
+    }
+
+    @media (max-width: 850px) {
+        .p_in_like_body_turnedon{
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 450px) {
+        .p_emoji{
+            margin-right:9px;
+        }
+        .p_in_like_body_turnedon{
+            font-size: 12px;
+        }
+        .popupform_view_reactions{
+            padding: 15px;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .user-name {
+            top: 10px;
+            left: 50px;
+        }
+        #message-input {
+            height: 25px;
+            font-size: 14px;
+        }
+        .actual-message{
+            margin-left: 40px;
+        }
+    }
+
+    @media (max-width: 500px){
+        .repliedTO{
+            font-size: 12px;
+        }
+    }
+
+    @media (max-width: 450px) {
+        .user-name {
+            font-size: 12px;
+        }
+        .reply{
+            margin-left: 40px;
+        }
+        .actual-message{
+            margin-left: 22px;
+            margin-right: 0px;
+            font-size: 13px;
+        }
+        .replytext{
+            font-size: 10px;
+        }
+        #message-input {
+            height: 15px;
+            font-size: 13px;
+        }
+    }
+
+    .profileImageAlternate {
+        -webkit-user-drag: none;  /* Safari */
+        user-drag: none;           /* Non-prefixed version */
+    }
+
+    .reaction_hidden_time {
+        font-size: 10px;
+        font-weight: bold;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        width: 100%;
+        margin-bottom: 0px;
+        color: #696b6d;
+    }
+
+    .show_admin_del_notif_icon{
+        position:absolute;
+        top:3px;
+        right:10px;
+        color:red;
+    }
+
+    @media (max-width: 450px){
+        .reaction_thumb{
+            font-size: 15px;
+        }
+
+        .count_reaction{
+            font-size: 12px;
+        }
+    }
+
+    .popup_overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        z-index: 999;  /* Layer above the main content */
+        cursor: not-allowed;  /* Optional: Change cursor to indicate no interaction */
+    }
+    
+</style>
+
+
+<section >
+<div id="chat-container">
+    <div id="chat-messages">
+
+        <div id="new_mess_container">
+            {{!-- This is where new messages will be appended --}}
+        </div>
+        <div id="loadingIndicator" style="display:none; text-align: center;">
+            <p>Loading...</p>
+        </div>
+
+        {{#each messages}}
+            <div class="message " id="{{this.MessageId}}">
+                {{#if this.deletion_status}}
+                    <div class="show_admin_del_notif_icon">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                {{/if}}
+                <div class="user-circle">
+                    <a style="text-decoration: none;" {{#compare this.SENDBY '===' "USER"}} href="javascript:void(0)" onclick="adminViewProfile('{{this.userId}}')" {{/compare}}>
+                        <img class="user-image profileImageAlternate" draggable="false" src="/user-images/{{this.userId}}.jpg" alt="User Image">
+                    </a>
+                </div>
+                <div style="display: flex; flex-direction: column; width: 100%;">
+                    {{#compare this.status "===" "textmessage"}}
+                        {{#compare this.actualMessageId "!=" ""}}
+                            <div class="reply darkcolorchanger3" style="margin-bottom: -20px;"><span class="repliedTO">replied to : </span><p class="replytext">{{this.actualMessageContent}}</p></div>
+                        {{/compare}}
+                    {{/compare}}
+                    
+                    <a style="text-decoration: none;color:black" {{#compare this.SENDBY '===' "USER"}} href="javascript:void(0)" onclick="adminViewProfile('{{this.userId}}')" {{/compare}}>
+                        <div class="user-name">{{this.Name}}</div>
+                    </a>
+
+                    {{#compare this.status "===" "multimedia"}}
+                        <div class="grid-container extra-items" style="margin-bottom: -20px;">
+                            {{#if this.ImageNames}}
+                                {{#each this.ImageNames}}
+                                    <div class="grid-item image-item" data-src="/group-media/{{../userId}}/{{../MessageId}}/{{this}}" onclick="SEEMOREPOPUP_Specific('{{this}}','{{../this.MessageId}}','{{../this.userId}}','IMAGE')">
+                                        <img class="preview" alt="Image {{@index}}">
+                                    </div>
+                                {{/each}}
+                            {{/if}}
+
+                            {{#if this.VideoNames}}
+                                {{#each this.VideoNames}}
+                                    <div class="grid-item video-item" data-src="/group-media/{{../userId}}/{{../MessageId}}/{{this}}" onclick="SEEMOREPOPUP_Specific('{{this}}','{{../this.MessageId}}','{{../this.userId}}','VIDEO')">
+                                        <video class="preview" controls>
+                                            <source src="" type="video/mp4">
+                                        </video>
+                                    </div>
+                                {{/each}}
+                            {{/if}}
+
+                            <!-- Display "See more" only if there are more than three items -->
+                            {{#if (gt (add (length this.ImageNames) (length this.VideoNames)) 3)}}
+                                <div class="grid-item see-more-item hidden">
+                                    <div class="see-more-overlay">
+                                        <button class="see-more-button" 
+                                            onclick="SEEMOREPOPUP('{{ImageNames}}', '{{VideoNames}}','{{this.MessageId}}','{{this.userId}}')">See more
+                                        </button>
+                                    </div>
+                                </div>
+                            {{/if}}
+                        </div>
+                    {{/compare}}
+
+                    <div class="actual-message" id="message_content_{{this.MessageId}}">                        
+                        <div class="message_content_class" id="Message_Content_ID_{{this.MessageId}}">
+                            {{{this.messageContent}}}
+                        </div>
+                        <a href="javascript:void(0)" class="show_more" id="show_more_{{this.MessageId}}" onclick="toggleMessageContent('{{this.MessageId}}')">Show More</a>
+                    </div> 
+
+                    <p class="post_time">{{this.formattedTime}}</p>
+                    <p class="delete_time">{{this.formatteddeletedtime}}</p>
+                </div>
+
+                {{#if this.reactions}}
+                    <div class="reaction_div" onclick="view_mess_reactionss('{{this.MessageId}}')">
+                        <div class="reaction_thumb"><span class="count_reaction">{{this.reactions.length}}</span>{{getLastReaction this.reactions}}</div>
+                    </div>
+                {{/if}}
+
+                <section>
+                    <div id="view_reactions_{{this.MessageId}}" class="popupform_view_reactions right_color_box">
+                        <p class="reaction_hidden_time">{{this.formattedTime}}</p>                                                
+                        <p class="close_pop_up_view_reactions" onclick="closePopupViewReactions('{{this.MessageId}}')">&#10006;</p>
+                        <div class="Reaction_body_turnedon" style="margin-top: 50px;">
+                            {{#each this.reactions}}
+                                <div class="reaction_divider">
+                                    <div class="user_circle" style="display: flex;">
+                                        <a style="text-decoration: none;cursor:pointer;" {{#compare this.user_Name "!==" "Admin"}} href="javascript:void(0)" onclick="adminViewProfile('{{this.user_id}}')"{{/compare}}>
+                                            <img class="user_image profileImageAlternate" src="/user-images/{{this.user_id}}.jpg" alt="User Image" draggable="false">
+                                        </a>
+                                    </div>
+                                    <a style="text-decoration: none;display: flex;" {{#compare this.user_Name "!==" "Admin"}} href="javascript:void(0)" onclick="adminViewProfile('{{this.user_id}}')"{{/compare}}>
+                                        <p class="p_in_like_body_turnedon">{{this.user_Name}}</p>
+                                    </a>
+                                    <p class="p_emoji">{{this.emoji}}</p>
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        {{/each}}
+    </div>
+</div>
+
+<div id="seemore_popup" class="popupform_seemore" style="display: none;">
+    <div style="width:100%" class="rows">
+        <div id="seemore_popup_form" class="right_color_box" style="width:100%;">
+            <div style="text-align: right; margin-right: 10px;">
+                <span class="close_pop_up" style="cursor: pointer;" onclick="closePopupSeeMore()">&#10006;</span>
+            </div>
+            <div id="media_content" style="text-align: center;"></div>
+                <!-- Container for images and videos -->
+        </div>
+    </div>
+</div>
+
+</section>
+ 
+ <script>
+
+    sessionStorage.setItem("limiterAdminDeleteGroupChat", '{{limit}}');
+    var skip = sessionStorage.getItem('limiterAdminDeleteGroupChat');
+    const chatContainer = document.getElementById("chat-messages"); 
+
+
+    function scrollToBottom() {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+
+    function SEEMOREPOPUP(imageNames, videoNames, messageID, userId) {
+        const mediaContent = document.getElementById('media_content');
+        
+        // Clear previous content
+        mediaContent.innerHTML = '';
+        
+        // Append images if imageNames is not empty
+        if (imageNames) {
+            const images = imageNames.split(',');
+            images.forEach(image => {
+                const imgElement = document.createElement('img');
+                imgElement.src = `/group-media/${userId}/${messageID}/${image}`;
+                imgElement.style.maxWidth = '100%'; // Adjust this as needed
+                imgElement.style.margin = '10px 0'; // Adjust spacing as needed
+                mediaContent.appendChild(imgElement);
+            });
+        }
+        
+        // Append videos if videoNames is not empty
+        if (videoNames) {
+            const videos = videoNames.split(',');
+            videos.forEach(video => {
+                const videoElement = document.createElement('video');
+                const sourceElement = document.createElement('source');
+                sourceElement.src = `/group-media/${userId}/${messageID}/${video}`;
+                sourceElement.type = 'video/mp4';
+                videoElement.controls = true;
+                videoElement.style.maxWidth = '100%'; // Adjust this as needed
+                videoElement.style.margin = '10px 0'; // Adjust spacing as needed
+                videoElement.appendChild(sourceElement);
+                mediaContent.appendChild(videoElement);
+            });
+        }
+        
+        var Seemore_PopUp = document.getElementById('seemore_popup');
+        var overlay = document.createElement('div');
+        overlay.id = 'see_more_popup_overlay';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay); 
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+        chatContainer.style.overflow = "hidden";
+        Seemore_PopUp.style.display =  'block';
+    }
+    
+
+    function closePopupSeeMore() {
+        document.getElementById("seemore_popup").style.display = "none";
+        var overlay = document.getElementById('see_more_popup_overlay')
+        if (overlay) {
+            overlay.remove();
+        }
+        chatContainer.style.overflow = "auto";
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const image = entry.target.querySelector('.preview');
+                    if (image) {
+                        //console.log("IMAGE SOURCE CALLED")
+                        image.src = image.parentElement.dataset.src;
+                        observer.unobserve(entry.target);
+                    }
+                    const video = entry.target.querySelector('video');
+                    if (video) {
+                        const source = video.querySelector('source');
+                        //console.log("VIDEO SOURCE CALLED")
+                        source.src = entry.target.dataset.src;
+                        video.load();
+                        observer.unobserve(entry.target);
+                    }
+                }
+            });
+        });
+
+        const imageItems = document.querySelectorAll('.image-item');
+        imageItems.forEach(item => {
+            //console.log("IMAGE CALLED")
+            observer.observe(item);
+        });
+
+        const videoItems = document.querySelectorAll('.video-item');
+        videoItems.forEach(item => {
+            //console.log("VIDEO CALLED")
+            observer.observe(item);
+        });
+
+    });
+
+    function SEEMOREPOPUP_Specific(multiContent, messageID, userId, type) {
+        const mediaContent = document.getElementById('media_content');
+        mediaContent.innerHTML = '';
+
+        if (type === "IMAGE") {
+            const imgElement = document.createElement('img');
+            imgElement.src = `/group-media/${userId}/${messageID}/${multiContent}`;
+            imgElement.style.maxWidth = '100%'; // Adjust this as needed
+            imgElement.style.margin = '10px 0'; // Adjust spacing as needed
+            mediaContent.appendChild(imgElement);
+        } else if (type === "VIDEO") {
+            const videoElement = document.createElement('video');
+            const sourceElement = document.createElement('source');
+            sourceElement.src = `/group-media/${userId}/${messageID}/${multiContent}`;
+            sourceElement.type = 'video/mp4';
+            videoElement.controls = true;
+            videoElement.style.maxWidth = '100%'; // Adjust this as needed
+            videoElement.style.margin = '10px 0'; // Adjust spacing as needed
+            videoElement.appendChild(sourceElement);
+            mediaContent.appendChild(videoElement);
+        }
+        var Seemore_PopUp = document.getElementById('seemore_popup');
+        var overlay = document.createElement('div');
+        overlay.id = 'see_more_popup_overlay';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay); 
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+        chatContainer.style.overflow = "hidden";
+        Seemore_PopUp.style.display =  'block';
+    }
+
+
+    function adminViewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/admin-view-profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+    window.onload = function() {
+        var topReached = false;
+        var limit = 10;
+        var initialLoad = true; // Flag to track initial load
+        var skip = parseInt(sessionStorage.getItem('limiterAdminDeleteGroupChat')) || 0;
+
+        async function checkScroll() {
+            
+            var scrollPosition = chatContainer.scrollTop;
+
+            if (initialLoad) {
+                initialLoad = false;
+                return;
+            }
+
+            if (scrollPosition <= 30 && !topReached) {
+                topReached = true;
+
+                let response = await $.ajax({
+                    url: '/admin/get_remaining_deleted_group_chat_messages',
+                    method: 'post',
+                    data: {
+                        skip: skip,
+                        limit: limit
+                    }
+                });
+
+                if(response.success){ 
+                    const nem_delmes_S = response.messages;
+                    if(nem_delmes_S && nem_delmes_S.length > 0){
+                        skip = parseInt(skip) + limit;
+                        sessionStorage.setItem('limiterAdminDeleteGroupChat', skip);
+                    
+                        $("#loadingIndicator").show();
+                        
+                        nem_delmes_S.forEach(delmes_s => {
+                            // Append each post to the existing posts container
+                            $("#new_mess_container").prepend(displayDelMess(delmes_s));
+                        });
+                        
+                        $("#loadingIndicator").hide();
+                    
+                    }
+                } else {
+                    $("#loadingIndicator").hide();
+                }
+            } else if (scrollPosition > 30) {
+                topReached = false;
+            }
+        }
+
+        // Listen for scroll events on the chatContainer container instead of the window
+        chatContainer.addEventListener('scroll', checkScroll);
+    }
+
+
+    function view_mess_reactionss(Message_ID){
+        var view_reactions_pop = document.getElementById('view_reactions_' + Message_ID);
+        var overlay = document.createElement('div');
+        overlay.id = 'view_reactions_overlay';
+        overlay.className = 'popup_overlay';
+        document.body.appendChild(overlay); 
+        view_reactions_pop.style.display = 'block';
+        chatContainer.style.overflow = "hidden";
+        overlay.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    }
+
+
+    function closePopupViewReactions(Message_ID){
+        var view_reactions_pop = document.getElementById('view_reactions_' + Message_ID);
+        view_reactions_pop.style.display = 'none';
+        chatContainer.style.overflow = "auto";
+        var overlay = document.getElementById('view_reactions_overlay')
+        if (overlay) {
+            overlay.remove();
+        }
+    }
+
+
+    function getLastReaction(reactions) {
+        if (reactions && reactions.length > 0) {
+            return reactions[reactions.length - 1].emoji;
+        }
+        return '';
+    }
+
+
+    function toggleMessageContent(messageId) {
+        const content = document.getElementById(`Message_Content_ID_${messageId}`);
+        const showMoreLink = document.getElementById(`show_more_${messageId}`);
+
+        // Check if the content is currently expanded or not
+        if (content.classList.contains('expanded')) {
+            // Collapse the content
+            content.classList.remove('expanded');
+            content.style.maxHeight = 'calc(1.5em * 6)'; // Limit to 6 lines
+            showMoreLink.innerText = 'Show More';
+        } else {
+            // Expand the content
+            content.classList.add('expanded');
+            content.style.maxHeight = content.scrollHeight + 'px'; // Expand to fit the entire content
+            showMoreLink.innerText = 'Show Less';
+        }
+    }
+
+
+    // Function to check if the content exceeds 6 lines and enable the "Show More" link
+    function checkContentOverflow(messageId) {
+        const content = document.getElementById(`Message_Content_ID_${messageId}`);
+        const showMoreLink = document.getElementById(`show_more_${messageId}`);
+        
+        // If the content's scrollHeight exceeds the set max-height (i.e. 6 lines), show the "Show More" link
+        if (content.scrollHeight > content.clientHeight) {
+            showMoreLink.classList.add('active');
+        }
+    }
+
+
+    // After the page loads, check each mentor's content to see if it exceeds 6 lines
+    document.querySelectorAll('.actual-message').forEach((mentorElement) => {
+        const messageId = mentorElement.id.replace('message_content_', '');
+        checkContentOverflow(messageId);
+    });
+
+
+    function displayDelMess(data) {
+
+        const  darkEnabler = localStorage.getItem('darkModeARCCEC') === 'enabled';
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('message');
+
+        if (data.deletion_status){
+            const deladminicon = document.createElement('div');
+            deladminicon.classList.add('show_admin_del_notif_icon');
+            deladminicon.innerHTML = `<i class="fa-solid fa-fire"></i>`;
+            messageContainer.appendChild(deladminicon);
+        }
+
+        const userCircle = document.createElement('div');
+        userCircle.classList.add('user-circle');
+
+        const userImageLink = document.createElement('a');
+        userImageLink.style.textDecoration = 'none';
+        userImageLink.style.cursor = 'pointer';
+        if (data.SENDBY === 'USER') {
+            userImageLink.setAttribute('onclick', `adminViewProfile('${data.userId}')`);
+        }
+
+        const userImage = document.createElement('img');
+        userImage.classList.add('user-image');
+        userImage.src = `/user-images/${data.userId}.jpg`;
+        userImage.alt = 'User Image';
+
+        userImage.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Prevent dragging
+        userImage.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+
+        // Profile image fallback handling
+        fetch(userImage.src)
+            .then(response => {
+                if (!response.ok) {
+                    userImage.src = '/user-images/user.png';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching image:', error);
+                userImage.src = '/user-images/user.png';
+            });
+
+        userImageLink.appendChild(userImage);
+        userCircle.appendChild(userImageLink);
+
+        const messageContentContainer = document.createElement('div');
+        messageContentContainer.style.display = 'flex';
+        messageContentContainer.style.flexDirection = 'column';
+        messageContentContainer.style.width = '100%';
+
+        if (data.actualMessageId != "" && data.actualMessageContent) {
+
+            // Create the div container for the reply
+            const replyDiv = document.createElement('div');
+            replyDiv.classList.add('reply','darkcolorchanger3');
+            replyDiv.style.marginBottom = '-20px';
+            if(darkEnabler){
+                replyDiv.style.backgroundColor = 'black';
+                replyDiv.style.color = 'white';
+            }
+
+            // Create the 'repliedTO' span element
+            const repliedToSpan = document.createElement('span');
+            repliedToSpan.classList.add('repliedTO');
+            repliedToSpan.textContent = 'replied to : ';
+
+            // Create the 'replytext' p element
+            const replyTextP = document.createElement('p');
+            replyTextP.classList.add('replytext');
+            replyTextP.textContent = data.actualMessageContent; // Set the actual message content
+
+            // Append the 'repliedTO' span and 'replytext' p elements to the replyDiv
+            replyDiv.appendChild(repliedToSpan);
+            replyDiv.appendChild(replyTextP);
+
+            // Append the entire replyDiv to the message content container
+            messageContentContainer.appendChild(replyDiv);
+        }
+
+        const userNameLink = document.createElement('a');
+        userNameLink.style.textDecoration = 'none';
+        userNameLink.style.color = 'black';
+        userNameLink.style.cursor = 'pointer';
+        if (data.SENDBY === 'USER') {
+            userNameLink.setAttribute('onclick', `adminViewProfile('${data.userId}')`);
+        }
+
+        const userName = document.createElement('div');
+        userName.classList.add('user-name');
+        userName.textContent = data.Name;
+
+        userNameLink.appendChild(userName);
+        messageContentContainer.appendChild(userNameLink);
+
+        const actualMessage = document.createElement('div');
+        actualMessage.classList.add('actual-message');
+        
+        actualMessage.id = `message_content_${data.MessageId}`;  // Add ID to match the updated structure
+
+        // Create the inner message content div
+        const messageContentDiv = document.createElement('div');
+        messageContentDiv.classList.add('message_content_class');
+        messageContentDiv.id = `Message_Content_ID_${data.MessageId}`;
+        messageContentDiv.innerHTML = data.messageContent;  // Set the message content
+
+        actualMessage.appendChild(messageContentDiv);  // Append message content to the actual message div
+
+        // Create the "Show More" link
+        const showMoreLink = document.createElement('a');
+        showMoreLink.href = 'javascript:void(0)';
+        showMoreLink.classList.add('show_more');
+        showMoreLink.id = `show_more_${data.MessageId}`;
+        showMoreLink.textContent = 'Show More';
+        showMoreLink.onclick = function() { toggleMessageContent(data.MessageId); };
+
+        actualMessage.appendChild(showMoreLink);
+
+        const deletetimestampPara = document.createElement('p');
+        deletetimestampPara.classList.add('delete_time');
+        deletetimestampPara.textContent = data.formatteddeletedtime;
+        messageContentContainer.appendChild(deletetimestampPara);
+
+        const timestampPara = document.createElement('p');
+        timestampPara.classList.add('post_time');
+        timestampPara.textContent = data.formattedTime;
+        messageContentContainer.appendChild(timestampPara);
+
+
+        // Adding multimedia content
+        if (data.status === 'multimedia') {
+            const gridContainer = document.createElement('div');
+            gridContainer.classList.add('grid-container', 'extra-items');
+            gridContainer.style.marginBottom = '-20px';
+
+            if (data.ImageNames && data.ImageNames.length > 0) {
+                data.ImageNames.forEach(image => {
+                    const imageItem = document.createElement('div');
+                    imageItem.classList.add('grid-item', 'image-item');
+                    imageItem.dataset.src = `/group-media/${data.userId}/${data.MessageId}/${image}`;
+                    imageItem.setAttribute('onclick', `SEEMOREPOPUP_Specific('${image}', '${data.MessageId}', '${data.userId}', 'IMAGE')`);
+
+                    const img = document.createElement('img');
+                    img.classList.add('preview');
+                    img.src = `/group-media/${data.userId}/${data.MessageId}/${image}`;
+                    img.alt = 'Image';
+
+                    imageItem.appendChild(img);
+                    gridContainer.appendChild(imageItem);
+                });
+            }
+
+            if (data.VideoNames && data.VideoNames.length > 0) {
+                data.VideoNames.forEach(video => {
+                    const videoItem = document.createElement('div');
+                    videoItem.classList.add('grid-item', 'video-item');
+                    videoItem.dataset.src = `/group-media/${data.userId}/${data.MessageId}/${video}`;
+                    videoItem.setAttribute('onclick', `SEEMOREPOPUP_Specific('${video}', '${data.MessageId}', '${data.userId}', 'VIDEO')`);
+
+                    const videoElement = document.createElement('video');
+                    videoElement.classList.add('preview');
+                    videoElement.controls = true;
+
+                    const source = document.createElement('source');
+                    source.src = `/group-media/${data.userId}/${data.MessageId}/${video}`;
+                    source.type = 'video/mp4';
+
+                    videoElement.appendChild(source);
+                    videoItem.appendChild(videoElement);
+                    gridContainer.appendChild(videoItem);
+                });
+            }
+
+            if (data.ImageNames && data.VideoNames && (data.ImageNames.length + data.VideoNames.length > 3)) {
+                const seeMoreItem = document.createElement('div');
+                seeMoreItem.classList.add('grid-item', 'see-more-item', 'hidden');
+
+                const seeMoreOverlay = document.createElement('div');
+                seeMoreOverlay.classList.add('see-more-overlay');
+
+                const seeMoreButton = document.createElement('button');
+                seeMoreButton.classList.add('see-more-button');
+                seeMoreButton.setAttribute('onclick', `SEEMOREPOPUP('${data.ImageNames}', '${data.VideoNames}', '${data.MessageId}', '${data.userId}')`);
+                seeMoreButton.textContent = 'See more';
+
+                seeMoreOverlay.appendChild(seeMoreButton);
+                seeMoreItem.appendChild(seeMoreOverlay);
+                gridContainer.appendChild(seeMoreItem);
+            }
+
+            messageContentContainer.appendChild(gridContainer);
+        }
+
+        if (data.reactions && data.reactions.length > 0) {
+            const reactionDiv = document.createElement('div');
+            reactionDiv.classList.add('reaction_div');
+            reactionDiv.setAttribute('onclick', `view_mess_reactionss('${data.MessageId}')`);
+
+            const reactionThumb = document.createElement('div');
+            reactionThumb.classList.add('reaction_thumb');
+            reactionThumb.innerHTML = `<span class="count_reaction">${data.reactions.length}</span> ${getLastReaction(data.reactions)}`;
+            reactionDiv.appendChild(reactionThumb);
+            messageContainer.appendChild(reactionDiv);
+
+            const viewReactionsPopup = document.createElement('div');
+            viewReactionsPopup.id = `view_reactions_${data.MessageId}`;
+            viewReactionsPopup.classList.add('popupform_view_reactions');
+            if(darkEnabler){
+                viewReactionsPopup.style.background = 'linear-gradient(#fff, #606060)';
+                viewReactionsPopup.classList.add('right_color_box');
+            }
+
+            const reactionTime = document.createElement('p');
+            reactionTime.classList.add('reaction_hidden_time');
+            reactionTime.textContent = data.formattedTime;
+            viewReactionsPopup.appendChild(reactionTime);
+
+            const closeBtn = document.createElement('p');
+            closeBtn.classList.add('close_pop_up_view_reactions');
+            closeBtn.innerHTML = '&#10006;';
+            closeBtn.onclick = function() {
+                closePopupViewReactions(data.MessageId);
+            };
+            viewReactionsPopup.appendChild(closeBtn);
+
+            const reactionBody = document.createElement('div');
+            reactionBody.classList.add('Reaction_body_turnedon');
+            reactionBody.style.marginTop = '50px';
+
+            data.reactions.forEach(reaction => {
+                const reactionDivider = document.createElement('div');
+                reactionDivider.classList.add('reaction_divider');
+
+                const userCircle = document.createElement('div');
+                userCircle.classList.add('user_circle');
+                userCircle.style.display = 'flex';
+                userCircle.innerHTML = `<a style="text-decoration: none;cursor:pointer;" href="javascript:void(0)" onclick="adminViewProfile('${reaction.user_id}')">
+                                            <img class="user_image profileImageAlternate" src="/user-images/${reaction.user_id}.jpg" alt="User Image" draggable="false">
+                                        </a>`;
+                reactionDivider.appendChild(userCircle);
+
+                const userNameLink = document.createElement('a');
+                userNameLink.style.textDecoration = 'none';
+                userNameLink.style.display = 'flex';
+                userNameLink.href = 'javascript:void(0)';
+                userNameLink.setAttribute('onclick', `adminViewProfile('${reaction.user_id}')`);
+                userNameLink.innerHTML = `<p class="p_in_like_body_turnedon">${reaction.user_Name}</p>`;
+                reactionDivider.appendChild(userNameLink);
+
+                const emojiText = document.createElement('p');
+                emojiText.classList.add('p_emoji');
+                emojiText.textContent = reaction.emoji;
+                reactionDivider.appendChild(emojiText);
+
+                reactionBody.appendChild(reactionDivider);
+            });
+
+            viewReactionsPopup.appendChild(reactionBody);
+
+            const profileImages = viewReactionsPopup.querySelectorAll('.profileImageAlternate');
+            profileImages.forEach(img => {
+                img.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                });
+                img.addEventListener('dragstart', function(e) {
+                    e.preventDefault();
+                });
+                img.onerror = function() {
+                    this.onerror = null;
+                    this.src = '/user-images/user.png';
+                };
+            });
+
+            document.body.appendChild(viewReactionsPopup);
+        }
+
+        messageContentContainer.appendChild(actualMessage);
+        messageContainer.appendChild(userCircle);
+        messageContainer.appendChild(messageContentContainer);
+
+        // Append to the correct container
+        const newMessContainer = document.getElementById('new_mess_container');
+        newMessContainer.prepend(messageContainer);
+        checkContentOverflow(data.MessageId);
+    }
+
+</script>

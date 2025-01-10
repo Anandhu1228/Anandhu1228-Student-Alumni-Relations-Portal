@@ -1,0 +1,473 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    .jobss{
+       background-color: rgba(255, 255, 255, 0.8);
+       width: 100%;margin-top: 50px;
+       margin-bottom: 50px;
+       border-radius: 20px;
+       border: none;
+       box-shadow: 0 0px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .request_button{
+        width: 100%;
+        padding: 10px;
+        border-radius: 20px;
+        background-color: rgb(19, 74, 129);
+        font-weight: 700;
+        text-decoration: none;
+        color: white;
+        transition:  background-color 0.3s ease;
+    }
+    .request_button:hover{
+        border-radius: 20px;
+        color: white;
+        background-color: rgb(255, 0, 0);
+    }
+
+    body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-color: aliceblue;
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .jobDetail{
+        font-weight: 500;
+    }
+
+    .profile_image_jobportal{
+        width: 50px;
+        border-radius: 50%;
+    }
+
+    .job_posted_name{
+        font-weight: bolder;
+    }
+
+    @media (max-width: 400px) {
+        .profile_image_jobportal{
+            width: 40px;
+            border-radius: 50%;
+        }
+        .job_posted_name{
+            font-weight: bolder;
+            font-size: 15px;
+        }
+    }
+
+    .profileImageAlternate {
+        -webkit-user-drag: none;  /* Safari */
+        user-drag: none;           /* Non-prefixed version */
+    }
+
+    #loading-indicator{
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        z-index: 1000;
+    }
+
+    #loading-indicator p{
+        margin: 10px 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    #loading-indicator .spinner{
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    } 
+    
+</style>
+
+<section class="container" style="padding-top: 80px;">
+    {{#each jobs}}
+        <div class="card jobss" id="job_{{this._id}}">
+
+            <img class="card-img-top" src="/job-images/{{this._id}}.jpg" alt="No image available">
+
+            <div class="card-body">
+
+                <h5 style="font-weight:bold;" class="card-title">Job Details</h5><br>
+
+                <h6><strong>Company Name</strong></h6>
+                <p class="card-text jobDetail">{{this.CompanyName}}</p>
+
+                {{#if this.CompanyDescription}}
+                    <h6><strong>Company Description</strong></h6>
+                    <p class="card-text jobDetail">{{this.CompanyDescription}}</p>
+                {{/if}}
+
+                <h6><strong>Job Role</strong></h6>
+                <p class="card-text jobDetail">{{this.Jobrole}}</p>
+
+                <h6><strong>Eligibility</strong></h6>
+                <p class="card-text jobDetail">{{this.Eligibility}}</p>
+
+                {{#if this.JobLink}}
+                    <a href="{{this.JobLink}}" class="btn btn-primary" style="margin-bottom:20px;">Apply</a>
+                {{/if}}
+
+                <h6 style=""><strong>Posted by : </strong></h6>
+                <div style="display: inline-block;padding:20px">
+                    {{#compare this.PostedBy "!==" "admin"}}
+                        <a href="javascript:void(0)" onclick="adminViewProfile('{{this.UserId}}')">
+                    {{/compare}}
+                        <img class="profile_image_jobportal profileImageAlternate" draggable="false" src="/user-images/{{this.UserId}}.jpg" alt="Card image cap" style="width: 50px;height: 50px;border-radius: 50%;object-fit:contain">
+                    {{#if this.PostedBy}}
+                    </a>
+                    {{/if}}
+                </div>
+
+                <div style="display: inline-block;">
+                    {{#compare this.PostedBy "!==" "admin"}}
+                        <a style="text-decoration: none;color:black;" href="javascript:void(0)" onclick="adminViewProfile('{{this.UserId}}')">
+                    {{/compare}}
+                        <p class="job_posted_name">{{this.Name}}</p>
+                    {{#if this.PostedBy}}
+                    </a>
+                    {{/if}}
+                </div>
+
+                <div style="display: flex;border-radius:20px;background-color:white;">
+                    <a  href="javascript:void(0)" onclick="deletejob_by_admin('{{this._id}}','{{this.UserId}}','{{this.Name}}')" class="btn  request_button darkcolorchanger2">Delete</a>
+                </div>
+
+            </div>
+        </div>
+    {{/each}}
+    <div id="new_mess_container">
+        {{!-- This is where new messages will be appended --}}
+    </div>
+    <div id="loadingIndicator" style="display:none; text-align: center; margin-top: -40px;">
+        <p style="font-weight: bold;">Loading.........</p>
+    </div>
+</section>
+<div id="loading-indicator">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+</div>
+
+<script>
+
+    sessionStorage.setItem("limiterjobAdminDelete", '{{limit}}');
+
+    function deletejob_by_admin(jobId,user_id,user_name) {
+        if (confirm("Do you want to delete this Job from the Portal?")) {
+            var del_cont = document.getElementById("job_"+jobId)
+            $.ajax({
+            url: '/admin/delete_job_form_portal_admin',
+            method: 'post',
+            data: {
+                JoB : jobId,
+                ProfilEID : user_id,
+                ProfileENAME : user_name
+            },
+            success: function (response) {
+                if (response.deleteJob) {
+                    del_cont.remove()
+                }
+            },
+            });
+        }
+    }
+
+
+    function sendCountOnUnload() {
+      const messageCount = document.querySelectorAll('.jobss').length;  
+
+        // Use navigator.sendBeacon for asynchronous data transmission during unload
+        const url = '/admin/send_jobCount_leave_jobportal_admin';
+        const body = JSON.stringify({ messageCount });
+        const blob = new Blob([body], { type: 'application/json' });
+
+        navigator.sendBeacon(url, blob);
+    }
+    window.addEventListener('beforeunload', sendCountOnUnload);
+
+
+    function adminViewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/admin-view-profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+    window.onload = function() {
+        let bottomReached = false;
+        let initialLoad = true; // Flag to track initial load
+        const limit = 10;
+        let skip = parseInt(sessionStorage.getItem('limiterjobAdminDelete')) || 0; // Initialize skip variable
+
+        async function checkScroll() {
+            const scrollPosition = window.scrollY; // Current scroll position
+            const windowHeight = window.innerHeight; // Height of the viewport
+            const documentHeight = document.documentElement.scrollHeight; // Total scrollable height of the document
+
+            if (initialLoad) {
+                initialLoad = false;
+                return;
+            }
+
+            // Check if the user has scrolled near the bottom
+            if ((scrollPosition + windowHeight >= documentHeight - 30) && !bottomReached) {
+                bottomReached = true;
+
+                // Show the loading indicator
+                $("#loadingIndicator").show();
+                showLoadingIndicator();
+
+                let response = await $.ajax({
+                    url: "/admin/load_more_jobs",
+                    method: 'post',
+                    data: {
+                        skip: skip,
+                        limit: limit
+                    }
+                });
+
+                if (response.success) {
+                    const nem_job_s = response.jobs;
+                    if (nem_job_s && nem_job_s.length > 0) {
+                        skip += limit; // Update skip value
+                        sessionStorage.setItem('limiterjobAdminDelete', skip);
+
+                        nem_job_s.forEach(job_s => {
+                            // Append each job to the existing posts container
+                            $("#new_mess_container").append(generateJobCardWithImage(job_s));
+                        });
+
+                        // Hide the loading indicator
+                        $("#loadingIndicator").hide();
+                        $('body').css('overflow', 'auto');
+                    } else {
+                        // Hide the loading indicator if no more jobs
+                        $("#loadingIndicator").hide();
+                        $('body').css('overflow', 'auto');
+                    }
+                } else {
+                    // Hide the loading indicator on error
+                    $("#loadingIndicator").hide();
+                    $('body').css('overflow', 'auto');
+                }
+            } else if (scrollPosition + windowHeight < documentHeight - 30) {
+                bottomReached = false;
+            }
+        }
+
+        // Listen for scroll events on the window
+        window.addEventListener('scroll', checkScroll);
+    };
+
+
+    function showLoadingIndicator() {
+        $('#loading-indicator').show();
+        $('body').css('overflow', 'hidden');
+    }
+
+
+    function hideLoadingIndicator() {
+        $('#loading-indicator').hide();
+        $('body').css('overflow', 'auto');
+    }
+
+
+    function generateJobCardWithImage(jobData) {
+        // Create main card container
+        const card = document.createElement('div');
+        card.className = 'card jobss';
+        card.id = "job_"+jobData._id
+
+        // Add image to the card
+        const image = document.createElement('img');
+        image.className = 'card-img-top';
+        image.src = `/job-images/${jobData._id}.jpg`;
+        image.alt = 'No image available';
+        card.appendChild(image);
+
+        // Create card body
+        const cardBody = document.createElement('div');
+        cardBody.className = 'card-body';
+
+        // Job Details Title
+        const jobDetailsTitle = document.createElement('h5');
+        jobDetailsTitle.style.fontWeight = 'bold';
+        jobDetailsTitle.className = 'card-title';
+        jobDetailsTitle.textContent = 'Job Details';
+        cardBody.appendChild(jobDetailsTitle);
+        cardBody.appendChild(document.createElement('br'));
+
+        // Add Company Name
+        const companyNameTitle = document.createElement('h6');
+        companyNameTitle.innerHTML = '<strong>Company Name</strong>';
+        cardBody.appendChild(companyNameTitle);
+
+        const companyName = document.createElement('p');
+        companyName.className = 'card-text jobDetail';
+        companyName.textContent = jobData.CompanyName;
+        cardBody.appendChild(companyName);
+
+        // Add Company Description if exists
+        if (jobData.CompanyDescription) {
+            const companyDescriptionTitle = document.createElement('h6');
+            companyDescriptionTitle.innerHTML = '<strong>Company Description</strong>';
+            cardBody.appendChild(companyDescriptionTitle);
+
+            const companyDescription = document.createElement('p');
+            companyDescription.className = 'card-text jobDetail';
+            companyDescription.textContent = jobData.CompanyDescription;
+            cardBody.appendChild(companyDescription);
+        }
+
+        // Add Job Role
+        const jobRoleTitle = document.createElement('h6');
+        jobRoleTitle.innerHTML = '<strong>Job Role</strong>';
+        cardBody.appendChild(jobRoleTitle);
+
+        const jobRole = document.createElement('p');
+        jobRole.className = 'card-text jobDetail';
+        jobRole.textContent = jobData.Jobrole;
+        cardBody.appendChild(jobRole);
+
+        // Add Eligibility
+        const eligibilityTitle = document.createElement('h6');
+        eligibilityTitle.innerHTML = '<strong>Eligibility</strong>';
+        cardBody.appendChild(eligibilityTitle);
+
+        const eligibility = document.createElement('p');
+        eligibility.className = 'card-text jobDetail';
+        eligibility.textContent = jobData.Eligibility;
+        cardBody.appendChild(eligibility);
+
+        // Add Apply Link if exists
+        if (jobData.JobLink) {
+            const applyLink = document.createElement('a');
+            applyLink.href = jobData.JobLink;
+            applyLink.className = 'btn btn-primary';
+            applyLink.style.marginBottom = '20px';
+            applyLink.textContent = 'Apply';
+            cardBody.appendChild(applyLink);
+        }
+
+        // Add Posted By Section
+        const postedByTitle = document.createElement('h6');
+        postedByTitle.style = '';
+        postedByTitle.innerHTML = '<strong>Posted by : </strong>';
+        cardBody.appendChild(postedByTitle);
+
+        const profileContainer = document.createElement('div');
+        profileContainer.style = 'display: inline-block;padding:20px';
+
+        const profileImage = document.createElement('img');
+        profileImage.className = 'profile_image_jobportal profileImageAlternate';
+        profileImage.draggable = false;
+        profileImage.src = `/user-images/${jobData.UserId}.jpg`;
+        profileImage.alt = 'Card image cap';
+        profileImage.style = 'width: 50px;height: 50px;border-radius: 50%;object-fit:contain';
+
+        if (jobData.PostedBy !== 'admin') {
+            const profileLink = document.createElement('a');
+            profileLink.href = 'javascript:void(0)';
+            profileLink.onclick = function () {
+                adminViewProfile(jobData.UserId);
+            };
+            profileLink.appendChild(profileImage);
+            profileContainer.appendChild(profileLink);
+        } else {
+            profileContainer.appendChild(profileImage);
+        }
+
+        cardBody.appendChild(profileContainer);
+
+        const profileNameContainer = document.createElement('div');
+        profileNameContainer.style = 'display: inline-block;';
+
+        const profileName = document.createElement('p');
+        profileName.className = 'job_posted_name';
+        profileName.textContent = jobData.Name;
+
+        if (jobData.PostedBy !== 'admin') {
+            const nameLink = document.createElement('a');
+            nameLink.style = 'text-decoration: none;color:black;';
+            nameLink.href = 'javascript:void(0)';
+            nameLink.onclick = function () {
+                adminViewProfile(jobData.UserId);
+            };
+            nameLink.appendChild(profileName);
+            profileNameContainer.appendChild(nameLink);
+        } else {
+            profileNameContainer.appendChild(profileName);
+        }
+
+        cardBody.appendChild(profileNameContainer);
+
+        // Add Delete Button
+        const deleteButtonContainer = document.createElement('div');
+        deleteButtonContainer.style = 'display: flex;border-radius:20px;background-color:white;';
+
+        const deleteButton = document.createElement('a');
+        deleteButton.href = 'javascript:void(0)';
+        deleteButton.className = 'btn request_button darkcolorchanger2';
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = function () {
+            deletejob_by_admin(jobData._id, jobData.UserId, jobData.Name);
+        };
+        deleteButtonContainer.appendChild(deleteButton);
+
+        cardBody.appendChild(deleteButtonContainer);
+
+        // Append card body to card
+        card.appendChild(cardBody);
+
+        return card;
+    }
+    
+</script>

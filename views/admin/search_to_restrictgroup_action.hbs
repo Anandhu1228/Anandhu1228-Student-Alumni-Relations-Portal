@@ -1,0 +1,383 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    body{
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 70% auto;
+        background-position: center bottom 55%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .input_box{
+        border-radius: 20px;
+        width: 100%;
+        padding: 20px;
+        font-weight: bold;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .input_box:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .search-container {
+      position: relative;
+      width: 100%;
+      margin-top: 30px;
+    }
+
+    .search-icon {
+        background-color: rgb(93, 138, 222);
+        color: #555;
+        width: 100%;
+        margin-top: 20px;
+        border-radius: 7px;
+        font-size: 18px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .search-icon:hover{
+        background-color: rgb(16, 73, 177);
+    }
+
+    .sender_heading{
+        text-align:left;
+        font-weight:600;
+        color:rgb(17, 77, 118);
+        font-size:20px;
+        margin-left:150px;
+    }
+
+    .all_namers_search{
+        font-weight: 600;
+        color: black;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .all_namers_search_name{
+        font-weight: 600;
+        color: black;
+        font-size: 16px;
+    }
+
+    .all_namers_search_status{
+        font-weight: 600;
+        font-size: 16px;
+        color: rgb(161, 94, 40);
+    }
+
+    .table_title{
+        padding: 6px;
+        text-align: center;
+    }
+
+    .table_title_name{
+        padding: 6px;
+    }
+
+    .table_title_status{
+        padding: 6px;
+    }
+
+    .moreAdvanceDD{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 9px;
+        transition: background-color 0.3s ease;
+    }
+
+    .moreAdvanceDD:hover{
+        background-color: rgb(123, 180, 230);
+        color: white;
+    }
+
+    .para_here{
+        font-weight: 500;
+    }
+
+    .showsearch_container{
+        margin-top: 100px;
+        margin-bottom:100px;
+    }
+
+    @media (max-width: 1200px) {
+        .sender_heading{
+            margin-left: 120px;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .sender_heading{
+            margin-left: 70px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .sender_heading{
+            margin-left: 47px;
+        }
+        .moreAdvanceDD{
+            font-size: 14px;
+            font-weight: 600;
+            padding: 7px;
+        }
+        .showsearch_container{
+            margin-top: 50px;
+            margin-bottom:50px;
+        }
+    }
+
+    @media (max-width: 676px) {
+        .sender_heading{
+            margin-left: 31px;
+        }
+    }
+
+    @media (max-width: 604px) {
+        .moreAdvanceDD{
+            font-size: 16px;
+            padding: 7px;
+        }
+    }
+
+    @media (max-width: 604px) {
+        .moreAdvanceDD{
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 460px) {
+        .sender_heading{
+            margin-left: 20px;
+        }
+    }
+
+    @media (max-width: 389px) {
+        .sender_heading{
+            margin-left: 10px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .all_namers_search{
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .all_namers_search_name{
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .all_namers_search_status{
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .table_title{
+            padding: 5px;
+            font-size: 15px;
+        }
+        .table_title_name{
+            padding: 5px;
+            font-size: 15px;
+        }
+        .table_title_status{
+            padding: 5px;
+            font-size: 15px;
+        }
+        .para_here{
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 604px) {
+        .search-icon {
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .moreAdvanceDD{
+            font-size: 16px;
+            padding: 7px;
+        }  
+    }
+
+    @media (max-width: 545px) {
+        .all_namers_search_name{
+            font-weight: 600;
+            color: black;
+            font-size: 14px;
+        }
+        .all_namers_search{
+            font-weight: 600;
+            color: black;
+            font-size: 14px;
+        }
+        .all_namers_search_status{
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .moreAdvanceDD{
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 460px) {
+        .search-icon {
+            font-size: 14px;
+            font-weight: 500;
+            padding: 5px;
+        }
+        .table_title{
+            padding: 6px;
+            font-size: 14px;
+        }
+        .table_title_name{
+            padding: 6px;
+            font-size: 14px;
+        }
+        .table_title_status{
+            padding: 6px;
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width:600px){
+        .input_box{
+            padding: 15px;
+        }
+    }
+
+    .profileImageAlternate {
+        -webkit-user-drag: none;
+        user-drag: none;
+    }
+
+    .inSearch{
+        color: aliceblue;
+    }
+
+    .showuser1{
+        margin-bottom: 20px;
+    }
+
+</style> 
+
+<section style="padding-top:180px">
+
+    {{#if has_sender_byid}}
+        <section class=" container" style="padding-top:50px;margin:auto;text-align:center;margin-bottom:50px;">
+            <p class="sender_heading darkcolorchanger1">SELECTED USER</p>
+            <table style="width:100%;border-collapse: collapse;">
+                <tr>
+                    <th class="table_title darkcolorchanger1">Profile Image</th>
+                    <th class="table_title_name darkcolorchanger1">Name</th>
+                    <th class="table_title_status darkcolorchanger1">Status</th>
+                    <th class="table_title darkcolorchanger1" >Show profile</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; text-align: center;">
+                        <img class="rounded-circle profileImageAlternate" draggable="false" src="/user-images/{{sender_detail._id}}.jpg" alt="Profile Image" style="width: 50px;height: 50px;border-radius: 50%;object-fit: contain;">
+                    </td>
+                    <td class="all_namers_search_name darkcolorchanger1">{{sender_detail.Name}}</td>
+                    <td class="all_namers_search_status drop_dop_nav3">{{sender_detail.Status}}</td>
+                    <td class="all_namers_search" >
+                        <a href="javascript:void(0)" onclick="adminViewProfile('{{sender_detail._id}}')" class="btn  moreAdvanceDD darkcolorchanger2">profile</a>
+                    </td>
+                </tr>
+            </table>
+        </section>
+    {{/if}}
+
+    {{#if showsearch}}
+        <section class=" container showsearch_container">
+            <div class="search-container" style="display: inline-block;">
+                <form action="/admin/restrict_groupchat_entry" method="post" enctype="multipart/form-data" onsubmit="return confirm('Do you want to restrict this user?');">
+                    <div style="margin-top: 30px;" class="form-group">
+                        <input required oninput="limitCharacters(this, 50);" type="hidden"  name="blocked_id" value="{{sender_detail._id}}">
+                        <button class="search-icon btn darkcolorchanger2" type="submit"><span class="inSearch ">Restrict</span></button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    {{/if}}
+
+</section>
+
+
+ <script>
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const changeViewBtn = document.querySelector('.change_view_btn');
+        const showuser1 = document.querySelector('.showuser1');
+        const showuser2 = document.querySelector('.showuser2');
+
+        changeViewBtn.addEventListener('click', function () {
+            // Toggle visibility of showuser1 and showuser2
+            if (showuser1.style.display === 'none') {
+                showuser1.style.display = 'block';
+                showuser2.style.display = 'none';
+            } else {
+                showuser1.style.display = 'none';
+                showuser2.style.display = 'block';
+            }
+        });
+    });
+
+
+    function resizeTextarea() {
+        var textarea = document.getElementById("reportDescription");
+        textarea.style.height = "auto";
+        textarea.style.height = (textarea.scrollHeight) + "px";
+    }
+
+
+    function adminViewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/admin-view-profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+    function limitCharacters(input, maxChars) {
+        if (input.value.length > maxChars) {
+            alert("You have reached the maximum allowed characters.");
+            input.value = input.value.substring(0, maxChars);
+        }
+    }
+    
+</script>

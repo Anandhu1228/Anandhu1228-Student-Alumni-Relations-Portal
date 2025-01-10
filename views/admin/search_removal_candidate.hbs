@@ -1,0 +1,471 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+     body {
+        background-color: #ffffff;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 80% auto;
+        background-position: center bottom 60%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+    }
+
+    .container{
+        margin-top: 50px;
+    }
+
+    .input_box{
+        border-radius: 20px;
+        width: 100%;
+        padding: 20px;
+        font-weight: bold;
+        border: none;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .input_box:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .search-container {
+        position: relative;
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    .search-icon {
+        position: absolute;
+        top: 50%;
+        background-color: rgb(93, 138, 222);
+        transform: translateY(-50%);
+        right: 15px;
+        color: #555;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .all_namers_search{
+        font-weight: 600;
+        color: black;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .all_namers_search_name{
+        font-weight: 600;
+        color: black;
+        font-size: 16px;
+    }
+
+    .all_namers_search_status{
+        font-weight: 600;
+        font-size: 16px;
+        color: rgb(161, 94, 40);
+    }
+
+    .moreAdvanceDD{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 9px;
+        transition: background-color 0.3s ease;
+    }
+
+    .moreAdvanceDD_delete_custom{
+        background-color: rgb(141, 38, 38);
+        color: white;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 9px;
+        transition: background-color 0.3s ease;
+    }
+
+    .moreAdvanceDD:hover{
+        background-color: rgb(123, 180, 230);
+        color: white;
+    }
+
+    .moreAdvanceDD_delete_custom:hover{
+        background-color: rgb(249, 0, 0);
+        color: white;
+    }
+
+    .moreAdvanceDD_custom{
+        background-color: rgb(93, 138, 222);
+        color: white;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 10px;
+        width: 100%;
+        padding: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .moreAdvanceDD_custom:hover{
+        background-color: rgb(123, 180, 230);
+        color: white;
+    }
+
+    .moreAdvanceDD_custom_delete{
+        background-color: rgb(154, 12, 12);
+        color: white;
+        justify-content: center;
+        font-size: 16px;
+        width: 100%;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .moreAdvanceDD_custom_delete:hover{
+        background-color: rgb(255, 0, 0);
+        color: white;
+    }
+
+    .change_view_btn{
+        color: white;
+        background-color: rgb(93, 138, 222);
+        padding: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        width: 100%;
+    }
+
+    .change_view_btn_div{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: none;
+    }
+
+    .showuser2{
+        display: none;
+    }
+    .showuser2{
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        width: 92%;
+        border-radius: 5px;
+        background-color: aliceblue;
+    }
+
+    .user2_para_head{
+        font-weight: bold;
+        margin-bottom: 0px;
+    }
+    
+    .table_title{
+        padding: 6px;
+        text-align: center;
+    }
+
+    .table_title_name{
+        padding: 6px;
+    }
+
+    .table_title_status{
+        padding: 6px;
+    }
+
+     @media (max-width: 767px) {
+        .all_namers_search{
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .all_namers_search_name{
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .all_namers_search_status{
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .table_title{
+            padding: 5px;
+            font-size: 15px;
+        }
+        .table_title_name{
+            padding: 5px;
+            font-size: 15px;
+        }
+        .table_title_status{
+            padding: 5px;
+            font-size: 15px;
+        }
+        .moreAdvanceDD{
+            font-size: 14px;
+            font-weight: 600;
+            padding: 7px;
+        }
+        .moreAdvanceDD_delete_custom{
+            font-size: 14px;
+            font-weight: 600;
+            padding: 7px;
+        }
+    }
+
+    @media (max-width: 604px) {
+        .search-icon {
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .moreAdvanceDD{
+            font-size: 16px;
+            padding: 7px;
+        }
+        .moreAdvanceDD_delete_custom{
+            font-size: 16px;
+            padding: 7px;
+        }    
+    }
+
+    @media (max-width: 545px) {
+        .all_namers_search_name{
+            font-weight: 600;
+            color: black;
+            font-size: 14px;
+        }
+        .all_namers_search{
+            font-weight: 600;
+            color: black;
+            font-size: 14px;
+        }
+        .all_namers_search_status{
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .moreAdvanceDD{
+            font-size: 14px;
+        }
+        .moreAdvanceDD_delete_custom{
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 460px) {
+        .search-icon {
+            font-size: 14px;
+            font-weight: 500;
+            padding: 5px;
+        }
+        .table_title{
+            padding: 6px;
+            font-size: 14px;
+        }
+        .table_title_name{
+            padding: 6px;
+            font-size: 14px;
+        }
+        .table_title_status{
+            padding: 6px;
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width:600px){
+        .input_box{
+            padding: 15px;
+        }
+        .moreAdvanceDD{
+            font-size: 12px;
+        }
+        .moreAdvanceDD_delete_custom{
+            font-size: 12px;
+        }
+    }
+
+    @media (max-width:539px){
+        .change_view_btn_div{
+            display: block;
+        }
+        .moreAdvanceDD_custom{
+            width: 100%;
+        }
+        .moreAdvanceDD_custom_delete{
+            width: 100%;
+        }
+    }
+
+    .profileImageAlternate {
+        -webkit-user-drag: none;
+        user-drag: none;
+    }
+
+    .inSearch{
+        color: aliceblue;
+    }
+
+    .showuser1{
+        margin-bottom: 20px;
+    }
+
+    .all_name_color_adapter{
+        color:rgb(30, 139, 135);
+    }
+
+    .all_name_color_radar{
+        color:rgb(161, 94, 40);
+    }
+
+  </style> 
+
+<section style="padding-top:140px">
+ <section class=" container">
+    <div class="search-container" style="display: inline-block;">
+        <form action="/admin/search_removal_candidate" method="post" enctype="multipart/form-data">
+            <input required oninput="limitCharacters(this, 50);" type="text" class="input_box" name="searchName" placeholder="Search...">
+            <button class="search-icon btn darkcolorchanger2" type="submit"><span class="inSearch darkcolorchanger2">search</span></button>
+        </form >
+    </div>
+ </section>
+
+ {{#if usersAll}}
+ <div class="container change_view_btn_div">
+    <button class="btn change_view_btn darkcolorchanger2">change view</button>
+</div>
+ <section class="container showuser1">
+    <table style="width:100%;border-collapse: collapse;">
+    <tr>
+        <th class="table_title darkcolorchanger1">Profile Image</th>
+        <th class="table_title_name darkcolorchanger1">Name</th>
+        <th class="table_title_status darkcolorchanger1">Status</th>
+        <th class="table_title darkcolorchanger1">Show profile</th>
+        <th class="table_title darkcolorchanger1">Remove profile</th>
+    </tr>
+
+    {{#each usersAll}}
+     <tr>
+        <td style="padding: 10px; text-align: center;">
+            <img class="rounded-circle profileImageAlternate" src="/user-images/{{this._id}}.jpg" alt="Profile Image" style="width: 50px;height: 50px;border-radius: 50%;object-fit: contain;">
+        </td>
+        <td class="all_namers_search_name all_name_color_adapter darkcolorchanger1">{{this.Name}}</td>
+        <td class="all_namers_search_status all_name_color_radar drop_dop_nav3">{{this.Status}}</td>
+        <td class="all_namers_search" >
+            <a href="javascript:void(0)" onclick="adminViewProfile('{{this._id}}')" class="btn moreAdvanceDD darkcolorchanger2">profile</a>
+        </td>
+        <td class="all_namers_search" >
+            <a href="javascript:void(0)" onclick="deleteProfile('{{this._id}}','{{this.Name}}','{{this.Status}}')" class="btn moreAdvanceDD_delete_custom ">remove</a>
+        </td>
+    </tr>
+    {{/each}}
+    </table>
+ </section>
+ {{/if}}
+
+{{#if usersAll}}
+<section class="container showuser2 darkcolorchanger3">
+    {{#each usersAll}}
+    <div>
+        <img class="rounded-circle profileImageAlternate" src="/user-images/{{this._id}}.jpg" alt="Profile Image" style="width: 50px;height: 50px;border-radius: 50%;object-fit: contain;">
+    </div>
+        <div>
+            <p class="user2_para_head" style="margin-top: 10px;">Name : </p>
+            <p class="user2_para_content">{{this.Name}}</p>
+        </div>
+        <div>
+            <p class="user2_para_head">Status : </p>
+            <p class="user2_para_content">{{this.Status}}</p>
+        </div>
+        <div style="margin-bottom: 2px;width:100%;">
+            <a href="javascript:void(0)" onclick="deleteProfile('{{this._id}}','{{this.Name}}','{{this.Status}}')" class="btn moreAdvanceDD_custom_delete ">remove</a>
+        </div>
+        <div style="margin-bottom: 80px;width:100%;">
+            <a href="javascript:void(0)" onclick="adminViewProfile('{{this._id}}')" class="btn moreAdvanceDD_custom darkcolorchanger2">view profile</a>
+        </div>
+    {{/each}}
+</section>
+{{/if}}
+</section>
+
+ <script>
+
+    function deleteProfile(profile_id,profile_name,profile_status) {
+        if (confirm("Do you want to delete this profile?")) {
+            $.ajax({
+            url: '/admin/delete_candidate_by_admin',
+            method: 'post',
+            data: {
+                ProfileID: profile_id,
+                ProfileNAME: profile_name,
+                ProfileSTATUS: profile_status,
+            },
+            success: function (response) {
+                if (response.deleteCandidate) {
+                location.reload();
+                }
+            },
+            });
+        }
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const changeViewBtn = document.querySelector('.change_view_btn');
+        const showuser1 = document.querySelector('.showuser1');
+        const showuser2 = document.querySelector('.showuser2');
+
+        changeViewBtn.addEventListener('click', function () {
+            // Toggle visibility of showuser1 and showuser2
+            if (showuser1.style.display === 'none') {
+                showuser1.style.display = 'block';
+                showuser2.style.display = 'none';
+            } else {
+                showuser1.style.display = 'none';
+                showuser2.style.display = 'block';
+            }
+        });
+    });
+
+
+    function adminViewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/admin-view-profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+    function limitCharacters(input, maxChars) {
+        if (input.value.length > maxChars) {
+            alert("You have reached the maximum allowed characters.");
+            input.value = input.value.substring(0, maxChars);
+        }
+    }
+    
+</script>

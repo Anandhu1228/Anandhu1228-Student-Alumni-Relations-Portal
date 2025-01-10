@@ -1,0 +1,354 @@
+<!-- 
+Website developed by Anandhu Mohan for the Alumni Relations Cell of a college. 
+Features include:
+  - Job portal, Internship portal, Mentorship portal
+  - Search functionality for users, students, and alumni
+  - Group chat and private individual chat systems
+  - Notification system and user profiles for each member
+  - Admin panel to control the entire site, handle issues, and manage inquiries
+  - Superadmin overseeing the activities of admins and users
+  - Maintainer responsible for the main page content and styling, visible to users and external visitors
+  - Advanced machine learning features that sort jobs and internships based on user profile preferences
+  - Periodic email notifications and security enhancements
+-->
+
+<style>
+
+    body {
+        background-color: #ffffff;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        background-image: url('/images/logo_transparent1.png');
+        background-size: 80% auto;
+        background-position: center bottom 60%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            background-image: url('/images/logo1.png');
+            background-position: center bottom 40%;
+        }
+        .newMessenger{
+            font-weight: 600;
+            font-size: 14px;
+        }
+    }
+
+    #chat-container-chat {
+        padding-top: 185px;
+        padding-bottom: 30px;
+    }
+
+    .message-chat {
+        padding: 15px;
+        width: 85%;
+        margin: auto;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        border-bottom: 1px solid #ddd;
+        align-items: center;
+        background-color: rgba(123, 180, 230,0.4);
+        height: auto;
+        margin-top: 15px;
+       transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+    .message-chat:hover{
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.8);
+        background-color: rgba(233, 236, 238,0.5);
+    }
+
+    .profile-pic-chat {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+        object-fit: cover;
+    }
+
+    .message-details-chat {
+        flex-direction: column;
+        margin-left: 20px;
+    }
+
+    .message_carrier{
+        margin-right: 70px;
+    }
+
+    .badge_carrier,.tick_carrier{
+        position: absolute;
+        right: 10px;
+        top: -10px;
+    }
+
+    .sender-chat {
+        font-weight: bold;
+        margin-bottom: 5px;
+        margin-left: 30px;
+    }
+    
+    .last-message-chat {
+        color: #666;
+        justify-content: center;
+    }
+
+    .newNoti{
+        font-weight: bold; 
+        font-size:15px; 
+        display:inline-block;
+        margin-left:10px;
+    }
+
+    .last-message-chat{
+        color:rgb(64, 66, 67);
+        font-weight: 550;
+        margin-top: 20px;
+        font-size: 16px;
+        width: auto;
+    } 
+
+    .messageContent{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .last_seen_seen{
+        font-size: 12px;
+        font-weight: 600;
+        color: rgb(82, 70, 70);
+        margin-left: 20px;
+    }
+
+    .last_seen_head{
+        color: rgb(105, 100, 100);
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .newMessageObtained{
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        font-size: 16px;
+        border-radius: 50%;
+        padding: 5px;
+    }
+
+    .newMessenger{
+        margin: 0px;
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 700;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+
+    .newMessageObtained_bagde{
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+
+    .newMessenger_badge{
+        background-color: rgb(38, 82, 164);
+        color: white;
+        font-weight: 600;
+        border-radius:50%;
+        position:absolute;
+        right:0px;
+    }
+
+    .last_seen_div{
+        margin-left: 25px;
+    }
+
+    .message_user_detail{
+        display: flex;
+        align-items: center;
+    }
+    
+    @media (max-width: 991px) {
+        .message-chat{
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .message-chat{
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 516px) {
+        .last_seen_seen{
+            font-size: 10px;
+            font-weight: 600;
+            color: rgb(82, 70, 70);
+            margin-left: 20px;
+        }
+        .last_seen_head{
+            color: rgb(105, 100, 100);
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .message-chat{
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 443px) {
+        .last_seen_seen{
+            margin-left: 10px;
+        }
+        .message-chat{
+            width: 100%;
+        }
+    }
+
+     @media (max-width: 550px) {
+        .chat-container-chat{
+            margin-top: 0px;
+        }
+        .message-chat:first-child{
+            margin-top: -20px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .newMessenger{
+            font-size: 10px;
+        }
+        .badge_carrier{
+            top:-6px;
+        }
+    }
+
+
+    .profileImageAlternate {
+        -webkit-user-drag: none;
+        user-drag: none;
+    }
+
+</style>
+
+<div class="container" id="chat-container-chat" style="object-fit: contain;">
+    {{#each combinedMessages}}
+        <div class="message-chat darkcolorchanger2">
+            <div class="message_user_detail">
+                <a style="text-decoration: none;" href="javascript:void(0)" onclick="adminViewProfile('{{this.ID}}')">
+                    <img class="profile-pic-chat profileImageAlternate" src="/user-images/{{this.ID}}.jpg" alt="User Image" draggable="false">
+                </a>
+
+                {{#if this.Send}}
+                    <a style="text-decoration: none; color:black" onclick="MessageDirect('{{this.ID}}')" href="javascript:void(0)">
+                        <div class="sender-chat">{{this.Reciever_name}}</div>
+                    </a>
+                {{/if}}
+
+                {{#if this.Recieve}}
+                    <a style="text-decoration: none;color:black" onclick="MessageDirect('{{this.ID}}')" href="javascript:void(0)">
+                        <div class="sender-chat">{{this.Sender_name}}</div>
+                    </a>
+                {{/if}}
+            </div>
+
+            <div class="message-details-chat" style="position: relative;">
+                <div class="message_carrier">
+                    {{#if this.Send}}
+                        {{#compare this.status "===" "multimedia"}}
+                            <div class="last-message-chat">
+                                <span class="multi_multi_media blackName">Multimedia Content</span>
+                            </div>
+                        {{/compare}}
+                        {{#compare this.status "===" "textmessage"}}
+                            <div class="last-message-chat">
+                                <p class="messageContent blackName">{{this.messageContent}}</p>
+                            </div>
+                        {{/compare}}
+                    {{/if}}
+
+                    {{#if this.Recieve}}
+                        {{#compare this.status "===" "multimedia"}}
+                            <div class="last-message-chat">
+                                <span class="multi_multi_media blackName" >Multimedia Content</span>
+                            </div>
+                        {{/compare}}
+                        {{#compare this.status "===" "textmessage"}}
+                            <div class="last-message-chat">
+                                <p class="messageContent blackName">{{this.messageContent}}</p>
+                            </div>
+                        {{/compare}}
+                    {{/if}}
+                </div>
+
+                <div class="badge_carrier">
+                    {{#if this.Recieve}}
+                        {{#if this.newMessenger}}
+                            <button type="button" class="btn newMessenger">
+                                New connection <span class="badge newMessenger_badge"></span>
+                            </button>
+                        {{/if}}
+                        {{#if this.newMessageObtained}}
+                            <button type="button" class="btn newMessageObtained">
+                            <span class="badge newMessageObtained_bagde">{{this.newNotification}}</span>
+                            </button>
+                        {{/if}}
+                    {{/if}}
+                </div>
+
+            </div>
+        </div>
+    {{/each}}
+</div>
+
+<script>
+    
+    function sendTimestampOnUnload() {
+        const timestamp = new Date().toISOString();
+        const url = '/admin/send_timestamp_leave_adminmenu';
+        const body = JSON.stringify({ timestamp });
+        const blob = new Blob([body], { type: 'application/json' });
+
+        navigator.sendBeacon(url, blob);
+    }
+    window.addEventListener('beforeunload', sendTimestampOnUnload);
+
+    if (performance.navigation.type === 2) {
+        location.reload(true);
+    }
+
+
+    function MessageDirect(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/one_on_admin_chat';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'User_Id';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function adminViewProfile(profileId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/admin-view-profile';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'profileId';
+        input.value = profileId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+</script>
+
+</body>
