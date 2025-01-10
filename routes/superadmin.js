@@ -38,7 +38,7 @@ const verifyLogin = (req,res,next)=>{
 //   service: 'gmail', // You can use 'gmail', 'yahoo', 'hotmail', etc.
 //   auth: {
 //     user: "anandhueducateanddevelop@gmail.com",
-//     pass: "xstd vcsi mzxy wtjf"
+//     pass: "xxxx xxxx xxxx xxxx"
 //   }
 // });
 
