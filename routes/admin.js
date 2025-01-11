@@ -39,7 +39,7 @@ const verifyLogin = (req,res,next)=>{
 // const transporter = nodemailer.createTransport({
 //   service: 'gmail', // You can use 'gmail', 'yahoo', 'hotmail', etc.
 //   auth: {
-//     user: "anandhueducateanddevelop@gmail.com",
+//     user: "anandhuedxxxxxxxxxop@gmail.com",
 //     pass: "xxxx xxxx xxxx xxxx"
 //   }
 // });
