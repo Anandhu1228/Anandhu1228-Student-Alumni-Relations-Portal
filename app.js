@@ -46,8 +46,8 @@ const { getAllMailOfAdminCheckAccessButton,
 // const transporter = nodemailer.createTransport({
 //   service: 'gmail', // You can use 'gmail', 'yahoo', 'hotmail', etc.
 //   auth: {
-//     user: "anandhueducateanddevelop@gmail.com",
-//     pass: "xstd vcsi mzxy wtjf"
+//     user: "anandhuedxxxxxxxxxop@gmail.com",
+//     pass: "xxxx xxxx xxxx xxxx"
 //   }
 // });
 const formatDate = (timestamp) => {
